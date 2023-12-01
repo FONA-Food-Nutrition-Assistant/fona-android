@@ -1,5 +1,6 @@
 package com.example.fonaapp.ui.Intro
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -10,6 +11,7 @@ import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fonaapp.R
 import com.example.fonaapp.databinding.ActivityWelcomeBinding
+import com.example.fonaapp.ui.Register.UserPreferenceActivity
 
 class WelcomeActivity : AppCompatActivity() {
 
@@ -47,6 +49,9 @@ class WelcomeActivity : AppCompatActivity() {
                 setCurrentIndicators(position)
             }
             })
+        binding.btnSignUp.setOnClickListener {
+            startActivity(Intent(this, UserPreferenceActivity::class.java))
+        }
     }
     //Setup Indicator View
     private fun setupIndicators(){

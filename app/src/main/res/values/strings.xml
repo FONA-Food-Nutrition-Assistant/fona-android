@@ -6,4 +6,31 @@
     <string name="onboarding_1">OnBoarding 1</string>
     <string name="title_welcome">Title Welcome</string>
     <string name="description_welcome">Text Description</string>
+    <string name="data_diri_title">Data Diri</string>
+    <string name="data_preference_description">Data ini dibutuhkan untuk rencana personalisasi Anda.</string>
+    <string name="input_field">Masukkan tanggal lahir</string>
+    <string name="et_weight">Berat Badan (kg)</string>
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+    <string name="laki_laki">Laki-laki</string>
+    <string name="perempuan">Perempuan</string>
+    <string name="berat_badan">Berat Badan</string>
+    <string name="tinggi_badan">Tinggi Badan</string>
+    <string name="birth_date_title">Tanggal Lahir (MM/dd/yyyy)</string>
+    <string name="et_height">Tinggi Badan (cm)</string>
+    <string name="tv_activity">Aktifitas</string>
+    <string name="selected_item">Selected Item:</string>
+    <string name="tv_allergies">Alergi</string>
+    <string name="seafood">Seafood</string>
+    <string name="telur">Telur</string>
+    <string name="lactose">Lactose</string>
+    <string name="btn_lanjut_preference">Lanjut</string>
+
+    <string-array name="activity_levels">
+        <item>Sedentary: sedikit atau tidak ada latihan fisik terjadwal.</item>
+        <item>Light: latihan 1-3 kali per minggu</item>
+        <item>Moderate: latihan 4-5 kali per minggu.</item>
+        <item>Active: latihan harian atau intens latihan 3-3 kali per minggu.</item>
+        <item>Very Active: latihan intensif 6-7 kali per minggu.</item>
+        <item>Extra active: latihan harian atau pekerjaan fisik yang sangat intensif</item>
+    </string-array>
 </resources>
