@@ -1,4 +1,4 @@
-package com.example.fonaapp.ui.Register
+package com.example.fonaapp.ui.UserPreferences
 
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import com.example.fonaapp.R
 import com.example.fonaapp.databinding.ActivityUserPreferenceBinding
 import java.text.SimpleDateFormat

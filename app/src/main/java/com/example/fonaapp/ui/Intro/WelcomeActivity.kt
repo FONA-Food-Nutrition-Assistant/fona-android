@@ -11,7 +11,7 @@ import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fonaapp.R
 import com.example.fonaapp.databinding.ActivityWelcomeBinding
-import com.example.fonaapp.ui.Register.UserPreferenceActivity
+import com.example.fonaapp.ui.UserPreferences.UserPreferenceActivity
 
 class WelcomeActivity : AppCompatActivity() {
 
