@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="button">#2a960c</color>
+    <color name="primaryText">#101820</color>
+    <color name="secondaryText">#6C6C6C</color>
+    <color name="icon">#B5B5B5</color>
+    <color name="colorPrimary">#3B5D3E</color>
+    <color name="colorSecondary">#DF9422</color>
+    <color name="error">#B00020</color>
+    <color name="disabledText">#727272</color>
 </resources>

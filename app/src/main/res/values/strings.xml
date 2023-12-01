@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">FONAApp</string>
+    <string name="btn_daftar">DAFTAR</string>
+    <string name="btn_masuk">MASUK</string>
+    <string name="tv_welcome">Sudah pernah menggunakan FONA?</string>
+    <string name="onboarding_1">OnBoarding 1</string>
+    <string name="title_welcome">Title Welcome</string>
+    <string name="description_welcome">Text Description</string>
 </resources>
