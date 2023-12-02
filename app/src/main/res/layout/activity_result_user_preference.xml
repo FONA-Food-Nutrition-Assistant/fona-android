@@ -41,15 +41,25 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_gender"
                 style="@style/body_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pria"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            
+
             <TextView
-                android:id="@+id/umur"
+                android:id="@+id/tv_umur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jenis_kelamin"
+                style="@style/body_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/jenis_kelamin"
