@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.UserPreferences.ResultUserPreferenceActivity">
+    tools:context=".ui.preferences.ResultUserPreferenceActivity">
 
     <TextView
         android:id="@+id/textView"
         style="@style/body"
+        android:textColor="@color/primaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -18,10 +19,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
         android:layout_width="match_parent"
+        android:textColor="@color/primaryText"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
         android:layout_margin="24dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -33,43 +36,235 @@
 
             <TextView
                 android:id="@+id/tv_jenis_kelamin"
+                style="@style/body_bold"
+                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/jenis_kelamin"
-                style="@style/body_bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_gender"
-                style="@style/body_bold"
+                style="@style/body"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pria"
+                android:textColor="@color/primaryText"
+                android:text="@string/pria"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_umur"
+                android:id="@+id/tv_age"
+                style="@style/body"
+                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/jenis_kelamin"
+                android:layout_marginTop="16dp"
+                android:text="@string/umur_result"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_gender" />
+
+            <TextView
+                android:id="@+id/tv_age_number"
                 style="@style/body_bold"
+                android:textColor="@color/primaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/umur"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_jenis_kelamin" />
+
+            <TextView
+                android:id="@+id/tv_berat_badan"
+                style="@style/body_bold"
+                android:textColor="@color/primaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Berat Badan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_age_number" />
+
+            <TextView
+                android:id="@+id/tv_weight"
+                style="@style/body"
+                android:textColor="@color/primaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="55 kg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_age_number" />
+
+            <TextView
+                android:id="@+id/tv_tinggi_badan"
+                style="@style/body_bold"
+                android:textColor="@color/primaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Tinggi Badan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_berat_badan" />
+
+            <TextView
+                android:id="@+id/tv_height"
+                style="@style/body"
+                android:textColor="@color/primaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="165 cm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_weight" />
+
+            <TextView
+                android:id="@+id/tv_indeks_bmi"
+                style="@style/body_bold"
+                android:textColor="@color/primaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="BMI"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_tinggi_badan" />
+
+            <TextView
+                android:id="@+id/tv_bmi_number"
+                style="@style/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="20.20"
+                android:textColor="@color/primaryText"
+                app:layout_constraintEnd_toStartOf="@+id/tv_bmi_condition"
+                app:layout_constraintTop_toBottomOf="@id/tv_height" />
+
+            <TextView
+                android:background="@drawable/bmi_bg"
+                android:id="@+id/tv_bmi_condition"
+                style="@style/xsmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Ideal"
+                android:padding="4dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_height" />
+
+            <TextView
+                android:id="@+id/tv_aktifitas"
+                style="@style/body_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Aktifitas"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_indeks_bmi" />
+
+            <TextView
+                android:id="@+id/tv_activity"
+                style="@style/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Light Active"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_bmi_number" />
+
+            <TextView
+                android:id="@+id/tv_alergi"
+                style="@style/body_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Alergi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_aktifitas" />
+
+            <TextView
+                android:id="@+id/tv_allergi_number"
+                style="@style/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Seafood"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_activity" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_rekomendasi"
+        style="@style/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Kami merekomendasikan asupan kalori harian untukmu berdasarkan data di atas!"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_rekomendasi">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:id="@+id/asupan"
+                style="@style/body_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asupan Kalori Harian"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_age"
+                android:id="@+id/calories_need"
+                style="@style/body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/jenis_kelamin"
-                style="@style/body_bold"
-                app:layout_constraintStart_toStartOf="parent"
+                android:text="2000 kalori"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save_result"
+        style="@style/heading6_bold"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/button"
+        android:text="@string/simpan"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

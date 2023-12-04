@@ -13,13 +13,13 @@
         android:theme="@style/Theme.FONAApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.UserPreferences.ResultUserPreferenceActivity"
+            android:name=".ui.preferences.ResultUserPreferenceActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.UserPreferences.UserPreferenceActivity"
+            android:name=".ui.preferences.UserPreferenceActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.Intro.WelcomeActivity"
+            android:name=".ui.intro.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="false" />
     </application>
 

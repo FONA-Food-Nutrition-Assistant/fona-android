@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/button" /> <!-- Default: Warna merah, Anda bisa sesuaikan -->
+    <corners android:radius="16dp" /> <!-- Radius sudut untuk membuat tampilan sudut terbulat -->
+</shape>
