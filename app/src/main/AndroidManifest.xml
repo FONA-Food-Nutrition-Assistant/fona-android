@@ -20,6 +20,16 @@
             android:exported="false" />
         <activity
             android:name=".ui.preferences.ResultUserPreferenceActivity"
+            android:name=".ui.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.daftar.DaftarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.UserPreferences.ResultUserPreferenceActivity"
             android:exported="false" />
         <activity
             android:name=".ui.preferences.UserPreferenceActivity"
