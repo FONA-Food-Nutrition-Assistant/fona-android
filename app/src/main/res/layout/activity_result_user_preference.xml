@@ -158,6 +158,7 @@
             <TextView
                 android:id="@+id/tv_aktifitas"
                 style="@style/body_bold"
+                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -169,6 +170,7 @@
                 android:id="@+id/tv_activity"
                 style="@style/body"
                 android:layout_width="wrap_content"
+                android:textColor="@color/primaryText"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Light Active"
@@ -182,6 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Alergi"
+                android:textColor="@color/primaryText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_aktifitas" />
 
@@ -192,6 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Seafood"
+                android:textColor="@color/primaryText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_activity" />
 
@@ -205,6 +209,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:textColor="@color/primaryText"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:text="Kami merekomendasikan asupan kalori harian untukmu berdasarkan data di atas!"
@@ -235,12 +240,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Asupan Kalori Harian"
+                android:textColor="@color/primaryText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/calories_need"
                 style="@style/body"
+                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2000 kalori"
