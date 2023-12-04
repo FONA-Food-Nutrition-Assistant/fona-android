@@ -15,7 +15,7 @@
     <string name="perempuan">Perempuan</string>
     <string name="berat_badan">Berat Badan</string>
     <string name="tinggi_badan">Tinggi Badan</string>
-    <string name="birth_date_title">Tanggal Lahir (MM/dd/yyyy)</string>
+    <string name="birth_date_title">Tanggal Lahir (YYYY/MM/dd)</string>
     <string name="et_height">Tinggi Badan (cm)</string>
     <string name="tv_activity">Aktifitas</string>
     <string name="selected_item">Selected Item:</string>
@@ -24,6 +24,11 @@
     <string name="telur">Telur</string>
     <string name="lactose">Lactose</string>
     <string name="btn_lanjut_preference">Lanjut</string>
+    <string name="umur">Umur</string>
+    <string name="pria">Pria</string>
+    <string name="umur_result">16</string>
+    <string name="simpan">SIMPAN</string>
+    <string name="title_user_preference">Konfirmasi Data Diri</string>
     <string name="klmt_perintah">Masukkan identitas yang diperlukan untuk dapat menikmati keseruannya!</string>
     <string name="email">Masukkan Email\n</string>
     <string name="kataSandi">Masukkan Kata Sandi\n</string>
@@ -63,4 +68,6 @@
         <item>Very Active: latihan intensif 6-7 kali per minggu.</item>
         <item>Extra active: latihan harian atau pekerjaan fisik yang sangat intensif</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

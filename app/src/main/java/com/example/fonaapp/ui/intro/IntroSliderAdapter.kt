@@ -1,4 +1,4 @@
-package com.example.fonaapp.ui.Intro
+package com.example.fonaapp.ui.intro
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
