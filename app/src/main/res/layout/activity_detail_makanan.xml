@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.DetailMakananActivity">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/nama_makanan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="@string/nama_makanan"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            android:layout_width="360dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="@color/colorSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nama_makanan">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/img_kalori"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="14dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_kkal" />
+
+                <TextView
+                    android:id="@+id/jml_kalori"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/jumlah_kalori"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_kalori"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextSizeCheck" />
+
+                <TextView
+                    android:id="@+id/satuanKal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/satuan"
+                    android:textSize="10dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_kalori"
+                    app:layout_constraintTop_toBottomOf="@+id/jml_kalori"
+                    tools:ignore="TextSizeCheck" />
+
+                <ImageView
+                    android:id="@+id/img_karbohidrat"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/img_kalori"
+                    app:srcCompat="@drawable/ic_karbo" />
+
+                <TextView
+                    android:id="@+id/jml_karbohidrat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="44dp"
+                    android:text="@string/satuan_protein"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_karbohidrat"
+                    app:layout_constraintTop_toBottomOf="@+id/satuanKal"
+                    tools:ignore="TextSizeCheck" />
+
+                <TextView
+                    android:id="@+id/satuan_karbohidrat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/karbohidrat"
+                    android:textSize="10dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_karbohidrat"
+                    app:layout_constraintTop_toBottomOf="@+id/jml_karbohidrat"
+                    tools:ignore="TextSizeCheck" />
+
+                <ImageView
+                    android:id="@+id/img_lemak"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="160dp"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_kalori"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_lemak" />
+
+                <TextView
+                    android:id="@+id/jml_lemak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/satuan_lemak"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_lemak"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextSizeCheck" />
+
+                <TextView
+                    android:id="@+id/satuan_lemak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/lemak"
+                    android:textSize="10dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_lemak"
+                    app:layout_constraintTop_toBottomOf="@+id/jml_lemak"
+                    tools:ignore="TextSizeCheck" />
+
+                <ImageView
+                    android:id="@+id/img_protein"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="160dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/img_karbohidrat"
+                    app:layout_constraintTop_toBottomOf="@+id/img_lemak"
+                    app:srcCompat="@drawable/ic_protein" />
+
+                <TextView
+                    android:id="@+id/jml_protein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="44dp"
+                    android:text="@string/satuan_protein"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_protein"
+                    app:layout_constraintTop_toBottomOf="@+id/satuan_lemak"
+                    tools:ignore="TextSizeCheck" />
+
+                <TextView
+                    android:id="@+id/satuan_protein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/protein"
+                    android:textSize="10dp"
+                    app:layout_constraintStart_toEndOf="@+id/img_protein"
+                    app:layout_constraintTop_toBottomOf="@+id/jml_protein"
+                    tools:ignore="TextSizeCheck" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/judul_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/judul_info"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/ukuran"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="250dp"
+            android:text="@string/ukuran"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/jml_ukuran"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/judul_info"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/jml_ukuran"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/jml_ukuran"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ukuran"
+            app:layout_constraintTop_toBottomOf="@id/judul_info"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/kalori"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/satuan"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ukuran"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/kal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/satuan"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/kalori"
+            app:layout_constraintTop_toBottomOf="@+id/jml_ukuran"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/karbohidrat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/karbohidrat"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/kalori"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/karbo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/karbohidrat"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/karbohidrat"
+            app:layout_constraintTop_toBottomOf="@+id/kal"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/protein"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/protein"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/karbohidrat"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/pro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/protein"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/protein"
+            app:layout_constraintTop_toBottomOf="@+id/karbo"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/lemak"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/lemak"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/protein"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/lmk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/lemak"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/lemak"
+            app:layout_constraintTop_toBottomOf="@+id/pro"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/serat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/serat"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lemak"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/srt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/serat"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/serat"
+            app:layout_constraintTop_toBottomOf="@+id/lmk"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/kalium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/kalium"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/serat"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/klm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/kalium"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/kalium"
+            app:layout_constraintTop_toBottomOf="@+id/srt"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/sodium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/sodium"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/kalium"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/sdm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/sodium"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/kalium"
+            app:layout_constraintTop_toBottomOf="@+id/klm"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/alergi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/alergi"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sodium"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/alrg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="219dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/hasil_alergi"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/alergi"
+            app:layout_constraintTop_toBottomOf="@+id/sdm"
+            tools:ignore="TextSizeCheck" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
