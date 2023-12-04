@@ -305,6 +305,7 @@
                 <ImageView
                     android:id="@+id/btn_addSarapan"
                     android:layout_width="0dp"
+                    android:layout_marginTop="8dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_add_circle"
                     app:layout_constraintTop_toBottomOf="@id/rcListSarapan"
@@ -650,7 +651,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="tv_recommendation_title"
+            android:id="@+id/tv_recommendation_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recommendation"
@@ -660,12 +661,12 @@
             app:layout_constraintTop_toBottomOf="@id/cardDrink"/>
 
         <TextView
-            android:id="tv_recommendation_description"
+            android:id="@+id/tv_recommendation_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rekomendasi untuk memenuhi kalori"
             android:layout_margin="24dp"
-            style="@style/heading6_bold"
+            style="@style/body"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_recommendation_title"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
