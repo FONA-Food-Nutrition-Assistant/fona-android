@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Set HomeFragment sebagai fragmen utama
         replaceFragment(HomeFragment())
-        replaceFragment(ProfileFragment())
 
 
         if (!allPermissionsGranted()) {
@@ -47,9 +47,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId){
-                R.id.home -> replaceFragment(HomeFragment())
+                R.id.home -> {
+                    replaceFragment(HomeFragment())
+                }
                 R.id.scan -> startCameraActivity()
-                R.id.profile -> replaceFragment(ProfileFragment())
+                R.id.profile -> {
+                    replaceFragment(ProfileFragment())
+                }
 
                 else -> {
 

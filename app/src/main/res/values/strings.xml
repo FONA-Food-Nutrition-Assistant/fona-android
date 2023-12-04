@@ -15,7 +15,7 @@
     <string name="perempuan">Perempuan</string>
     <string name="berat_badan">Berat Badan</string>
     <string name="tinggi_badan">Tinggi Badan</string>
-    <string name="birth_date_title">Tanggal Lahir (MM/dd/yyyy)</string>
+    <string name="birth_date_title">Tanggal Lahir (YYYY/MM/dd)</string>
     <string name="et_height">Tinggi Badan (cm)</string>
     <string name="tv_activity">Aktifitas</string>
     <string name="selected_item">Selected Item:</string>

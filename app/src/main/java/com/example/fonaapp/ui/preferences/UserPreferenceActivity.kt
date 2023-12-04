@@ -85,7 +85,7 @@ class UserPreferenceActivity : AppCompatActivity() {
     }
 
     private fun updateEditText() {
-        val dateFormat = "MM/dd/yyyy"
+        val dateFormat = "YYYY/MM/dd"
         val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         binding.edtBirthDate.setText(simpleDateFormat.format(calendar.time))
     }
