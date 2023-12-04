@@ -1,6 +1,7 @@
-package com.example.fonaapp.ui.UserPreferences
+package com.example.fonaapp.ui.preferences
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -17,12 +18,12 @@ class UserPreferenceActivity : AppCompatActivity() {
     private val calendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserPreferenceBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setupView()
 
         binding.edtBirthDate.setOnClickListener {
             showDatePickerDialog()
         }
+
 
         //access item activity list
         val activityLevels = resources.getStringArray(R.array.activity_levels)
@@ -45,6 +46,25 @@ class UserPreferenceActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnContinueResult.setOnClickListener {
+            val intent = Intent(this, ResultUserPreferenceActivity::class.java)
+            intent.putExtra("gender", getSelectedGender())
+            intent.putExtra(ResultUserPreferenceActivity.EXTRA_AGE, 22)
+            intent.putExtra(ResultUserPreferenceActivity.EXTRA_WEIGHT, 55)
+            intent.putExtra(ResultUserPreferenceActivity.EXTRA_HEIGHT, 165)
+            intent.putExtra(ResultUserPreferenceActivity.EXTRA_BMI, 20.20)
+            startActivity(intent)
+
+        }
+
+    }
+    private fun setupView(){
+        binding = ActivityUserPreferenceBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        supportActionBar?.apply {
+            title = getString(R.string.title_user_preference)
+            setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -65,8 +85,26 @@ class UserPreferenceActivity : AppCompatActivity() {
     }
 
     private fun updateEditText() {
-        val dateFormat = "MM/dd/yyyy"
+        val dateFormat = "YYYY/MM/dd"
         val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         binding.edtBirthDate.setText(simpleDateFormat.format(calendar.time))
+    }
+
+    private fun getSelectedAllergies(): ArrayList<String> {
+        val allergies = ArrayList<String>()
+        if (binding.checkBox.isChecked) allergies.add("Seafood")
+        if (binding.checkBox2.isChecked) allergies.add("Telur")
+        if (binding.checkBox3.isChecked) allergies.add("Lactose")
+        return allergies
+    }
+
+    private fun getSelectedGender(): String {
+        // Mengambil jenis kelamin yang dipilih dari radio button
+        return if (binding.rbMale.isChecked) "Pria" else "Perempuan"
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

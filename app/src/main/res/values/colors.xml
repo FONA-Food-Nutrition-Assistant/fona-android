@@ -10,4 +10,6 @@
     <color name="colorSecondary">#DF9422</color>
     <color name="error">#B00020</color>
     <color name="disabledText">#727272</color>
+    <color name="obesity">#750015</color>
+    <color name="pembatas">#F3F3F3</color>
 </resources>
