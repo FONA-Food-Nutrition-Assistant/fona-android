@@ -28,9 +28,32 @@
     <string name="email">Masukkan Email\n</string>
     <string name="kataSandi">Masukkan Kata Sandi\n</string>
     <string name="konfirmasi">Masukkan Ulang Kata Sandi</string>
-    <string name="klmt_pilihan">atau\n</string>
+    <string name="klmt_pilihan">atau</string>
     <string name="btn_masukGoogle">Daftar dengan Google</string>
     <string name="klmt_pertanyaan">Sudah punya akun? Login</string>
+    <string name="klmt_perintah1">Masukkan email dan password dari akun yang pernah kamu buat sebelumnya!</string>
+    <string name="atur_ulang">Lupa kata sandi? atur ulang.</string>
+    <string name="klmt_pilihan_daftar">Belum punya akun? Daftar</string>
+    <string name="lupa_sandi">LUPA KATA SANDI</string>
+    <string name="masuk_email">Masukkan email dibawah untuk membuat kata sandi baru</string>
+    <string name="nama_makanan">Nasi Goreng</string>
+    <string name="jumlah_kalori">87 kkal</string>
+    <string name="satuan">Kalori</string>
+    <string name="satuan_karbo">20 gram</string>
+    <string name="karbohidrat">Karbohidrat</string>
+    <string name="satuan_lemak">0.9 gram</string>
+    <string name="lemak">Lemak</string>
+    <string name="satuan_protein">0.82 gram</string>
+    <string name="protein">Protein</string>
+    <string name="judul_info">Informasi Nutrisi</string>
+    <string name="ukuran">Ukuran</string>
+    <string name="jml_ukuran">100 gram</string>
+    <string name="serat">Serat</string>
+    <string name="kalium">Kalium</string>
+    <string name="sodium">Sodium</string>
+    <string name="alergi">Peringatan Alergi</string>
+    <string name="hasil_alergi">Tidak ada</string>
+
 
     <string-array name="activity_levels">
         <item>Sedentary: sedikit atau tidak ada latihan fisik terjadwal.</item>
