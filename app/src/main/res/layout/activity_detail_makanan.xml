@@ -12,6 +12,7 @@
 
         <TextView
             android:id="@+id/nama_makanan"
+            style="@style/heading5_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -53,6 +54,7 @@
 
                 <TextView
                     android:id="@+id/jml_kalori"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -65,6 +67,7 @@
 
                 <TextView
                     android:id="@+id/satuanKal"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -89,6 +92,7 @@
 
                 <TextView
                     android:id="@+id/jml_karbohidrat"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -101,6 +105,7 @@
 
                 <TextView
                     android:id="@+id/satuan_karbohidrat"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -123,6 +128,7 @@
 
                 <TextView
                     android:id="@+id/jml_lemak"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -135,6 +141,7 @@
 
                 <TextView
                     android:id="@+id/satuan_lemak"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -159,6 +166,7 @@
 
                 <TextView
                     android:id="@+id/jml_protein"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -171,6 +179,7 @@
 
                 <TextView
                     android:id="@+id/satuan_protein"
+                    style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -187,6 +196,7 @@
 
         <TextView
             android:id="@+id/judul_info"
+            style="@style/heading5_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -200,6 +210,7 @@
 
         <TextView
             android:id="@+id/ukuran"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -216,6 +227,7 @@
 
         <TextView
             android:id="@+id/jml_ukuran"
+            style="@style/body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -231,12 +243,13 @@
 
         <TextView
             android:id="@+id/kalori"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:text="@string/satuan"
-            android:textAlignment="textStart"
+            android:textAlignment="textEnd"
             android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -245,21 +258,24 @@
 
         <TextView
             android:id="@+id/kal"
-            android:layout_width="0dp"
+            style="@style/body"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:text="@string/satuan"
             android:textAlignment="textEnd"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/kalori"
             app:layout_constraintTop_toBottomOf="@+id/jml_ukuran"
             tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/karbohidrat"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -274,6 +290,7 @@
 
         <TextView
             android:id="@+id/karbo"
+            style="@style/body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
@@ -290,6 +307,7 @@
 
         <TextView
             android:id="@+id/protein"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -304,7 +322,8 @@
 
         <TextView
             android:id="@+id/pro"
-            android:layout_width="0dp"
+            style="@style/body"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
             android:layout_marginTop="20dp"
@@ -313,13 +332,14 @@
             android:textAlignment="textEnd"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/protein"
             app:layout_constraintTop_toBottomOf="@+id/karbo"
             tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/lemak"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -334,7 +354,8 @@
 
         <TextView
             android:id="@+id/lmk"
-            android:layout_width="0dp"
+            style="@style/body"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
             android:layout_marginTop="20dp"
@@ -343,13 +364,14 @@
             android:textAlignment="textEnd"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.948"
             app:layout_constraintStart_toEndOf="@+id/lemak"
             app:layout_constraintTop_toBottomOf="@+id/pro"
             tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/serat"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -364,7 +386,8 @@
 
         <TextView
             android:id="@+id/srt"
-            android:layout_width="0dp"
+            style="@style/body"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
             android:layout_marginTop="20dp"
@@ -373,13 +396,14 @@
             android:textAlignment="textEnd"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/serat"
             app:layout_constraintTop_toBottomOf="@+id/lmk"
             tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/kalium"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -394,7 +418,8 @@
 
         <TextView
             android:id="@+id/klm"
-            android:layout_width="0dp"
+            style="@style/body"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
             android:layout_marginTop="20dp"
@@ -403,13 +428,14 @@
             android:textAlignment="textEnd"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.944"
             app:layout_constraintStart_toEndOf="@+id/kalium"
             app:layout_constraintTop_toBottomOf="@+id/srt"
             tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/sodium"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -424,7 +450,8 @@
 
         <TextView
             android:id="@+id/sdm"
-            android:layout_width="0dp"
+            style="@style/body"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="250dp"
             android:layout_marginTop="20dp"
@@ -433,13 +460,14 @@
             android:textAlignment="textEnd"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.937"
             app:layout_constraintStart_toEndOf="@+id/kalium"
             app:layout_constraintTop_toBottomOf="@+id/klm"
             tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/alergi"
+            style="@style/body_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -454,6 +482,7 @@
 
         <TextView
             android:id="@+id/alrg"
+            style="@style/body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="219dp"

@@ -8,19 +8,22 @@
 
     <TextView
         android:id="@+id/tv_perintah1"
+        style="@style/body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="84dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="42dp"
-        android:textSize="16sp"
         android:text="@string/klmt_perintah1"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
+        style="@style/large_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -33,6 +36,7 @@
 
     <EditText
         android:id="@+id/edt_email"
+        style="@style/body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -48,6 +52,7 @@
 
     <TextView
         android:id="@+id/textView3"
+        style="@style/large_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -60,6 +65,7 @@
 
     <EditText
         android:id="@+id/edt_kata_sandi"
+        style="@style/body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -75,6 +81,7 @@
 
     <TextView
         android:id="@+id/tv_atur_ulang"
+        style="@style/body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -86,6 +93,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_masuk"
+        style="@style/heading6_bold"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
@@ -101,6 +109,7 @@
 
     <TextView
         android:id="@+id/tv_pilihan_daftar"
+        style="@style/body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -112,6 +121,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_masukGoogle"
+        style="@style/heading6_bold"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
