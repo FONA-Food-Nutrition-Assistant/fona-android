@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FONAApp</string>
+    <string name="app_name">FONA</string>
     <string name="btn_daftar">DAFTAR</string>
     <string name="btn_masuk">MASUK</string>
     <string name="tv_welcome">Sudah pernah menggunakan FONA?</string>
@@ -30,15 +30,15 @@
     <string name="simpan">SIMPAN</string>
     <string name="title_user_preference">Konfirmasi Data Diri</string>
     <string name="klmt_perintah">Masukkan identitas yang diperlukan untuk dapat menikmati keseruannya!</string>
-    <string name="email">Masukkan Email\n</string>
-    <string name="kataSandi">Masukkan Kata Sandi\n</string>
+    <string name="email">Masukkan Email</string>
+    <string name="kataSandi">Masukkan Kata Sandi</string>
     <string name="konfirmasi">Masukkan Ulang Kata Sandi</string>
     <string name="klmt_pilihan">atau</string>
-    <string name="btn_masukGoogle">Daftar dengan Google</string>
+    <string name="btn_masukGoogle">Masuk dengan Google</string>
     <string name="klmt_pertanyaan">Sudah punya akun? Login</string>
     <string name="klmt_perintah1">Masukkan email dan password dari akun yang pernah kamu buat sebelumnya!</string>
     <string name="atur_ulang">Lupa kata sandi? atur ulang.</string>
-    <string name="klmt_pilihan_daftar">Belum punya akun? Daftar</string>
+    <string name="klmt_pilihan_daftar">Belum punya akun?</string>
     <string name="lupa_sandi">LUPA KATA SANDI</string>
     <string name="masuk_email">Masukkan email dibawah untuk membuat kata sandi baru</string>
     <string name="nama_makanan">Nasi Goreng</string>
@@ -58,7 +58,9 @@
     <string name="sodium">Sodium</string>
     <string name="alergi">Peringatan Alergi</string>
     <string name="hasil_alergi">Tidak ada</string>
-
+    <string name="email_error_validation" translatable="false">Invalid email format</string>
+    <string name="password_error_validation">Password must be at least 8 characters</string>
+    <string name="field_error_null" translatable="false">Field must be filled</string>
 
     <string-array name="activity_levels">
         <item>Sedentary: sedikit atau tidak ada latihan fisik terjadwal.</item>
@@ -70,4 +72,7 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hapus_dari_list">Hapus dari list</string>
+    <string name="login">Masuk</string>
+    <string name="daftar">Daftar</string>
 </resources>

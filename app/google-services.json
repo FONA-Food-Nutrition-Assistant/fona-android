@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "542299058230",
+    "project_id": "bangkit-fona-development",
+    "storage_bucket": "bangkit-fona-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542299058230:android:e2983fc6a8e82462e5e897",
+        "android_client_info": {
+          "package_name": "com.example.fonaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542299058230-qrtbc5413c55ob29sj2biclb1k9qi5or.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fonaapp",
+            "certificate_hash": "9ef2962d799c7c7f22a54e8a908b8ec364cf14dd"
+          }
+        },
+        {
+          "client_id": "542299058230-nphvd7b77r9p5eg7t5ejcm6v4lledml4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA98xHTe7cY99o15qq4MhjEaNRzyD90G9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542299058230-nphvd7b77r9p5eg7t5ejcm6v4lledml4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

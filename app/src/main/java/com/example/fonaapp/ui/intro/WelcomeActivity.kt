@@ -1,9 +1,14 @@
 package com.example.fonaapp.ui.intro
 
+import android.animation.ObjectAnimator
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -11,6 +16,8 @@ import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fonaapp.R
 import com.example.fonaapp.databinding.ActivityWelcomeBinding
+import com.example.fonaapp.ui.daftar.DaftarActivity
+import com.example.fonaapp.ui.login.LoginActivity
 import com.example.fonaapp.ui.preferences.UserPreferenceActivity
 
 class WelcomeActivity : AppCompatActivity() {
@@ -43,6 +50,21 @@ class WelcomeActivity : AppCompatActivity() {
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupView()
+        setupAction()
+        playAnimation()
+    }
+
+    private fun setupView(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        }else{
+            @Suppress("DEPRECATION")
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
         //Call Adapter
         binding.introSliderViewPager.adapter = introSliderAdapter
 
@@ -58,9 +80,24 @@ class WelcomeActivity : AppCompatActivity() {
                 setCurrentIndicators(position)
             }
         })
+    }
+
+    private fun setupAction(){
         binding.btnSignUp.setOnClickListener {
-            startActivity(Intent(this, UserPreferenceActivity::class.java))
+            startActivity(Intent(this, DaftarActivity::class.java))
         }
+        binding.btnSignIn.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+    }
+
+    private fun playAnimation(){
+        ObjectAnimator.ofFloat(binding.introSliderViewPager, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
     }
 
     //Setup Indicator View
