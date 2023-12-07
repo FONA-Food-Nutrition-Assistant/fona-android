@@ -10,10 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/imageView"
-            android:layout_width="84dp"
-            android:layout_height="84dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:src="@drawable/ic_about"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-        </ImageView>
+        </com.mikhaellopez.circularimageview.CircularImageView>
 
         <TextView
             android:id="@+id/tv_nama"
@@ -303,7 +303,9 @@
             android:layout_marginEnd="24dp"
             android:backgroundTint="@color/white"
             android:text="Keluar"
+            android:paddingHorizontal="30dp"
             android:textColor="@color/error"
+            android:drawableStart="@drawable/ic_logout"
             app:cornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
