@@ -7,63 +7,82 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.viewModels
 import com.example.fonaapp.R
+import com.example.fonaapp.data.models.User
 import com.example.fonaapp.databinding.ActivityUserPreferenceBinding
+import com.example.fonaapp.utils.ViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+
 class UserPreferenceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserPreferenceBinding
+    private lateinit var factory: ViewModelFactory
     private val calendar = Calendar.getInstance()
+    private val userPreferenceViewModel: UserPreferenceViewModel by viewModels { factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
-
-        binding.edtBirthDate.setOnClickListener {
-            showDatePickerDialog()
-        }
-
-
-        //access item activity list
-        val activityLevels = resources.getStringArray(R.array.activity_levels)
-
-        //access the spinner
-        val spinner = binding.spinnerActivity
-        if (spinner != null) {
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, activityLevels)
-            spinner.adapter = adapter
-            spinner.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View, position: Int, id: Long
-                ) {
-                }
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // write code to perform some action
-                }
-            }
-        }
-
-        binding.btnContinueResult.setOnClickListener {
-            val intent = Intent(this, ResultUserPreferenceActivity::class.java)
-            intent.putExtra("gender", getSelectedGender())
-            intent.putExtra(ResultUserPreferenceActivity.EXTRA_AGE, 22)
-            intent.putExtra(ResultUserPreferenceActivity.EXTRA_WEIGHT, 55)
-            intent.putExtra(ResultUserPreferenceActivity.EXTRA_HEIGHT, 165)
-            intent.putExtra(ResultUserPreferenceActivity.EXTRA_BMI, 20.20)
-            startActivity(intent)
-
-        }
-
+        setupAction()
+        setupViewModel()
     }
-    private fun setupView(){
+
+    private fun setupView() {
         binding = ActivityUserPreferenceBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.apply {
             title = getString(R.string.title_user_preference)
             setDisplayHomeAsUpEnabled(true)
+        }
+        binding.edtBirthDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+    }
+    private fun setupViewModel() {
+        factory = ViewModelFactory.getInstance(this)
+    }
+
+    private fun setupAction() {
+        val activityLevels = resources.getStringArray(R.array.activity_levels)
+        val spinner = binding.spinnerActivity
+
+        if (spinner != null) {
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, activityLevels)
+            spinner.adapter = adapter
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // Implementasi jika tidak ada yang dipilih
+                }
+            }
+        }
+
+        // Navigasi ke ResultUserPreferenceActivity saat tombol lanjut diklik
+        binding.btnContinueResult.setOnClickListener {
+            if (isEditTextEmpty(binding.edtBirthDate) || isEditTextEmpty(binding.edtHeight) || isEditTextEmpty(
+                    binding.edtWeight
+                )
+            ) {
+                Toast.makeText(this, "Silakan isi semua data terlebih dahulu!!", Toast.LENGTH_SHORT)
+                    .show()
+
+            } else {
+                postText()
+                userPreferenceViewModel.userPreferenceResponse.observe(this@UserPreferenceActivity) { response ->
+                    val intent = Intent(
+                        this@UserPreferenceActivity,
+                        ResultUserPreferenceActivity::class.java
+                    )
+                    startActivity(intent)
+                }
+            }
+            startActivity(intent)
         }
     }
 
@@ -84,23 +103,55 @@ class UserPreferenceActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
+    private fun isEditTextEmpty(editText: EditText): Boolean {
+        return editText.text.toString().trim().isEmpty()
+    }
+
+    private fun postText() {
+        binding.apply {
+            val height = edtHeight.text.toString().toInt()
+            val weight = edtWeight.text.toString().toInt()
+            // Mengambil gender dari radio button yang dipilih
+            val gender = when (radioGroup.checkedRadioButtonId) {
+                R.id.rbMale -> "Male"
+                R.id.rbFemale -> "Female"
+                else -> "" // Handle jika tidak ada yang dipilih
+            }
+            val dateOfBirth = edtBirthDate.text.toString()
+            // Mengambil tingkat aktivitas dari spinner
+            val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
+            // Mengambil data alergi dari checkbox yang dipilih
+            val allergies = mutableListOf<Int>()
+            if (checkBox.isChecked) {
+                allergies.add(1) // Menyimpan kode alergi sesuai dengan kebutuhan Anda
+            }
+            if (checkBox2.isChecked) {
+                allergies.add(2)
+            }
+            if (checkBox3.isChecked) {
+                allergies.add(3)
+            }
+            val idToken = intent.getStringExtra("ID_TOKEN")
+
+            if (idToken != null) {
+                userPreferenceViewModel.storeUserData(
+                    User(
+                        height,
+                        weight,
+                        gender,
+                        dateOfBirth,
+                        activityLevel,
+                        allergies
+                    ), idToken
+                )
+            }
+        }
+    }
+
     private fun updateEditText() {
         val dateFormat = "YYYY/MM/dd"
         val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         binding.edtBirthDate.setText(simpleDateFormat.format(calendar.time))
-    }
-
-    private fun getSelectedAllergies(): ArrayList<String> {
-        val allergies = ArrayList<String>()
-        if (binding.checkBox.isChecked) allergies.add("Seafood")
-        if (binding.checkBox2.isChecked) allergies.add("Telur")
-        if (binding.checkBox3.isChecked) allergies.add("Lactose")
-        return allergies
-    }
-
-    private fun getSelectedGender(): String {
-        // Mengambil jenis kelamin yang dipilih dari radio button
-        return if (binding.rbMale.isChecked) "Pria" else "Perempuan"
     }
 
     override fun onSupportNavigateUp(): Boolean {

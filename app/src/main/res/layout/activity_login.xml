@@ -82,13 +82,12 @@
 
     <TextView
         android:id="@+id/tv_atur_ulang"
-        style="@style/body"
+        style="@style/large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/atur_ulang"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_kata_sandi" />
 
@@ -104,7 +103,6 @@
         android:backgroundTint="@color/button"
         android:text="@string/login"
         android:textColor="@color/white"
-        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_atur_ulang" />
@@ -118,7 +116,6 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:text="@string/klmt_pilihan_daftar"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_masuk" />
@@ -147,8 +144,6 @@
         android:backgroundTint="@color/white"
         android:text="@string/btn_masukGoogle"
         android:textColor="@color/button"
-        style="@style/heading6_bold"
-        android:textSize="14sp"
         android:drawableLeft="@drawable/ic_google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

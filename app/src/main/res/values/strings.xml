@@ -68,7 +68,7 @@
         <item>Moderate: latihan 4-5 kali per minggu.</item>
         <item>Active: latihan harian atau intens latihan 3-3 kali per minggu.</item>
         <item>Very Active: latihan intensif 6-7 kali per minggu.</item>
-        <item>Extra active: latihan harian atau pekerjaan fisik yang sangat intensif</item>
+        <item>Extremely Active: latihan harian atau pekerjaan fisik yang sangat intensif</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -1,6 +1,7 @@
 package com.example.fonaapp.ui.login
 
 import android.app.ProgressDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +9,12 @@ import android.util.Log
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.example.fonaapp.R
+import com.example.fonaapp.data.models.UserModel
+import com.example.fonaapp.data.models.UserPreference
 import com.example.fonaapp.databinding.ActivityLoginBinding
 import com.example.fonaapp.main.MainActivity
 import com.example.fonaapp.ui.preferences.UserPreferenceActivity
+import com.example.fonaapp.utils.Injection
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -21,6 +25,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -28,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN: Int = 1
     private lateinit var auth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
-
+    private lateinit var userPreference: UserPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
@@ -49,6 +56,8 @@ class LoginActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = Firebase.auth
         binding = ActivityLoginBinding.inflate(layoutInflater)
+
+        userPreference = Injection.provideUserPreference(this)
         setContentView(binding.root)
     }
 
@@ -83,6 +92,7 @@ class LoginActivity : AppCompatActivity() {
                 // Google Sign In was successful, authenticate with Firebase
                 val idToken = task.getResult(ApiException::class.java)!!
                 firebaseAuthWithGoogle(idToken)
+
             }
             catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
@@ -95,16 +105,27 @@ class LoginActivity : AppCompatActivity() {
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 
+
+
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-                    updateUI(user)
+                    user?.getIdToken(true)?.addOnSuccessListener { result ->
+                        val idToken = result.token
+                        Log.d(TAG, "GetTokenResult result = $idToken")
 
-                    val intent= Intent(this,MainActivity::class.java)
-                    startActivity(intent)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            // Simpan ID Token ke dalam preferensi
+                            idToken?.let { userPreference.saveSession(UserModel(it, true)) }
+                            updateUI(user)
+                            val intent = Intent(this@LoginActivity, UserPreferenceActivity::class.java)
+                            intent.putExtra("ID_TOKEN", idToken)
+                            startActivity(intent)
+                        }
+                    }
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(this@LoginActivity, "Login Failed: ", Toast.LENGTH_SHORT).show()
@@ -116,9 +137,22 @@ class LoginActivity : AppCompatActivity() {
     private fun loginWithEmailPassword(){
         val email = binding.edtEmail.text.toString().trim { it <= ' ' }
         val password = binding.edtKataSandi.text.toString().trim { it <= ' ' }
-
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
+                val user = auth.currentUser
+                user?.getIdToken(true)?.addOnSuccessListener { result ->
+                    val idToken = result.token
+                    Log.d(TAG, "GetTokenResult result = $idToken")
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        // Simpan ID Token ke dalam preferensi
+                        idToken?.let { userPreference.saveSession(UserModel(it, true)) }
+                        updateUI(user)
+                        val intent = Intent(this@LoginActivity, UserPreferenceActivity::class.java)
+                        intent.putExtra("ID_TOKEN", idToken)
+                        startActivity(intent)
+                    }
+                }
                 startActivity(Intent(this,UserPreferenceActivity::class.java))
             }
             .addOnFailureListener {
@@ -126,12 +160,24 @@ class LoginActivity : AppCompatActivity() {
             }
             .addOnCompleteListener {
                 progressDialog.dismiss()
-                startActivity(Intent(this,UserPreferenceActivity::class.java))
+                if (it.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    updateUI(user)
+
+                    val intent= Intent(this,UserPreferenceActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(this@LoginActivity, "Login Failed: ", Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
             }
     }
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, UserPreferenceActivity::class.java))
             finish()
         }
     }
