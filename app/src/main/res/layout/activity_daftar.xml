@@ -43,7 +43,8 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="MissingClass" />
 
     <TextView
         android:id="@+id/textView2"
@@ -80,7 +81,8 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_mail"
             android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            tools:ignore="MissingClass" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,7 +126,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="MissingClass" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,7 +167,8 @@
             android:drawableEnd="@drawable/ic_eyes"
             android:hint="@string/konfirmasi"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            tools:ignore="MissingClass" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -225,6 +228,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_masukGoogle" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/secondaryColor"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
