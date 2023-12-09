@@ -64,10 +64,9 @@
 
     <string-array name="activity_levels">
         <item>Sedentary: sedikit atau tidak ada latihan fisik terjadwal.</item>
-        <item>Light: latihan 1-3 kali per minggu</item>
-        <item>Moderate: latihan 4-5 kali per minggu.</item>
-        <item>Active: latihan harian atau intens latihan 3-3 kali per minggu.</item>
-        <item>Very Active: latihan intensif 6-7 kali per minggu.</item>
+        <item>Lightly Active: latihan 1-3 hari per minggu</item>
+        <item>Moderately Active: latihan 3-5 hari per minggu.</item>
+        <item>Very Active: latihan intensif 6-7 hari per minggu.</item>
         <item>Extremely Active: latihan harian atau pekerjaan fisik yang sangat intensif</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->

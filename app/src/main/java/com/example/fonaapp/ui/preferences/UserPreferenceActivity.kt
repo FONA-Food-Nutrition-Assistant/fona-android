@@ -50,16 +50,14 @@ class UserPreferenceActivity : AppCompatActivity() {
         val activityLevels = resources.getStringArray(R.array.activity_levels)
         val spinner = binding.spinnerActivity
 
-        if (spinner != null) {
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, activityLevels)
-            spinner.adapter = adapter
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                }
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, activityLevels)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            }
 
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // Implementasi jika tidak ada yang dipilih
-                }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Implementasi jika tidak ada yang dipilih
             }
         }
 
@@ -74,7 +72,7 @@ class UserPreferenceActivity : AppCompatActivity() {
 
             } else {
                 postText()
-                userPreferenceViewModel.userPreferenceResponse.observe(this@UserPreferenceActivity) { response ->
+                userPreferenceViewModel.userPreferenceResponse.observe(this@UserPreferenceActivity) { _ ->
                     val intent = Intent(
                         this@UserPreferenceActivity,
                         ResultUserPreferenceActivity::class.java
@@ -82,7 +80,6 @@ class UserPreferenceActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-            startActivity(intent)
         }
     }
 
@@ -117,19 +114,19 @@ class UserPreferenceActivity : AppCompatActivity() {
                 R.id.rbFemale -> "Female"
                 else -> "" // Handle jika tidak ada yang dipilih
             }
-            val dateOfBirth = edtBirthDate.text.toString()
+            val dateOfBirth = convertDateFormatForBackend(edtBirthDate.text.toString())
             // Mengambil tingkat aktivitas dari spinner
             val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
             // Mengambil data alergi dari checkbox yang dipilih
             val allergies = mutableListOf<Int>()
             if (checkBox.isChecked) {
-                allergies.add(1) // Menyimpan kode alergi sesuai dengan kebutuhan Anda
+                allergies.add(5) // Menyimpan kode alergi sesuai dengan kebutuhan Anda
             }
             if (checkBox2.isChecked) {
-                allergies.add(2)
+                allergies.add(6)
             }
             if (checkBox3.isChecked) {
-                allergies.add(3)
+                allergies.add(7)
             }
             val idToken = intent.getStringExtra("ID_TOKEN")
 
@@ -149,9 +146,16 @@ class UserPreferenceActivity : AppCompatActivity() {
     }
 
     private fun updateEditText() {
-        val dateFormat = "YYYY/MM/dd"
+        val dateFormat = "dd/MM/yyyy"
         val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.US)
         binding.edtBirthDate.setText(simpleDateFormat.format(calendar.time))
+    }
+
+    private fun convertDateFormatForBackend(originalDate: String): String {
+        val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val date = inputFormat.parse(originalDate)
+        return outputFormat.format(date!!)
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -6,5 +6,5 @@ data class User(
     val gender: String,
     val date_of_birth: String,
     val activity: String,
-    val allergies: List<Int>
+    val allergies: MutableList<Int>
 )

@@ -35,6 +35,7 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         val firebaseUser= auth.currentUser
+
         if(firebaseUser!=null){
             if (firebaseUser.displayName != null) {
                 binding.tvNama.text = firebaseUser.displayName

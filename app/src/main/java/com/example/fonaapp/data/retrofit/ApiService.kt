@@ -9,7 +9,7 @@ import retrofit2.http.POST
 
 interface ApiService {
     @POST("/gateway/v1/us/user")
-    suspend fun storeUserData(
+    fun storeUserData(
         @Header("Authorization") token: String,
         @Body request: User
     ): Call<UserPreferenceResponse>
