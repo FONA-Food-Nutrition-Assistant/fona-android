@@ -14,4 +14,6 @@ interface ApiService {
         @Body request: User
     ): Call<UserPreferenceResponse>
 
+    @Get
+
 }
