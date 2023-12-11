@@ -6,9 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fonaapp.data.response.AllergiesItem
 import com.example.fonaapp.databinding.ItemsAllergyBinding
 
-class ResultUserAdapter(private val allergiesItem: List<AllergiesItem>) : RecyclerView.Adapter<ResultUserAdapter.ViewHolder>() {
-
-    private var allergies: List<AllergiesItem> = emptyList()
+class ResultUserAdapter(private var allergiesItem: List<AllergiesItem>) : RecyclerView.Adapter<ResultUserAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemsAllergyBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(allergy: AllergiesItem) {
@@ -22,11 +20,16 @@ class ResultUserAdapter(private val allergiesItem: List<AllergiesItem>) : Recycl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(allergies[position])
+        val allergy = allergiesItem[position]
+        holder.bind(allergy)
     }
 
     override fun getItemCount(): Int {
-        return allergies.size
+        return allergiesItem.size
     }
 
+    fun updateData(newList: List<AllergiesItem>) {
+        allergiesItem = newList
+        notifyDataSetChanged()
+    }
 }

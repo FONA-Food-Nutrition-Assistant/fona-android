@@ -77,9 +77,10 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
         setupViewModel()
-        setupAdapter()
         setupUser()
+        setupAdapter()
         setupAction()
     }
 
@@ -109,6 +110,7 @@ class ProfileFragment : Fragment() {
         binding.rvAllergy.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
         binding.rvAllergy.addItemDecoration(itemDecoration)
+        binding.rvAllergy.adapter = resultAdapter
     }
 
     private fun setupUser(){
@@ -122,6 +124,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun getUserData(userData: ResultData){
+        val listAllergy = ArrayList<AllergiesItem>()
         binding.apply{
             tvGender.text = userData.gender
             tvAge.text = userData.age.toString()
@@ -137,6 +140,10 @@ class ProfileFragment : Fragment() {
             }
             tvActivity.text = userData.activity
             tvTdee.text = userData.tdee.toString()
+            listAllergy.clear()
+            listAllergy.addAll(userData.allergies)
+            resultAdapter.updateData(userData.allergies)
+            resultAdapter.notifyDataSetChanged()
         }
     }
 

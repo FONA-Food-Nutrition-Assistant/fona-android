@@ -70,7 +70,7 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
         binding.rvAllergy.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvAllergy.addItemDecoration(itemDecoration)
-
+        binding.rvAllergy.adapter = resultAdapter
     }
 
     private fun setupUser(){
@@ -99,6 +99,10 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
             }
             tvActivity.text = userData.activity
             tvTdee.text = userData.tdee.toString()
+            listAllergy.clear()
+            listAllergy.addAll(userData.allergies)
+            resultAdapter.updateData(userData.allergies)
+            resultAdapter.notifyDataSetChanged()
         }
         val adapter = ResultUserAdapter(listAllergy)
         binding.rvAllergy.adapter = adapter
