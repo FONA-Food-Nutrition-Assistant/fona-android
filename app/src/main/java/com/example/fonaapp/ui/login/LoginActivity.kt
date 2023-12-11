@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import com.example.fonaapp.R
@@ -183,6 +184,11 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
+    private fun showLoading(showLoading: Boolean) {
+        binding.progressBar.visibility = if (showLoading) View.VISIBLE else View.GONE
+
+    }
+
 
     companion object {
         private const val TAG = "LoginActivity"

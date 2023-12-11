@@ -74,5 +74,13 @@
     <string name="hapus_dari_list">Hapus dari list</string>
     <string name="login">Masuk</string>
     <string name="daftar">Daftar</string>
+    <string name="title_kalori">Kalori :</string>
+    <string name="edt_kalori">168 kkal</string>
+    <string name="title_karbohidrat">Karbohidrat :</string>
+    <string name="edt_karbohidrat">21.06 g</string>
+    <string name="title_lemak">Lemak :</string>
+    <string name="edt_lemak">0.9 g</string>
+    <string name="title_protein">Protein :</string>
+    <string name="edt_protein">6.3 g</string>
     <string name="masuk_ke_beranda">Masuk ke Beranda</string>
 </resources>

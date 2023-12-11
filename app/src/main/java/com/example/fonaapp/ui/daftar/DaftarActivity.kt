@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
@@ -113,5 +114,9 @@ class DaftarActivity : AppCompatActivity() {
             .addOnFailureListener{
                 Toast.makeText(this, it.localizedMessage, LENGTH_SHORT).show()
             }
+    }
+    private fun showLoading(showLoading: Boolean) {
+        binding.progressBar.visibility = if (showLoading) View.VISIBLE else View.GONE
+
     }
 }
