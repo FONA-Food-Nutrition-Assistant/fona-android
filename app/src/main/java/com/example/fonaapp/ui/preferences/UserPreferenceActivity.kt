@@ -13,6 +13,8 @@ import androidx.activity.viewModels
 import com.example.fonaapp.R
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.databinding.ActivityUserPreferenceBinding
+import com.example.fonaapp.main.MainActivity
+import com.example.fonaapp.ui.result.ResultUserPreferenceActivity
 import com.example.fonaapp.utils.ViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -23,6 +25,7 @@ class UserPreferenceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserPreferenceBinding
     private lateinit var factory: ViewModelFactory
     private val calendar = Calendar.getInstance()
+    private var token = ""
     private val userPreferenceViewModel: UserPreferenceViewModel by viewModels { factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +43,12 @@ class UserPreferenceActivity : AppCompatActivity() {
         }
         binding.edtBirthDate.setOnClickListener {
             showDatePickerDialog()
+        }
+        userPreferenceViewModel.isDataDiri.observe(this) {
+            if(it){
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
         }
     }
     private fun setupViewModel() {
@@ -105,42 +114,45 @@ class UserPreferenceActivity : AppCompatActivity() {
     }
 
     private fun postText() {
-        binding.apply {
-            val height = edtHeight.text.toString().toInt()
-            val weight = edtWeight.text.toString().toInt()
-            // Mengambil gender dari radio button yang dipilih
-            val gender = when (radioGroup.checkedRadioButtonId) {
-                R.id.rbMale -> "Male"
-                R.id.rbFemale -> "Female"
-                else -> "" // Handle jika tidak ada yang dipilih
-            }
-            val dateOfBirth = convertDateFormatForBackend(edtBirthDate.text.toString())
-            // Mengambil tingkat aktivitas dari spinner
-            val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
-            // Mengambil data alergi dari checkbox yang dipilih
-            val allergies = mutableListOf<Int>()
-            if (checkBox.isChecked) {
-                allergies.add(5) // Menyimpan kode alergi sesuai dengan kebutuhan Anda
-            }
-            if (checkBox2.isChecked) {
-                allergies.add(6)
-            }
-            if (checkBox3.isChecked) {
-                allergies.add(7)
-            }
-            val idToken = intent.getStringExtra("ID_TOKEN")
+        userPreferenceViewModel.getSession().observe(this) { user ->
+            token = user.idToken
+            binding.apply {
+                val height = edtHeight.text.toString().toInt()
+                val weight = edtWeight.text.toString().toInt()
+                // Mengambil gender dari radio button yang dipilih
+                val gender = when (radioGroup.checkedRadioButtonId) {
+                    R.id.rbMale -> "Laki-laki"
+                    R.id.rbFemale -> "Perempuan"
+                    else -> "" // Handle jika tidak ada yang dipilih
+                }
+                val dateOfBirth = convertDateFormatForBackend(edtBirthDate.text.toString())
+                // Mengambil tingkat aktivitas dari spinner
+                val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
+                // Mengambil data alergi dari checkbox yang dipilih
+                val allergies = mutableListOf<Int>()
+                if (checkBox.isChecked) {
+                    allergies.add(5) // Menyimpan kode alergi sesuai dengan kebutuhan Anda
+                }
+                if (checkBox2.isChecked) {
+                    allergies.add(6)
+                }
+                if (checkBox3.isChecked) {
+                    allergies.add(7)
+                }
+                val idToken = token
 
-            if (idToken != null) {
-                userPreferenceViewModel.storeUserData(
-                    User(
-                        height,
-                        weight,
-                        gender,
-                        dateOfBirth,
-                        activityLevel,
-                        allergies
-                    ), idToken
-                )
+                if (idToken != null) {
+                    userPreferenceViewModel.storeUserData(
+                        User(
+                            height,
+                            weight,
+                            gender,
+                            dateOfBirth,
+                            activityLevel,
+                            allergies
+                        ), idToken
+                    )
+                }
             }
         }
     }

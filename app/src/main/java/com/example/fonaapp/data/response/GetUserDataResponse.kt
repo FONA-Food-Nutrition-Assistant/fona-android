@@ -5,31 +5,22 @@ import com.google.gson.annotations.SerializedName
 data class GetUserDataResponse(
 
 	@field:SerializedName("method")
-	val method: String,
+	var method: String,
 
 	@field:SerializedName("data")
-	val data: Data,
+	var data: ResultData,
 
 	@field:SerializedName("message")
 	val message: String,
 
 	@field:SerializedName("status")
-	val status: Int
+	var status: Int
 )
 
-data class AllergiesItem(
-
-	@field:SerializedName("name")
-	val name: String,
-
-	@field:SerializedName("id")
-	val id: Int
-)
-
-data class Data(
+data class ResultData(
 
 	@field:SerializedName("allergies")
-	val allergies: List<AllergiesItem>,
+	val allergies: MutableList<AllergiesItem>,
 
 	@field:SerializedName("uid")
 	val uid: String,
@@ -47,7 +38,7 @@ data class Data(
 	val dateOfBirth: String,
 
 	@field:SerializedName("tdee")
-	val tdee: Any,
+	val tdee: Double,
 
 	@field:SerializedName("weight")
 	val weight: Int,
@@ -62,5 +53,14 @@ data class Data(
 	val height: Int,
 
 	@field:SerializedName("bmi")
-	val bmi: Any
+	val bmi: Double
+)
+
+data class AllergiesItem(
+
+	@field:SerializedName("name")
+	val name: String,
+
+	@field:SerializedName("id")
+	val id: Int
 )

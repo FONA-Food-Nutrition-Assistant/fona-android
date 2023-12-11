@@ -110,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     user?.getIdToken(true)?.addOnSuccessListener { result ->
@@ -118,16 +118,18 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "GetTokenResult result = $idToken")
 
                         CoroutineScope(Dispatchers.IO).launch {
-                            // Simpan ID Token ke dalam preferensi
+
                             idToken?.let { userPreference.saveSession(UserModel(it, true)) }
                             updateUI(user)
-                            val intent = Intent(this@LoginActivity, UserPreferenceActivity::class.java)
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             intent.putExtra("ID_TOKEN", idToken)
                             startActivity(intent)
                         }
+
+
                     }
                 } else {
-                    // If sign in fails, display a message to the user.
+
                     Toast.makeText(this@LoginActivity, "Login Failed: ", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
@@ -145,15 +147,15 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "GetTokenResult result = $idToken")
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        // Simpan ID Token ke dalam preferensi
+
                         idToken?.let { userPreference.saveSession(UserModel(it, true)) }
                         updateUI(user)
-                        val intent = Intent(this@LoginActivity, UserPreferenceActivity::class.java)
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.putExtra("ID_TOKEN", idToken)
                         startActivity(intent)
                     }
                 }
-                startActivity(Intent(this,UserPreferenceActivity::class.java))
+                startActivity(Intent(this,MainActivity::class.java))
             }
             .addOnFailureListener {
                 Toast.makeText(this, it.localizedMessage, LENGTH_SHORT).show()
@@ -166,7 +168,7 @@ class LoginActivity : AppCompatActivity() {
                     val user = auth.currentUser
                     updateUI(user)
 
-                    val intent= Intent(this,UserPreferenceActivity::class.java)
+                    val intent= Intent(this,MainActivity::class.java)
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.

@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.home -> {
