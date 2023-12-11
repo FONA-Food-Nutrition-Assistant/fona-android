@@ -32,6 +32,7 @@ class CameraActivity : AppCompatActivity() {
                 else CameraSelector.DEFAULT_BACK_CAMERA
             startCamera()
         }
+        //TODO LULU buat logika klo dia mencet logo ic_search, dia intent ke SearchFoodActivity()
     }
 
     public override fun onResume() {

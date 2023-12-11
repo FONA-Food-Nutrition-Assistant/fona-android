@@ -1,6 +1,6 @@
 package com.example.fonaapp.ui.result
 
-import ResultAdapter
+
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fonaapp.R
-import com.example.fonaapp.data.response.GetUserDataResponse
+import com.example.fonaapp.data.response.AllergiesItem
 import com.example.fonaapp.data.response.ResultData
 import com.example.fonaapp.databinding.ActivityResultUserPreferenceBinding
 import com.example.fonaapp.main.MainActivity
@@ -21,14 +21,13 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultUserPreferenceBinding
     private lateinit var factory: ViewModelFactory
     private var token = ""
-    private lateinit var resultAdapter: ResultAdapter
     private val resultViewModel: ResultViewModel by viewModels { factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
         setupViewModel()
         setupUser()
-        setupAdapter()
+//        setupAdapter()
         setupAction()
 
 
@@ -63,14 +62,14 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupAdapter(){
-        resultAdapter = ResultAdapter()
-        val layoutManager = LinearLayoutManager(this)
-        binding.rvAllergy.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvAllergy.addItemDecoration(itemDecoration)
-        binding.rvAllergy.adapter = resultAdapter
-    }
+//    private fun setupAdapter(){
+//        resultAdapter = ResultAdapter()
+//        val layoutManager = LinearLayoutManager(this)
+//        binding.rvAllergy.layoutManager = layoutManager
+//        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+//        binding.rvAllergy.addItemDecoration(itemDecoration)
+//        binding.rvAllergy.adapter = resultAdapter
+//    }
 
     private fun setupUser(){
         resultViewModel.getSession().observe(this){ user ->
@@ -82,6 +81,7 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
         }
     }
     private fun getUserData(userData: ResultData){
+        val listAllergy = ArrayList<AllergiesItem>()
         binding.apply{
             tvGender.text = userData.gender
             tvAge.text = userData.age.toString()
@@ -97,8 +97,8 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
             }
             tvActivity.text = userData.activity
             tvTdee.text = userData.tdee.toString()
-
-
         }
+        val adapter = ResultUserAdapter(listAllergy)
+        binding.rvAllergy.adapter = adapter
     }
 }

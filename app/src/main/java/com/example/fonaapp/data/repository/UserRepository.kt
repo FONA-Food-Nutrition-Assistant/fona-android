@@ -9,8 +9,10 @@ import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.models.UserPreference
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.ResultData
+import com.example.fonaapp.data.response.UpdateUserResponse
 import com.example.fonaapp.data.response.UserPreferenceResponse
 import com.example.fonaapp.data.retrofit.ApiService
+import com.google.firebase.auth.FirebaseUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +38,11 @@ class UserRepository(private val userPreference: UserPreference, private val api
 
     private val _userDataResponse = MutableLiveData<ResultData>()
     val userDataResponse: LiveData<ResultData> = _userDataResponse
+
+    private val _updateUserDataResponse = MutableLiveData<UpdateUserResponse>()
+    val updateUserResponse: LiveData<UpdateUserResponse> = _updateUserDataResponse
+
+    //TODO LULU 2 - Buat variabel food/nutrition response
 
     fun storeUserData(user: User, firebaseToken: String) {
         _isLoading.value = true
@@ -110,6 +117,35 @@ class UserRepository(private val userPreference: UserPreference, private val api
             }
         })
     }
+
+    fun updateUserData(user: User, firebaseToken: String){
+        _isLoading.value = true
+        val call = apiService.updateUserData("Bearer $firebaseToken", user)
+
+        call.enqueue(object : Callback<UpdateUserResponse> {
+            override fun onResponse(
+                call: Call<UpdateUserResponse>, response: Response<UpdateUserResponse>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _isDataDiri.value = true
+                    _updateUserDataResponse.value = response.body()
+                } else {
+                    _isDataDiri.value = false
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateUserResponse>, t: Throwable) {
+                _isLoading.value = false
+                _isDataDiri.value = false
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    //TODO LULU 3 - Buat fungsi get list food
+
 
     fun getSession(): LiveData<UserModel> {
         return userPreference.getSession().asLiveData()

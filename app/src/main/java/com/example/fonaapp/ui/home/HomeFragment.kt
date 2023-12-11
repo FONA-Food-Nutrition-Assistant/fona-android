@@ -67,11 +67,13 @@ class HomeFragment : Fragment() {
                 startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
                 requireActivity().finish()
             } else {
+                //Cek apakah user sudah mengisi data diri
                 checkUserData(token)
             }
         }
     }
 
+    //Fungsi cek data user
     private fun checkUserData(token: String) {
         Log.d(TAG, "fun called")
         mainViewModel.isDataDiri.observe(viewLifecycleOwner) {
