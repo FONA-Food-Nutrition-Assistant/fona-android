@@ -212,6 +212,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_bmi_number" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAllergy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_aktifitas"
+                tools:listitem="@layout/items_allergy" />
             <TextView
                 android:id="@+id/tv_alergi"
                 style="@style/body_bold"
@@ -223,16 +232,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_aktifitas" />
 
-            <TextView
-                android:id="@+id/tv_allergi_number"
-                style="@style/body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Seafood"
-                android:textColor="@color/primaryText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_activity" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_allergi_number"-->
+<!--                style="@style/body"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:text="Seafood"-->
+<!--                android:textColor="@color/primaryText"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tv_activity" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -280,7 +289,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/calories_need"
+                android:id="@+id/tv_tdee"
                 style="@style/body"
                 android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"

@@ -53,7 +53,10 @@ data class ResultData(
 	val height: Int,
 
 	@field:SerializedName("bmi")
-	val bmi: Double
+	val bmi: Double,
+
+	@field:SerializedName("bmi_status")
+	val bmi_status: String
 )
 
 data class AllergiesItem(

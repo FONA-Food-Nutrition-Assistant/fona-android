@@ -42,8 +42,8 @@ class ResultViewModel(private val userRepository: UserRepository) : ViewModel() 
         }
     }
 
-//    val userData: LiveData<ResultData> =
-//        userRepository.userDataResponse
+    val userData: LiveData<ResultData> =
+        userRepository.userDataResponse
     val isLoading = userRepository.isLoading
 
     fun getIsDataDiri(): LiveData<Boolean> {

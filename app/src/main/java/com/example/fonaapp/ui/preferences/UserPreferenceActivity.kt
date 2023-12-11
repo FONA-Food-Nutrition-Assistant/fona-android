@@ -30,8 +30,9 @@ class UserPreferenceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
-        setupAction()
         setupViewModel()
+        setupAction()
+
     }
 
     private fun setupView() {
@@ -41,9 +42,10 @@ class UserPreferenceActivity : AppCompatActivity() {
             title = getString(R.string.title_user_preference)
             setDisplayHomeAsUpEnabled(true)
         }
-        binding.edtBirthDate.setOnClickListener {
-            showDatePickerDialog()
-        }
+
+    }
+    private fun setupViewModel() {
+        factory = ViewModelFactory.getInstance(this)
         userPreferenceViewModel.isDataDiri.observe(this) {
             if(it){
                 startActivity(Intent(this, MainActivity::class.java))
@@ -51,11 +53,11 @@ class UserPreferenceActivity : AppCompatActivity() {
             }
         }
     }
-    private fun setupViewModel() {
-        factory = ViewModelFactory.getInstance(this)
-    }
 
     private fun setupAction() {
+        binding.edtBirthDate.setOnClickListener {
+            showDatePickerDialog()
+        }
         val activityLevels = resources.getStringArray(R.array.activity_levels)
         val spinner = binding.spinnerActivity
 
