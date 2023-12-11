@@ -62,13 +62,12 @@
     <string name="password_error_validation">Password must be at least 8 characters</string>
     <string name="field_error_null" translatable="false">Field must be filled</string>
 
-    <string-array name="activity_levels">
-        <item>Sedentary: sedikit atau tidak ada latihan fisik terjadwal.</item>
-        <item>Light: latihan 1-3 kali per minggu</item>
-        <item>Moderate: latihan 4-5 kali per minggu.</item>
-        <item>Active: latihan harian atau intens latihan 3-3 kali per minggu.</item>
-        <item>Very Active: latihan intensif 6-7 kali per minggu.</item>
-        <item>Extremely Active: latihan harian atau pekerjaan fisik yang sangat intensif</item>
+    <string-array name="activity_levels">Tidak Aktif, Sedikit Aktif, Cukup Aktif, Sangat Aktif, Ekstra Aktif
+        <item>Tidak Aktif: sedikit atau tidak ada latihan fisik terjadwal.</item>
+        <item>Sedikit Aktif: latihan 1-3 hari per minggu</item>
+        <item>Cukup Aktif: latihan 3-5 hari per minggu.</item>
+        <item>Sangat Aktif: latihan intensif 6-7 hari per minggu.</item>
+        <item>Ekstra Aktif: latihan harian atau pekerjaan fisik yang sangat intensif</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -83,4 +82,5 @@
     <string name="edt_lemak">0.9 g</string>
     <string name="title_protein">Protein :</string>
     <string name="edt_protein">6.3 g</string>
+    <string name="masuk_ke_beranda">Masuk ke Beranda</string>
 </resources>

@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.fonaapp.R
 import com.example.fonaapp.databinding.FragmentProfileBinding
 import com.example.fonaapp.ui.intro.WelcomeActivity
+import com.example.fonaapp.ui.result.ResultViewModel
+import com.example.fonaapp.utils.ViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,6 +22,8 @@ import com.google.firebase.auth.auth
 
 class ProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var factory: ViewModelFactory
+    private val mainViewModel by activityViewModels<ResultViewModel> { factory }
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: FragmentProfileBinding
 
@@ -35,6 +40,7 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         val firebaseUser= auth.currentUser
+
         if(firebaseUser!=null){
             if (firebaseUser.displayName != null) {
                 binding.tvNama.text = firebaseUser.displayName
@@ -61,8 +67,10 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -74,7 +82,13 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun setupViewModel() {
+        factory = ViewModelFactory.getInstance(requireActivity())
+
+    }
+
     private fun signOut() {
+        mainViewModel.logout()
         auth.signOut()
         // Sign out from Google
         mGoogleSignInClient.signOut().addOnCompleteListener {

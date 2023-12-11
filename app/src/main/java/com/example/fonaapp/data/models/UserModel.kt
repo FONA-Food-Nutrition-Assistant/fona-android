@@ -1,6 +1,6 @@
 package com.example.fonaapp.data.models
 
 data class UserModel (
-    val token: String,
+    val idToken: String,
     val isLogin: Boolean
 )

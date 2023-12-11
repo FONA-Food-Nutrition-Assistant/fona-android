@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
    suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
-            preferences[TOKEN_KEY] = user.token
+            preferences[TOKEN_KEY] = user.idToken
             preferences[STATE_KEY] = user.isLogin
             preferences[IS_LOGIN_KEY] = true
         }
