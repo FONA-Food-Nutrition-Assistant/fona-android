@@ -21,13 +21,14 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultUserPreferenceBinding
     private lateinit var factory: ViewModelFactory
     private var token = ""
+    private lateinit var resultAdapter: ResultUserAdapter
     private val resultViewModel: ResultViewModel by viewModels { factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
         setupViewModel()
         setupUser()
-//        setupAdapter()
+        setupAdapter()
         setupAction()
 
 
@@ -62,14 +63,15 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
         }
     }
 
-//    private fun setupAdapter(){
-//        resultAdapter = ResultAdapter()
-//        val layoutManager = LinearLayoutManager(this)
-//        binding.rvAllergy.layoutManager = layoutManager
-//        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-//        binding.rvAllergy.addItemDecoration(itemDecoration)
-//        binding.rvAllergy.adapter = resultAdapter
-//    }
+    private fun setupAdapter(){
+        val listAllergy = ArrayList<AllergiesItem>()
+        resultAdapter = ResultUserAdapter(listAllergy)
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvAllergy.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding.rvAllergy.addItemDecoration(itemDecoration)
+
+    }
 
     private fun setupUser(){
         resultViewModel.getSession().observe(this){ user ->

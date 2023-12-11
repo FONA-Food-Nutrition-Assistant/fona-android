@@ -20,9 +20,9 @@
     <string name="tv_activity">Aktifitas</string>
     <string name="selected_item">Selected Item:</string>
     <string name="tv_allergies">Alergi</string>
-    <string name="seafood">Seafood</string>
-    <string name="telur">Telur</string>
-    <string name="lactose">Lactose</string>
+    <string name="alergi_1">Telur</string>
+    <string name="alergi_2">Udang</string>
+    <string name="alergi_3">Ikan</string>
     <string name="btn_lanjut_preference">Lanjut</string>
     <string name="umur">Umur</string>
     <string name="pria">Pria</string>

@@ -193,21 +193,28 @@
                     android:layout_marginEnd="8dp"
                     android:text="20.20"
                     android:textColor="@color/primaryText"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_bmi_condition"
+                    app:layout_constraintEnd_toStartOf="@+id/item_bmi_level"
                     app:layout_constraintTop_toBottomOf="@id/tv_height" />
 
-                <TextView
-                    android:background="@drawable/bmi_bg"
-                    android:id="@+id/tv_bmi_condition"
-                    style="@style/xsmall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Ideal"
-                    android:padding="4dp"
-                    android:textColor="@color/white"
+                <ImageView
+                    android:id="@+id/item_bmi_level"
+                    android:layout_width="70dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_ideal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_height" />
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_height"/>
+                <TextView
+                    android:id="@+id/tv_bmi_condition"
+                    style="@style/small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ideal"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/item_bmi_level"
+                    app:layout_constraintEnd_toEndOf="@+id/item_bmi_level"
+                    app:layout_constraintStart_toStartOf="@+id/item_bmi_level"
+                    app:layout_constraintTop_toTopOf="@+id/item_bmi_level" />
 
                 <TextView
                     android:id="@+id/tv_aktifitas"
@@ -233,6 +240,7 @@
 
                 <TextView
                     android:id="@+id/tv_alergi"
+                    android:layout_marginBottom="16dp"
                     style="@style/body_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -242,16 +250,37 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_aktifitas" />
 
-                <TextView
-                    android:id="@+id/tv_allergi_number"
-                    style="@style/body"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAllergy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Seafood"
-                    android:textColor="@color/primaryText"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_activity" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_aktifitas"
+                    tools:listitem="@layout/items_allergy" />
+
+                <TextView
+                    android:id="@+id/asupan"
+                    style="@style/body_bold"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Asupan Kalori Harian"
+                    android:textColor="@color/primaryText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvAllergy" />
+
+                <TextView
+                    android:id="@+id/tv_tdee"
+                    style="@style/body"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/primaryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2000 kalori"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvAllergy" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
