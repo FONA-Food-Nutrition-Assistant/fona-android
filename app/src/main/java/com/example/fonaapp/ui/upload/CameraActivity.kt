@@ -17,6 +17,7 @@ import com.example.fonaapp.databinding.ActivityCameraBinding
 class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
@@ -33,6 +34,9 @@ class CameraActivity : AppCompatActivity() {
             startCamera()
         }
         //TODO LULU buat logika klo dia mencet logo ic_search, dia intent ke SearchFoodActivity()
+        binding.searchFood.setOnClickListener {
+
+        }
     }
 
     public override fun onResume() {
