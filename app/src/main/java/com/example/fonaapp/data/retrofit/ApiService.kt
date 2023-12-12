@@ -34,5 +34,9 @@ interface ApiService {
 
 
     //TODO LULU 1 - GET LIST OF NUTRITION & NANTI BUAT RESPONSE DARI JSON
+    @GET("/gateway/v1/fs/food/nutrition")
+    fun getNutritionList (
+        @Header("Authorization") idToken: String,
+    ): Call<GetUserDataResponse>
 
 }

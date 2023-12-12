@@ -1,5 +1,6 @@
 package com.example.fonaapp.ui.upload
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.example.fonaapp.R
 import com.example.fonaapp.databinding.ActivityCameraBinding
+import com.example.fonaapp.ui.search.SearchFoodActivity
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
@@ -35,7 +37,8 @@ class CameraActivity : AppCompatActivity() {
         }
         //TODO LULU buat logika klo dia mencet logo ic_search, dia intent ke SearchFoodActivity()
         binding.searchFood.setOnClickListener {
-
+            val intent = Intent(this@CameraActivity, SearchFoodActivity::class.java)
+            startActivity(intent)
         }
     }
 
