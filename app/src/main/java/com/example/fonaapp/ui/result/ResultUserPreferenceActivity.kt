@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.fonaapp.R
 import com.example.fonaapp.data.response.AllergiesItem
 import com.example.fonaapp.data.response.ResultData
@@ -66,10 +67,8 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
     private fun setupAdapter(){
         val listAllergy = ArrayList<AllergiesItem>()
         resultAdapter = ResultUserAdapter(listAllergy)
-        val layoutManager = LinearLayoutManager(this)
+        val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         binding.rvAllergy.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvAllergy.addItemDecoration(itemDecoration)
         binding.rvAllergy.adapter = resultAdapter
     }
 

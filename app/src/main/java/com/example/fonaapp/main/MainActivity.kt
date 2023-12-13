@@ -36,15 +36,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Set HomeFragment sebagai fragmen utama
-        replaceFragment(HomeFragment())
 
+        if (savedInstanceState == null) {
+            // Navigasi ke HomeFragment hanya jika savedInstanceState null
+            replaceFragment(HomeFragment())
+        }
 
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
-
-
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId){
@@ -55,9 +55,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.profile -> {
                     replaceFragment(ProfileFragment())
                 }
-
                 else -> {
-
                 }
             }
             true

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.fonaapp.R
 import com.example.fonaapp.data.response.AllergiesItem
@@ -17,6 +18,7 @@ import com.example.fonaapp.databinding.FragmentProfileBinding
 import com.example.fonaapp.ui.intro.WelcomeActivity
 import com.example.fonaapp.ui.result.ResultUserAdapter
 import com.example.fonaapp.ui.result.ResultViewModel
+import com.example.fonaapp.ui.update.UpdateUserActivity
 import com.example.fonaapp.utils.ViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -84,6 +86,24 @@ class ProfileFragment : Fragment() {
         setupAction()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Simpan data yang ingin dipertahankan di sini
+        outState.putString("nama", binding.tvNama.text.toString())
+        outState.putString("email", binding.tvEmail.text.toString())
+        // Tambahkan penyimpanan data lainnya sesuai kebutuhan
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        // Pulihkan data yang telah disimpan saat fragment dibuat kembali
+        if (savedInstanceState != null) {
+            binding.tvNama.text = savedInstanceState.getString("nama")
+            binding.tvEmail.text = savedInstanceState.getString("email")
+            // Pulihkan data lainnya sesuai kebutuhan
+        }
+    }
+
     private fun setupView(){
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -93,6 +113,9 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupAction(){
+        binding.btnEditProfile.setOnClickListener {
+            startActivity(Intent(requireActivity(), UpdateUserActivity::class.java))
+        }
         binding.btnKeluar.setOnClickListener {
             signOut()
         }
@@ -106,10 +129,8 @@ class ProfileFragment : Fragment() {
     private fun setupAdapter(){
         val listAllergy = ArrayList<AllergiesItem>()
         resultAdapter = ResultUserAdapter(listAllergy)
-        val layoutManager = LinearLayoutManager(requireActivity())
+        val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         binding.rvAllergy.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
-        binding.rvAllergy.addItemDecoration(itemDecoration)
         binding.rvAllergy.adapter = resultAdapter
     }
 

@@ -1,7 +1,9 @@
 package com.example.fonaapp.data.retrofit
 
 import com.example.fonaapp.data.models.User
+import com.example.fonaapp.data.response.Data
 import com.example.fonaapp.data.response.GetUserDataResponse
+import com.example.fonaapp.data.response.ListAllergyResponse
 import com.example.fonaapp.data.response.UpdateUserResponse
 import com.example.fonaapp.data.response.UserPreferenceResponse
 import retrofit2.Call
@@ -27,8 +29,13 @@ interface ApiService {
     @PUT("/gateway/v1/us/user")
     fun updateUserData(
         @Header("Authorization") idToken: String,
-        @Body request: User
+        @Body request: Data
     ): Call<UpdateUserResponse>
+
+    @GET("/gateway/v1/fs/allergy")
+    fun getListAllergy(
+        @Header("Authorization") idToken: String,
+    ): Call<ListAllergyResponse>
 
 
 

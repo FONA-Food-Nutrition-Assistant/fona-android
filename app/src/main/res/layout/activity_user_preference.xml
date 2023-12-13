@@ -190,42 +190,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner_activity" />
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkBox"
-            style="@style/body"
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_alergi"
             android:layout_marginTop="16dp"
-            android:text="@string/alergi_1"
-            android:textColor="@color/primaryText"
-            android:theme="@style/colored_checkBox"
+            android:orientation="horizontal"
+            android:id="@+id/rv_cb_alergi"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alergi" />
+            tools:listitem="@layout/content_checkbox_allergy"/>
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkBox2"
-            style="@style/body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/alergi_2"
-            android:theme="@style/colored_checkBox"
-            android:textColor="@color/primaryText"
-            app:layout_constraintEnd_toStartOf="@+id/checkBox3"
-            app:layout_constraintStart_toEndOf="@+id/checkBox"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alergi" />
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/checkBox3"
-            style="@style/body"
-            android:theme="@style/colored_checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/alergi_3"
-            android:textColor="@color/primaryText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alergi" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_continue_result"
@@ -241,7 +215,7 @@
             app:cornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_cb_alergi" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

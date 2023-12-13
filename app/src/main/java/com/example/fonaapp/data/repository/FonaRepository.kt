@@ -7,17 +7,19 @@ import androidx.lifecycle.asLiveData
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.models.UserPreference
+import com.example.fonaapp.data.response.Data
+import com.example.fonaapp.data.response.DataItem
 import com.example.fonaapp.data.response.GetUserDataResponse
+import com.example.fonaapp.data.response.ListAllergyResponse
 import com.example.fonaapp.data.response.ResultData
 import com.example.fonaapp.data.response.UpdateUserResponse
 import com.example.fonaapp.data.response.UserPreferenceResponse
 import com.example.fonaapp.data.retrofit.ApiService
-import com.google.firebase.auth.FirebaseUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserRepository(private val userPreference: UserPreference, private val apiService: ApiService) {
+class FonaRepository(private val userPreference: UserPreference, private val apiService: ApiService) {
 
 
 
@@ -27,8 +29,17 @@ class UserRepository(private val userPreference: UserPreference, private val api
     private val _getUserDataResponse = MutableLiveData<GetUserDataResponse>()
     val getUserDataResponse: LiveData<GetUserDataResponse> = _getUserDataResponse
 
-    private val _navigateToAnotherActivity = MutableLiveData<Unit>()
-    val navigateToAnotherActivity: LiveData<Unit> = _navigateToAnotherActivity
+    private val _userDataResponse = MutableLiveData<ResultData>()
+    val userDataResponse: LiveData<ResultData> = _userDataResponse
+
+    private val _updateUserDataResponse = MutableLiveData<UpdateUserResponse>()
+    val updateUserResponse: LiveData<UpdateUserResponse> = _updateUserDataResponse
+
+    private val _listAllergyResponse = MutableLiveData<ListAllergyResponse>()
+    val listAllergyResponse: LiveData<ListAllergyResponse> = _listAllergyResponse
+
+    private val _checkboxAllergyResponse = MutableLiveData<List<ListAllergyResponse>>()
+    val checkboxAllergyResponse: LiveData<List<ListAllergyResponse>> = _checkboxAllergyResponse
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -36,11 +47,10 @@ class UserRepository(private val userPreference: UserPreference, private val api
     private val _isDataDiri = MutableLiveData<Boolean>()
     val isDataDiri: LiveData<Boolean> = _isDataDiri
 
-    private val _userDataResponse = MutableLiveData<ResultData>()
-    val userDataResponse: LiveData<ResultData> = _userDataResponse
+    private val _isLogin = MutableLiveData<Boolean>()
+    val isLogin : LiveData<Boolean> = _isLogin
 
-    private val _updateUserDataResponse = MutableLiveData<UpdateUserResponse>()
-    val updateUserResponse: LiveData<UpdateUserResponse> = _updateUserDataResponse
+
 
     //TODO LULU 2 - Buat variabel food/nutrition response
 
@@ -105,9 +115,14 @@ class UserRepository(private val userPreference: UserPreference, private val api
                 if (response.isSuccessful && response.body() != null) {
                     _getUserDataResponse.value = response.body()
                     _isDataDiri.value = true
-                } else {
+                    _isLogin.value = false
+                } else if(response.code() == 401) {
+                    _isDataDiri.value = false
+                    _isLogin.value = true
+                } else{
                     Log.e(TAG, "onFailure: gagal 2")
                     _isDataDiri.value = false
+                    _isLogin.value = false
                 }
             }
             override fun onFailure(call: Call<GetUserDataResponse>, t: Throwable) {
@@ -118,7 +133,7 @@ class UserRepository(private val userPreference: UserPreference, private val api
         })
     }
 
-    fun updateUserData(user: User, firebaseToken: String){
+    fun updateUserData(user: Data, firebaseToken: String){
         _isLoading.value = true
         val call = apiService.updateUserData("Bearer $firebaseToken", user)
 
@@ -144,6 +159,31 @@ class UserRepository(private val userPreference: UserPreference, private val api
         })
     }
 
+    fun getListAllergy(firebaseToken: String){
+        _isLoading.value = true
+        val call = apiService.getListAllergy("Bearer $firebaseToken")
+        call.enqueue(object : Callback<ListAllergyResponse> {
+            override fun onResponse(
+                call: Call<ListAllergyResponse>,
+                response: Response<ListAllergyResponse>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _listAllergyResponse.value = response.body()
+                    _isDataDiri.value = true
+                } else {
+                    Log.e(TAG, "onFailure: gagal 2")
+                    _isDataDiri.value = false
+                }
+            }
+            override fun onFailure(call: Call<ListAllergyResponse>, t: Throwable) {
+                _isLoading.value = false
+                _isDataDiri.value = false
+                Log.e(TAG, "onFailure: gagal 1")
+            }
+        })
+    }
+
     //TODO LULU 3 - Buat fungsi get list food
 
 
@@ -158,14 +198,14 @@ class UserRepository(private val userPreference: UserPreference, private val api
 
 
     companion object {
-        private const val TAG = "UserRepository"
+        private const val TAG = "FonaRepository"
 
         @Volatile
-        private var instance: UserRepository? = null
+        private var instance: FonaRepository? = null
         fun getInstance(
             userPreference: UserPreference, apiService: ApiService
-        ): UserRepository = instance ?: synchronized(this) {
-            instance ?: UserRepository(userPreference,apiService)
+        ): FonaRepository = instance ?: synchronized(this) {
+            instance ?: FonaRepository(userPreference,apiService)
         }.also { instance = it }
     }
 }

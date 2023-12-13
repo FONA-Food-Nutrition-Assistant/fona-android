@@ -3,13 +3,13 @@ package com.example.fonaapp.utils
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.fonaapp.data.repository.UserRepository
-import com.example.fonaapp.ui.preferences.UserPreferenceActivity
+import com.example.fonaapp.data.repository.FonaRepository
 import com.example.fonaapp.ui.preferences.UserPreferenceViewModel
 import com.example.fonaapp.ui.profile.ProfileViewModel
 import com.example.fonaapp.ui.result.ResultViewModel
+import com.example.fonaapp.ui.update.UpdatePreferenceViewModel
 
-class ViewModelFactory private constructor(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(private val repository: FonaRepository) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T: ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -21,6 +21,9 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
               ProfileViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(UpdatePreferenceViewModel::class.java) -> {
+              UpdatePreferenceViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -5,47 +5,46 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.UserModel
-import com.example.fonaapp.data.repository.UserRepository
+import com.example.fonaapp.data.repository.FonaRepository
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.ResultData
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()  {
-    private val _isDataDiri = userRepository.isDataDiri
+class ProfileViewModel(private val fonaRepository: FonaRepository) : ViewModel()  {
+    private val _isDataDiri = fonaRepository.isDataDiri
     val isDataDiri = _isDataDiri
 
     fun getUserData(firebaseToken: String): LiveData<ResultData> {
         viewModelScope.launch {
             Log.d(ContentValues.TAG, "getUserData function called with token: $firebaseToken")
-            userRepository.getUserData(firebaseToken)
+            fonaRepository.getUserData(firebaseToken)
         }
-        return userRepository.userDataResponse
+        return fonaRepository.userDataResponse
     }
 
     fun getUserDataResponse(firebaseToken: String): LiveData<GetUserDataResponse>{
         viewModelScope.launch {
-            userRepository.getUserDataResponse(firebaseToken)
+            fonaRepository.getUserDataResponse(firebaseToken)
         }
-        return userRepository.getUserDataResponse
+        return fonaRepository.getUserDataResponse
     }
 
     fun getSession(): LiveData<UserModel> {
-        return userRepository.getSession()
+        return fonaRepository.getSession()
     }
 
     fun logout() {
         viewModelScope.launch {
-            userRepository.logout()
+            fonaRepository.logout()
         }
     }
 
     val userData: LiveData<ResultData> =
-        userRepository.userDataResponse
-    val isLoading = userRepository.isLoading
+        fonaRepository.userDataResponse
+    val isLoading = fonaRepository.isLoading
 
     fun getIsDataDiri(): LiveData<Boolean> {
-        return userRepository.isDataDiri
+        return fonaRepository.isDataDiri
     }
 }

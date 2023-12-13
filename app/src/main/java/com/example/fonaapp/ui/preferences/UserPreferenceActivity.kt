@@ -10,11 +10,14 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.fonaapp.R
 import com.example.fonaapp.data.models.User
+import com.example.fonaapp.data.response.DataItem
 import com.example.fonaapp.databinding.ActivityUserPreferenceBinding
 import com.example.fonaapp.main.MainActivity
 import com.example.fonaapp.ui.result.ResultUserPreferenceActivity
+import com.example.fonaapp.ui.update.UpdateUserAdapter
 import com.example.fonaapp.utils.ViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -26,6 +29,7 @@ class UserPreferenceActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private val calendar = Calendar.getInstance()
     private var token = ""
+    private lateinit var updateAdapter: UpdateUserAdapter
     private val userPreferenceViewModel: UserPreferenceViewModel by viewModels { factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +56,14 @@ class UserPreferenceActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun setupAdapter(){
+        val listAllergy = ArrayList<DataItem>()
+        updateAdapter = UpdateUserAdapter(listAllergy)
+        val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        binding.rvCbAlergi.layoutManager = layoutManager
+        binding.rvCbAlergi.adapter = updateAdapter
     }
 
     private fun setupAction() {
@@ -131,16 +143,7 @@ class UserPreferenceActivity : AppCompatActivity() {
                 // Mengambil tingkat aktivitas dari spinner
                 val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
                 // Mengambil data alergi dari checkbox yang dipilih
-                val allergies = mutableListOf<Int>()
-                if (checkBox.isChecked) {
-                    allergies.add(5) // Menyimpan kode alergi sesuai dengan kebutuhan Anda
-                }
-                if (checkBox2.isChecked) {
-                    allergies.add(6)
-                }
-                if (checkBox3.isChecked) {
-                    allergies.add(7)
-                }
+                val selectedAllergies = updateAdapter.getSelectedIds().toMutableList()
                 val idToken = token
 
                 if (idToken != null) {
@@ -151,7 +154,7 @@ class UserPreferenceActivity : AppCompatActivity() {
                             gender,
                             dateOfBirth,
                             activityLevel,
-                            allergies
+                            selectedAllergies
                         ), idToken
                     )
                 }
