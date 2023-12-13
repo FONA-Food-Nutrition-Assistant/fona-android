@@ -1,6 +1,7 @@
 package com.example.fonaapp.data.retrofit
 
 import com.example.fonaapp.data.models.User
+import com.example.fonaapp.data.response.GetNutritionListResponse
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.UpdateUserResponse
 import com.example.fonaapp.data.response.UserPreferenceResponse
@@ -37,6 +38,6 @@ interface ApiService {
     @GET("/gateway/v1/fs/food/nutrition")
     fun getNutritionList (
         @Header("Authorization") idToken: String,
-    ): Call<GetUserDataResponse>
+    ): Call<GetNutritionListResponse>
 
 }

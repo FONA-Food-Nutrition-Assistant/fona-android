@@ -152,22 +152,27 @@ class UserRepository(private val userPreference: UserPreference, private val api
     }
 
     //TODO LULU 3 - Buat fungsi get list food
-    fun getNutritionList(firebaseToken: String) {
+    fun getNutritionListResponse(firebaseToken: String) {
         _isLoading.value = true
         val call = apiService.getNutritionList("Bearer ${firebaseToken}")
-        call.enqueue(object : Callback<GetNutritionListResponse>{
+        call.enqueue(object : Callback<GetNutritionListResponse> {
             override fun onResponse(
                 call: Call<GetNutritionListResponse>,
                 response: Response<GetNutritionListResponse>,
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful && response.body() != null) {
-                    _nutritionList.value = response.body()
+                    _getNutritionListResponse.value = response.body()
+//                    _nutritionList.value = true
+                } else {
+                    Log.e(TAG,"onFailure: gagal 2")
+//                    _nutritionList.value = false
                 }
             }
 
             override fun onFailure(call: Call<GetNutritionListResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                _isLoading.value = false
+//                Log.e(TAG, "onFailure: gagal 1")
             }
 
         })
