@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.repository.FonaRepository
-import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.ResultData
 import kotlinx.coroutines.launch
 
@@ -21,13 +20,6 @@ class ProfileViewModel(private val fonaRepository: FonaRepository) : ViewModel()
             fonaRepository.getUserData(firebaseToken)
         }
         return fonaRepository.userDataResponse
-    }
-
-    fun getUserDataResponse(firebaseToken: String): LiveData<GetUserDataResponse>{
-        viewModelScope.launch {
-            fonaRepository.getUserDataResponse(firebaseToken)
-        }
-        return fonaRepository.getUserDataResponse
     }
 
     fun getSession(): LiveData<UserModel> {

@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp">
+
         <TextView
             android:id="@+id/tv_date_picker"
             style="@style/large_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="25/11/2003"
+            android:text="2023-12-13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -109,7 +110,7 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="260 g"
+                    android:text="260"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/tv_carbo_takes"
                     app:layout_constraintTop_toTopOf="@id/iv_carbo" />
@@ -151,7 +152,7 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="260 g"
+                    android:text="260"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -194,7 +195,7 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="260 g"
+                    android:text="260"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/iv_protein" />

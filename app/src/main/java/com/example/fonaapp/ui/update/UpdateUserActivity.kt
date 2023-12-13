@@ -70,17 +70,12 @@ class UpdateUserActivity : AppCompatActivity() {
                 getAllergy(allergies)
             }
         }
-//        updateUserViewModel.getListAllergy(token)
-//        updateUserViewModel.checkboxAllergyResponse.observe(this) { allergies ->
-//            updateAdapter.setData(allergies)
-//        }
     }
 
     private fun getAllergy(allergyData: ListAllergyResponse){
         val listAllergy = ArrayList<DataItem>()
         updateAdapter.setData(allergyData.data)
         listAllergy.addAll(allergyData.data)
-        updateAdapter.notifyDataSetChanged()
     }
 
     private fun setupAdapter(){

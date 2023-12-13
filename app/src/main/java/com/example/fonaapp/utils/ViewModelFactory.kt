@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.fonaapp.data.repository.FonaRepository
+import com.example.fonaapp.ui.home.HomeViewModel
 import com.example.fonaapp.ui.preferences.UserPreferenceViewModel
 import com.example.fonaapp.ui.profile.ProfileViewModel
 import com.example.fonaapp.ui.result.ResultViewModel
@@ -24,6 +25,9 @@ class ViewModelFactory private constructor(private val repository: FonaRepositor
             }
             modelClass.isAssignableFrom(UpdatePreferenceViewModel::class.java) -> {
               UpdatePreferenceViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+              HomeViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

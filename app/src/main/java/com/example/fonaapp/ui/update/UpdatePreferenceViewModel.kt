@@ -19,12 +19,6 @@ class UpdatePreferenceViewModel(private val fonaRepository: FonaRepository) : Vi
     private val _updateUserDataResponse = fonaRepository.updateUserResponse
     val updateUserResponse = _updateUserDataResponse
 
-    private val _listAllergyResponse = fonaRepository.listAllergyResponse
-    val listAllergyResponse = _listAllergyResponse
-
-    private val _checkboxAllergyResponse = fonaRepository.checkboxAllergyResponse
-    val checkboxAllergyResponse = _checkboxAllergyResponse
-
     val allergyData: LiveData<ListAllergyResponse> =
         fonaRepository.listAllergyResponse
 
