@@ -2,7 +2,7 @@ package com.example.fonaapp.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class GetNutritionListResponse(
+data class GetFoodDetailResponse(
 
 	@field:SerializedName("method")
 	val method: String,
@@ -17,10 +17,10 @@ data class GetNutritionListResponse(
 	val status: Int
 )
 
-data class DataItem(
+data class NutritionsItem(
 
 	@field:SerializedName("fibers")
-	val fibers: Int,
+	val fibers: Any,
 
 	@field:SerializedName("carbos")
 	val carbos: Any,
@@ -35,7 +35,7 @@ data class DataItem(
 	val foodId: Int,
 
 	@field:SerializedName("glucoses")
-	val glucoses: Int,
+	val glucoses: Any,
 
 	@field:SerializedName("caliums")
 	val caliums: Any,
@@ -57,4 +57,19 @@ data class DataItem(
 
 	@field:SerializedName("id")
 	val id: Int
+)
+
+data class DataItem(
+
+	@field:SerializedName("name")
+	val name: String,
+
+	@field:SerializedName("is_user_allergy")
+	val isUserAllergy: Boolean,
+
+	@field:SerializedName("id")
+	val id: Int,
+
+	@field:SerializedName("nutritions")
+	val nutritions: NutritionsItem
 )

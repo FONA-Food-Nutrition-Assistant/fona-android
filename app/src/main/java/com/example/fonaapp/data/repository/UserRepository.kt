@@ -8,7 +8,7 @@ import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.models.UserPreference
 import com.example.fonaapp.data.response.DataItem
-import com.example.fonaapp.data.response.GetNutritionListResponse
+import com.example.fonaapp.data.response.GetFoodDetailResponse
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.ResultData
 import com.example.fonaapp.data.response.UpdateUserResponse
@@ -45,11 +45,9 @@ class UserRepository(private val userPreference: UserPreference, private val api
     val updateUserResponse: LiveData<UpdateUserResponse> = _updateUserDataResponse
 
     //TODO LULU 2 - Buat variabel food/nutrition response
-    private val _getNutritionListResponse = MutableLiveData<GetNutritionListResponse>()
-    val getNutritionListResponse: LiveData<GetNutritionListResponse> = _getNutritionListResponse
+    private val _getFoodDetailResponse = MutableLiveData<GetFoodDetailResponse>()
+    val getFoodDetailResponse: LiveData<GetFoodDetailResponse> = _getFoodDetailResponse
 
-    private val _nutritionList = MutableLiveData<List<DataItem>>()
-    val nutritionList: LiveData<List<DataItem>> = _nutritionList
 
     fun storeUserData(user: User, firebaseToken: String) {
         _isLoading.value = true
@@ -152,17 +150,17 @@ class UserRepository(private val userPreference: UserPreference, private val api
     }
 
     //TODO LULU 3 - Buat fungsi get list food
-    fun getNutritionListResponse(firebaseToken: String) {
+    fun getFoodDetailResponse(firebaseToken: String, query: String) {
         _isLoading.value = true
-        val call = apiService.getNutritionList("Bearer ${firebaseToken}")
-        call.enqueue(object : Callback<GetNutritionListResponse> {
+        val call = apiService.getFoodetail("Bearer ${firebaseToken}", query)
+        call.enqueue(object : Callback<GetFoodDetailResponse> {
             override fun onResponse(
-                call: Call<GetNutritionListResponse>,
-                response: Response<GetNutritionListResponse>,
+                call: Call<GetFoodDetailResponse>,
+                response: Response<GetFoodDetailResponse>,
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful && response.body() != null) {
-                    _getNutritionListResponse.value = response.body()
+                    _getFoodDetailResponse.value = response.body()
 //                    _nutritionList.value = true
                 } else {
                     Log.e(TAG,"onFailure: gagal 2")
@@ -170,9 +168,9 @@ class UserRepository(private val userPreference: UserPreference, private val api
                 }
             }
 
-            override fun onFailure(call: Call<GetNutritionListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetFoodDetailResponse>, t: Throwable) {
                 _isLoading.value = false
-//                Log.e(TAG, "onFailure: gagal 1")
+                Log.e(TAG, "onFailure: gagal 1")
             }
 
         })

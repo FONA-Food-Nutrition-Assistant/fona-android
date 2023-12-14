@@ -5,17 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.repository.UserRepository
-import com.example.fonaapp.data.response.GetNutritionListResponse
+import com.example.fonaapp.data.response.GetFoodDetailResponse
 import kotlinx.coroutines.launch
 
 class ResultViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     //TODO LULU 4 - buat variabel buat get list food/nutrition
-    fun getNutritionListResponse(firebaseToken: String): LiveData<GetNutritionListResponse> {
+    fun getNutritionListResponse(firebaseToken: String, query: String): LiveData<GetFoodDetailResponse> {
         viewModelScope.launch {
-            userRepository.getNutritionListResponse(firebaseToken)
+            userRepository.getFoodDetailResponse(firebaseToken, query)
         }
-        return userRepository.getNutritionListResponse
+        return userRepository.getFoodDetailResponse
     }
 
 

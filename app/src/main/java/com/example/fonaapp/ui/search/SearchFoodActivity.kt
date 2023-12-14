@@ -37,8 +37,6 @@ class SearchFoodActivity : AppCompatActivity() {
         binding.searchBar.setOnClickListener {
 
         }
-        binding.searchView.setOnSearchClickListener {
 
-        }
     }
 }
