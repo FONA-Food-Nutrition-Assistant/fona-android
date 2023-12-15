@@ -58,19 +58,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="121 / "
+                    android:text="0 g"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@id/iv_calory"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_calory_target"
-                    style="@style/small_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2000"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/tv_calory_takes"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -100,19 +90,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="52 / "
+                    android:text="54 g"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@id/iv_carbo"
-                    app:layout_constraintTop_toTopOf="@id/iv_carbo" />
-
-                <TextView
-                    android:id="@+id/tv_carbo_target"
-                    style="@style/small_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="260 g"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/tv_carbo_takes"
                     app:layout_constraintTop_toTopOf="@id/iv_carbo" />
 
                 <TextView
@@ -141,33 +121,24 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="52 / "
+                    android:text="52 g"
                     android:textColor="@color/white"
-                    app:layout_constraintEnd_toStartOf="@id/tv_fat_target"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_fat_target"
-                    style="@style/small_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="260 g"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="@id/tv_fat"
+                    app:layout_constraintTop_toTopOf="@id/iv_fat" />
 
                 <TextView
                     android:id="@+id/tv_fat"
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
                     android:text="Lemak"
                     android:textColor="@color/white"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_fat"
-                    app:layout_constraintTop_toBottomOf="@id/tv_fat_target" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_fat_takes"/>
 
                 <ImageView
                     android:id="@+id/iv_protein"
@@ -184,33 +155,27 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="52 / "
+                    android:layout_marginEnd="16dp"
+                    android:text="55 g "
                     android:textColor="@color/white"
-                    app:layout_constraintEnd_toStartOf="@id/tv_protein_target"
+                    app:layout_constraintStart_toStartOf="@id/tv_protein"
                     app:layout_constraintTop_toTopOf="@id/iv_protein" />
 
-                <TextView
-                    android:id="@+id/tv_protein_target"
-                    style="@style/small_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="260 g"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/iv_protein" />
 
                 <TextView
                     android:id="@+id/tv_protein"
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+
                     android:text="Protein"
                     android:textColor="@color/white"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_protein"
-                    app:layout_constraintTop_toBottomOf="@id/tv_protein_target" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_protein_takes" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -267,6 +232,33 @@
             tools:ignore="TextSizeCheck" />
 
         <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:text="Jumlah"
+            android:textAlignment="textStart"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ukuran"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="2"
+            android:textAlignment="textEnd"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/jml_ukuran"
+            tools:ignore="TextSizeCheck" />
+
+        <TextView
             android:id="@+id/kalori"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -277,7 +269,7 @@
             android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ukuran"
+            app:layout_constraintTop_toBottomOf="@+id/quantity"
             tools:ignore="TextSizeCheck" />
 
         <TextView
@@ -292,7 +284,7 @@
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/kalori"
-            app:layout_constraintTop_toBottomOf="@+id/jml_ukuran"
+            app:layout_constraintTop_toBottomOf="@+id/tv_quantity"
             tools:ignore="TextSizeCheck" />
 
         <TextView

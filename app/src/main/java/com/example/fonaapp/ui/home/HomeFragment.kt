@@ -1,5 +1,6 @@
 package com.example.fonaapp.ui.home
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -11,14 +12,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fonaapp.R
+import com.example.fonaapp.data.response.BreakfastItem
+import com.example.fonaapp.data.response.CalorieIntake
+import com.example.fonaapp.data.response.DailyAnalysis
 import com.example.fonaapp.data.response.DailyNeeds
-import com.example.fonaapp.data.response.DataHome
+import com.example.fonaapp.data.response.DinnerItem
+import com.example.fonaapp.data.response.LunchItem
 import com.example.fonaapp.databinding.FragmentHomeBinding
+import com.example.fonaapp.ui.detail.DetailMakananActivity
+import com.example.fonaapp.ui.home.record.RecordBreakfastAdapter
+import com.example.fonaapp.ui.home.record.RecordDinnerAdapter
+import com.example.fonaapp.ui.home.record.RecordLunchAdapter
 import com.example.fonaapp.ui.intro.WelcomeActivity
-import com.example.fonaapp.ui.login.LoginActivity
 import com.example.fonaapp.ui.preferences.UserPreferenceActivity
-import com.example.fonaapp.ui.result.ResultUserPreferenceActivity
 import com.example.fonaapp.ui.result.ResultViewModel
 import com.example.fonaapp.utils.ViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -37,15 +46,20 @@ class HomeFragment : Fragment() {
     private lateinit var factory: ViewModelFactory
     private val binding get() = _binding!!
     private var token = ""
+    private lateinit var calorieIntake: CalorieIntake
+    private val calendar = Calendar.getInstance()
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var breakfastAdapter: RecordBreakfastAdapter
+    private lateinit var lunchAdapter: RecordLunchAdapter
+    private lateinit var dinnerAdapter: RecordDinnerAdapter
     private val mainViewModel by activityViewModels<ResultViewModel> { factory }
     private val homeViewModel by activityViewModels<HomeViewModel> { factory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -54,17 +68,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
+        val currentDate = Calendar.getInstance()
+        val defaultDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val defaultFormattedDate = defaultDateFormat.format(currentDate.time)
+
+        // Set nilai default di TextView
+        binding.tvDatePicker.text = defaultFormattedDate
+
+        // Set onClickListener pada TextView
+        binding.tvDatePicker.setOnClickListener {
+            showDatePickerDialog()
+        }
         setupUser()
+        setupAdapter()
         auth = Firebase.auth
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         mGoogleSignInClient= GoogleSignIn.getClient(requireActivity(),gso)
-        // Set onClickListener pada TextView
-        binding.tvDatePicker.setOnClickListener {
-            showDatePickerDialog()
-        }
+
     }
 
     private fun setupViewModel() {
@@ -74,33 +97,115 @@ class HomeFragment : Fragment() {
 
     private fun setupUser() {
 
-        val staticYear = 2023
-        val staticMonth = Calendar.SEPTEMBER  // Bulan dimulai dari 0, September adalah 8
-        val staticDay = 27
-        val selectedDate = Calendar.getInstance()
-        selectedDate.set(staticYear, staticMonth, staticDay)
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val formattedDate = dateFormat.format(selectedDate.time)
-        binding.tvDatePicker.text = formattedDate
+        val formattedDate = convertDateFormatForBackend(binding.tvDatePicker.text.toString())
 
 
         mainViewModel.getSession().observe(this) { user ->
             token = user.idToken
-            if (!user.isLogin && token != null) {
+            if (!user.isLogin) {
                 Log.d(TAG, "User is not login")
-                Toast.makeText(requireActivity(), "Login Failed 1", Toast.LENGTH_SHORT)
+//                Toast.makeText(requireActivity(), "Login Failed 1", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
                 requireActivity().finish()
             } else {
-                //Cek apakah user sudah mengisi data diri
                 checkUserData(token)
-                homeViewModel.getHomeData(token, formattedDate)
-                homeViewModel.getDailyNeeds(token, formattedDate)
-                homeViewModel.observeDataHome().observe(viewLifecycleOwner) { dataHome ->
-                    getDailyNeeds(dataHome)
+                homeViewModel.getDataHome(token, formattedDate)
+                homeViewModel.dailyNeeds.observe(this) { dailyNeeds ->
+                    Log.d(TAG,"Daily Needs Called")
+                    getDailyNeeds(dailyNeeds)
                 }
+                homeViewModel.dailyAnalysis.observe(this) { dailyAnalysis ->
+                    Log.d(TAG,"Daily Analysis called")
+                    getDailyAnalysis(dailyAnalysis)
+                }
+                homeViewModel.calorieTargetTakes.observe(this) { calorieTargetTakes->
+                    Log.d(TAG, "calorieTargetTakes called")
+                    getTargetIntakes(calorieTargetTakes)
+                    calorieIntake = calorieTargetTakes
+                }
+                homeViewModel.listBreakfast.observe(viewLifecycleOwner) { breakfastList ->
+                    Log.d(TAG, "List Breakfast called")
+                    breakfastAdapter.updateData(breakfastList)
+                }
+                homeViewModel.listLunch.observe(viewLifecycleOwner) { lunchList ->
+                    Log.d(TAG, "List Lunch called")
+                    lunchAdapter.updateData(lunchList)
+                }
+                homeViewModel.listDinner.observe(viewLifecycleOwner) { lunchDinner ->
+                    Log.d(TAG, "List Dinner called")
+                    dinnerAdapter.updateData(lunchDinner)
+                }
+
+
             }
         }
+    }
+
+    private fun setupAdapter(){
+        binding.apply {
+            // Adapter Breakfast
+            breakfastAdapter = RecordBreakfastAdapter(ArrayList()) { clickedItem ->
+                openDetailActivityBreakfast(clickedItem)
+            }
+            rcListSarapan.layoutManager = LinearLayoutManager(requireContext())
+            rcListSarapan.adapter = breakfastAdapter
+
+            breakfastAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onChanged() {
+                    super.onChanged()
+                    updateTotalCalories(calorieIntake) // Tambahkan pemanggilan di sini
+                }
+            })
+
+            // Adapter Lunch
+            lunchAdapter = RecordLunchAdapter(ArrayList()) { clickedItem ->
+                openDetailActivityLunch(clickedItem)
+            }
+            rcListLunch.layoutManager = LinearLayoutManager(requireContext())
+            rcListLunch.adapter = lunchAdapter
+
+            lunchAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onChanged() {
+                    super.onChanged()
+                    updateTotalCalories(calorieIntake)
+                }
+            })
+
+            // Adapter Dinner
+            dinnerAdapter = RecordDinnerAdapter(ArrayList()) { clickedItem ->
+                openDetailActivityDinner(clickedItem)
+            }
+            rcListDinner.layoutManager = LinearLayoutManager(requireContext())
+            rcListDinner.adapter = dinnerAdapter
+
+            dinnerAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onChanged() {
+                    super.onChanged()
+                    updateTotalCalories(calorieIntake)
+                }
+            })
+        }
+    }
+
+    private fun openDetailActivityBreakfast(breakfastItem: BreakfastItem) {
+        // Implementasi untuk menangani item sarapan
+        val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
+        intent.putExtra("BREAKFAST_ITEM_KEY", breakfastItem)
+        startActivity(intent)
+    }
+
+    private fun openDetailActivityLunch(lunchItem: LunchItem) {
+        // Implementasi untuk menangani item makan siang
+        val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
+        intent.putExtra("LUNCH_ITEM_KEY", lunchItem)
+        startActivity(intent)
+    }
+
+    private fun openDetailActivityDinner(dinnerItem: DinnerItem) {
+        // Implementasi untuk menangani item makan malam
+        val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
+        intent.putExtra("DINNER_ITEM_KEY", dinnerItem)
+        startActivity(intent)
     }
 
     //Fungsi cek data user
@@ -109,6 +214,7 @@ class HomeFragment : Fragment() {
         mainViewModel.getUserDataResponse(token)
         mainViewModel.isDataDiri.observe(viewLifecycleOwner) {
             if(!it){
+                Toast.makeText(requireActivity(), "Mohon isi data diri terlebih dahulu!", Toast.LENGTH_LONG).show()
                 startActivity(Intent(requireActivity(), UserPreferenceActivity::class.java))
                 requireActivity().finish()
             } else {
@@ -117,6 +223,7 @@ class HomeFragment : Fragment() {
         }
         mainViewModel.isLogin.observe(viewLifecycleOwner){
             if(it){
+                Toast.makeText(requireActivity(), "Sesi anda berakhir! Silakan sign in terlebih dahulu!", Toast.LENGTH_LONG).show()
                 mainViewModel.logout()
                 auth.signOut()
                 // Sign out from Google
@@ -132,70 +239,158 @@ class HomeFragment : Fragment() {
     }
 
     private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH)
-        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-
-        // Ganti tanggal default menjadi "2023-09-27"
-        val defaultYear = 2023
-        val defaultMonth = Calendar.SEPTEMBER  // Bulan dimulai dari 0, September adalah 8
-        val defaultDay = 27
+        val currentDate = Calendar.getInstance()
+        val currentYear = currentDate.get(Calendar.YEAR)
+        val currentMonth = currentDate.get(Calendar.MONTH)
+        val currentDay = currentDate.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, year, month, day ->
-                // Format tanggal sesuai kebutuhan
+
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, month, day)
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val formattedDate = dateFormat.format(selectedDate.time)
 
-                // Set nilai TextView dengan tanggal yang dipilih
                 binding.tvDatePicker.text = formattedDate
+                checkUserData(token)
+                homeViewModel.getDataHome(token, formattedDate)
             },
             currentYear,
             currentMonth,
             currentDay
         )
 
-        // Set tanggal default
-        datePickerDialog.updateDate(defaultYear, defaultMonth, defaultDay)
-
-        // Batasi tanggal maksimum ke hari ini
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
 
-        // Show DatePickerDialog
+        datePickerDialog.updateDate(currentYear, currentMonth, currentDay)
+
         datePickerDialog.show()
     }
 
 
-//    private fun convertDateFormatForBackend(originalDate: String): String {
-//        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-//        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-//
-//        try {
-//            val date = inputFormat.parse(originalDate)
-//            return outputFormat.format(date!!)
-//        } catch (e: ParseException) {
-//            e.printStackTrace()
-//        }
-//
-//        // Return original date if parsing fails
-//        return originalDate
-//    }
 
-    private fun getDailyNeeds(dataHome: DataHome){
 
-        val dailyNeeds = dataHome.dailyNeeds
-        binding.apply {
-            tvCaloryTarget.text = dailyNeeds.tDEE.toString()
-            tvCarboTarget.text = dailyNeeds.carbos.toString()
-            tvFatTarget.text = dailyNeeds.fats.toString()
-            tvProteinTarget.text = dailyNeeds.proteins.toString()
+    private fun convertDateFormatForBackend(originalDate: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
+        try {
+            val date = inputFormat.parse(originalDate)
+            return outputFormat.format(date!!)
+        } catch (e: ParseException) {
+            e.printStackTrace()
         }
 
+        return originalDate
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun getDailyNeeds(dailyNeeds: DailyNeeds){
+
+        binding.apply {
+            binding.tvCaloryTarget.text = "${dailyNeeds.tDEE.toInt()} kkal"
+            tvCarboTarget.text = "${dailyNeeds.carbos.toInt()} g"
+            tvFatTarget.text = "${dailyNeeds.fats.toInt()} g"
+            tvProteinTarget.text = "${dailyNeeds.proteins.toInt()} g"
+        }
+    }
+
+    private fun getDailyAnalysis(dailyAnalysis: DailyAnalysis){
+        binding.apply{
+            val stringBuilder = StringBuilder()
+            with(binding) {
+                tvCaloryTakes.text = stringBuilder.append(dailyAnalysis.totalCals.toInt()).append("/").toString()
+                tvCarboTakes.text = stringBuilder.clear().append(dailyAnalysis.totalCarbos.toInt()).append("/").toString()
+                tvFatTakes.text = stringBuilder.clear().append(dailyAnalysis.totalFats.toInt()).append("/").toString()
+                tvProteinTakes.text = stringBuilder.clear().append(dailyAnalysis.totalProteins.toInt()).append("/").toString()
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun getTargetIntakes(calorieIntake: CalorieIntake){
+        binding.apply{
+            tvKaloriSarapanRemaining.text = "Target min: ${calorieIntake.lowestBreakfastIntake}"
+            tvKaloriLunchRemaining.text = "Target min: ${calorieIntake.lowestLunchIntake}"
+            tvKaloriDinnerRemaining.text = "Target min: ${calorieIntake.lowestDinnerIntake}"
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateTotalCalories(calorieIntake: CalorieIntake) {
+        if (!::calorieIntake.isInitialized) {
+            return
+        }
+        val targetCaloriesSarapan = calorieIntake.lowestBreakfastIntake
+        val highestBreakfastIntake = calorieIntake.highestBreakfastIntake
+        val consumedCaloriesSarapan = breakfastAdapter.getBreakfastList().sumBy { it.total_cals.toInt() }
+        binding.tvKaloriSarapan.text = "$consumedCaloriesSarapan kalori"
+        when {
+            consumedCaloriesSarapan < targetCaloriesSarapan -> {
+                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_kurang)
+                binding.tvStatusSarapan.text = "Kurang"
+            }
+            consumedCaloriesSarapan == targetCaloriesSarapan -> {
+                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusSarapan.text = "Cukup"
+            }
+            consumedCaloriesSarapan > highestBreakfastIntake -> {
+                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_berlebih)
+                binding.tvStatusSarapan.text = "Berlebih"
+            }
+            else -> {
+                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusSarapan.text = "Cukup"
+            }
+        }
+        val targetCaloriesLunch = calorieIntake.lowestLunchIntake
+        val highestLunchIntake = calorieIntake.highestLunchIntake
+        val consumedCaloriesLunch = lunchAdapter.getLunchList().sumBy { it.total_cals.toInt() }
+        binding.tvKaloriLunch.text = "$consumedCaloriesLunch kalori"
+        when {
+            consumedCaloriesLunch < targetCaloriesLunch -> {
+                binding.statusIntakesLunch.setImageResource(R.drawable.ic_kurang)
+                binding.tvStatusLunch.text = "Kurang"
+            }
+            consumedCaloriesLunch == targetCaloriesLunch -> {
+                binding.statusIntakesLunch.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusLunch.text = "Cukup"
+            }
+            consumedCaloriesLunch > highestLunchIntake -> {
+                binding.statusIntakesLunch.setImageResource(R.drawable.ic_berlebih)
+                binding.tvStatusLunch.text = "Berlebih"
+            }
+            else -> {
+                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusSarapan.text = "Cukup"
+            }
+        }
+        val targetCaloriesDinner = calorieIntake.lowestDinnerIntake
+        val highestDinnerIntake = calorieIntake.highestDinnerIntake
+        val consumedCaloriesDinner = dinnerAdapter.getDinnerList().sumBy { it.total_cals.toInt() }
+        binding.tvKaloriDinner.text = "$consumedCaloriesDinner kalori"
+        when {
+            consumedCaloriesDinner < targetCaloriesDinner -> {
+                binding.statusIntakesDinner.setImageResource(R.drawable.ic_kurang)
+                binding.tvStatusDinner.text = "Kurang"
+            }
+            consumedCaloriesDinner == targetCaloriesDinner -> {
+                binding.statusIntakesDinner.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusDinner.text = "Cukup"
+            }
+            consumedCaloriesDinner > highestDinnerIntake -> {
+                binding.statusIntakesDinner.setImageResource(R.drawable.ic_berlebih)
+                binding.tvStatusDinner.text = "Berlebih"
+            }
+            else -> {
+                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusSarapan.text = "Cukup"
+            }
+        }
+    }
+
 
 
     override fun onDestroyView() {

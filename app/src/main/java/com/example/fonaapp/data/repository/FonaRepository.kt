@@ -7,13 +7,16 @@ import androidx.lifecycle.asLiveData
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.models.UserPreference
+import com.example.fonaapp.data.response.BreakfastItem
+import com.example.fonaapp.data.response.CalorieIntake
+import com.example.fonaapp.data.response.DailyAnalysis
 import com.example.fonaapp.data.response.DailyNeeds
 import com.example.fonaapp.data.response.Data
-import com.example.fonaapp.data.response.DataHome
-import com.example.fonaapp.data.response.DataItem
+import com.example.fonaapp.data.response.DinnerItem
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.HomeResponse
 import com.example.fonaapp.data.response.ListAllergyResponse
+import com.example.fonaapp.data.response.LunchItem
 import com.example.fonaapp.data.response.ResultData
 import com.example.fonaapp.data.response.UpdateUserResponse
 import com.example.fonaapp.data.response.UserPreferenceResponse
@@ -44,11 +47,24 @@ class FonaRepository(private val userPreference: UserPreference, private val api
     private val _homeDataResponse = MutableLiveData<HomeResponse>()
     val homeDataResponse: LiveData<HomeResponse> = _homeDataResponse
 
-    private val _dataHome = MutableLiveData<DataHome>()
-    val dataHome: LiveData<DataHome> = _dataHome
+    private val _dailyNeeds = MutableLiveData<DailyNeeds>()
+    val dailyNeeds: LiveData<DailyNeeds> = _dailyNeeds
 
-    private val _dailyNeedsResponse = MutableLiveData<DailyNeeds?>()
-    val dailyNeedsResponse: MutableLiveData<DailyNeeds?> = _dailyNeedsResponse
+    private val _dailyAnalysis = MutableLiveData<DailyAnalysis>()
+    val dailyAnalysis: LiveData<DailyAnalysis> = _dailyAnalysis
+
+    private val _calorieTargetTakes = MutableLiveData<CalorieIntake>()
+    val calorieTargetTakes: LiveData<CalorieIntake> = _calorieTargetTakes
+
+    private val _listBreakfast = MutableLiveData<List<BreakfastItem>>()
+    val listBreakfast: LiveData<List<BreakfastItem>> = _listBreakfast
+
+    private val _listLunch = MutableLiveData<List<LunchItem>>()
+    val listLunch: LiveData<List<LunchItem>> = _listLunch
+
+    private val _listDinner = MutableLiveData<List<DinnerItem>>()
+    val listDinner: LiveData<List<DinnerItem>> = _listDinner
+
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -126,18 +142,16 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                     _isDataDiri.value = true
                     _isLogin.value = false
                 } else if(response.code() == 401) {
-                    _isDataDiri.value = false
                     _isLogin.value = true
                 } else{
-                    Log.e(TAG, "onFailure: gagal 2")
+                    Log.e(TAG, "onFailure: gagal getUserData Response atau 400 dan 500")
                     _isDataDiri.value = false
-                    _isLogin.value = false
                 }
             }
             override fun onFailure(call: Call<GetUserDataResponse>, t: Throwable) {
                 _isLoading.value = false
-                _isDataDiri.value = false
-                Log.e(TAG, "onFailure: gagal 1")
+                _isLogin.value = true
+                Log.e(TAG, "onFailure: gagal getUserData Response")
             }
         })
     }
@@ -179,46 +193,45 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 _isLoading.value = false
                 if (response.isSuccessful && response.body() != null) {
                     _listAllergyResponse.value = response.body()
-                    _isDataDiri.value = true
                 } else {
-                    Log.e(TAG, "onFailure: gagal 2")
-                    _isDataDiri.value = false
+                    Log.e(TAG, "onFailure: gagal get Allergy")
                 }
             }
             override fun onFailure(call: Call<ListAllergyResponse>, t: Throwable) {
                 _isLoading.value = false
-                _isDataDiri.value = false
-                Log.e(TAG, "onFailure: gagal 1")
+                Log.e(TAG, "onFailure: gagal list allergy")
             }
         })
     }
 
-    fun getHomeData(firebaseToken: String, date: String){
+    fun getDataHome(firebaseToken: String, date: String){
         _isLoading.value = true
         val call = apiService.getHomeData("Bearer $firebaseToken", date)
-
         call.enqueue(object : Callback<HomeResponse> {
             override fun onResponse(
-                call: Call<HomeResponse>, response: Response<HomeResponse>
+                call: Call<HomeResponse>,
+                response: Response<HomeResponse>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful && response.body() != null) {
-                    _homeDataResponse.value = response.body()
-                    _dataHome.value = response.body()?.data  // Set DataHome di sini
+                    _calorieTargetTakes.value = response.body()?.data?.calorieIntake
+                    _dailyNeeds.value = response.body()?.data?.dailyNeeds
+                    _dailyAnalysis.value = response.body()?.data?.dailyAnalysis
+                    _listBreakfast.value = response.body()?.data?.recordFoods?.breakfast
+                    _listLunch.value = response.body()?.data?.recordFoods?.lunch
+                    _listDinner.value = response.body()?.data?.recordFoods?.dinner
 
-                    val dailyNeeds = response.body()?.data?.dailyNeeds
-                    _dailyNeedsResponse.value = dailyNeeds
                 } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
+                    Log.e(TAG, "onFailure: gagal dapet data home")
                 }
             }
-
             override fun onFailure(call: Call<HomeResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message}")
+                Log.e(TAG, "onFailure: gagal get Data Home {$t}", t)
             }
         })
     }
+
 
 
     //TODO LULU 3 - Buat fungsi get list food

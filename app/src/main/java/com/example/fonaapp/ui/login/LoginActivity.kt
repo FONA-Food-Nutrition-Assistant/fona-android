@@ -97,8 +97,8 @@ class LoginActivity : AppCompatActivity() {
             }
             catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, "Login Failed 1", Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(this, "Login Failed 1", Toast.LENGTH_SHORT)
+//                    .show()
             }
         }
     }

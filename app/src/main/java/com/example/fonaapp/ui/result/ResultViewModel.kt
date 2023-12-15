@@ -52,5 +52,4 @@ class ResultViewModel(private val fonaRepository: FonaRepository) : ViewModel() 
         return fonaRepository.isDataDiri
     }
 
-    val getUserDataResponse: LiveData<GetUserDataResponse> = fonaRepository.getUserDataResponse
 }
