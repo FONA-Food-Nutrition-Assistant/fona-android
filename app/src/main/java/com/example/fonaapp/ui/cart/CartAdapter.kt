@@ -1,16 +1,29 @@
 package com.example.fonaapp.ui.cart
 
-import android.R
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.example.fonaapp.data.models.FoodItem
 import com.example.fonaapp.databinding.ItemsCartFoodBinding
 
-class CartAdapter (private val foodList: List<FoodItem>,
+class CartAdapter (private val foodList: MutableList<FoodItem>,
                    private val servingSizes: List<String>)
     : RecyclerView.Adapter<CartAdapter.FoodViewHolder>() {
+
+    // Fungsi untuk mengatur click listener pada tombol minus
+    private var onMinusClickListener: ((Int) -> Unit)? = null
+
+    fun setOnMinusClickListener(listener: (Int) -> Unit) {
+        onMinusClickListener = listener
+    }
+
+    fun removeItem(position: Int) {
+        // Hapus item dari list dan beri tahu adapter
+        foodList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     inner class FoodViewHolder(private val binding: ItemsCartFoodBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(foodItem: FoodItem) {
@@ -21,6 +34,7 @@ class CartAdapter (private val foodList: List<FoodItem>,
                 edtKarbohidrat.text = foodItem.carbs.toString()
                 edtLemak.text = foodItem.fats.toString()
                 edtProtein.text = foodItem.proteins.toString()
+
                 // Menggunakan ArrayAdapter.createFromResource untuk dropdown
                 // Menggunakan ArrayAdapter untuk dropdown
                 val adapter = ArrayAdapter(
@@ -34,6 +48,17 @@ class CartAdapter (private val foodList: List<FoodItem>,
                 // Menetapkan selected item pada dropdown sesuai serving_size dari FoodItem
                 val servingSizePosition = adapter.getPosition(foodItem.serving_size)
                 spinnerActivity.setSelection(servingSizePosition)
+
+                // Menambahkan click listener pada tombol minus
+                ivMinus.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        // Memanggil fungsi setOnMinusClickListener jika telah diatur
+                        onMinusClickListener?.invoke(position)
+                        // Tampilkan Toast bahwa item berhasil dihapus
+                        Toast.makeText(itemView.context, "Item berhasil dihapus", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }

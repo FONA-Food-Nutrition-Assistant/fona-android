@@ -2,6 +2,26 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FONAApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+    </style>
+
+    <style name="Theme.FONAApp" parent="Base.Theme.FONAApp" />
+
+    <!-- Additional styles for dark theme customization -->
+    <style name="RadioButtonStyle.Dark" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/button</item>
+        <item name="android:textColorPrimary">@color/icon</item>
+        <item name="android:padding">16dp</item>
+    </style>
+    <style name="colored_checkBox.Dark" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/button</item>
+        <item name="android:textColorSecondary">@color/icon</item>
+        <item name="android:padding">16dp</item>
     </style>
 </resources>

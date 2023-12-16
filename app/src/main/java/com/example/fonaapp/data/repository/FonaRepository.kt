@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import com.example.fonaapp.data.models.RecordedFoodsRequest
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.models.UserPreference
@@ -21,6 +22,7 @@ import com.example.fonaapp.data.response.ListAllergyResponse
 import com.example.fonaapp.data.response.LunchItem
 import com.example.fonaapp.data.response.RecordWatersResponse
 import com.example.fonaapp.data.response.ResultData
+import com.example.fonaapp.data.response.StoreRecordResponse
 import com.example.fonaapp.data.response.UpdateRecordWatersResponse
 import com.example.fonaapp.data.response.UpdateUserResponse
 import com.example.fonaapp.data.response.UploadFoodResponse
@@ -80,6 +82,9 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
     private val _uploadFoodResponse = MutableLiveData<UploadFoodResponse>()
     val uploadFoodResponse: LiveData<UploadFoodResponse> = _uploadFoodResponse
+
+    private val _storeRecordFood = MutableLiveData<StoreRecordResponse>()
+    val storeRecordFood: LiveData<StoreRecordResponse> = _storeRecordFood
 
 
     private val _getRecordWater = MutableLiveData<Int>()
@@ -323,6 +328,29 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 Log.d("error upload", t.message.toString())
             }
 
+        })
+    }
+
+    fun storeRecordFood(firebaseToken: String, food: RecordedFoodsRequest) {
+        _isLoading.value = true
+        val call = apiService.storeRecordFood("Bearer $firebaseToken", food)
+
+        call.enqueue(object : Callback<StoreRecordResponse> {
+            override fun onResponse(
+                call: Call<StoreRecordResponse>, response: Response<StoreRecordResponse>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _storeRecordFood.value = response.body()
+                } else {
+                    Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, response fail")
+                }
+            }
+
+            override fun onFailure(call: Call<StoreRecordResponse>, t: Throwable) {
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
         })
     }
 

@@ -1,5 +1,6 @@
 package com.example.fonaapp.data.retrofit
 
+import com.example.fonaapp.data.models.RecordedFoodsRequest
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.WaterRecord
 import com.example.fonaapp.data.response.Data
@@ -7,6 +8,7 @@ import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.HomeResponse
 import com.example.fonaapp.data.response.ListAllergyResponse
 import com.example.fonaapp.data.response.RecordWatersResponse
+import com.example.fonaapp.data.response.StoreRecordResponse
 import com.example.fonaapp.data.response.UpdateRecordWatersResponse
 import com.example.fonaapp.data.response.UpdateUserResponse
 import com.example.fonaapp.data.response.UploadFoodResponse
@@ -70,6 +72,12 @@ interface ApiService {
         @Header("Authorization") idToken: String,
         @Part image: MultipartBody.Part,
     ) : Call<UploadFoodResponse>
+
+    @POST("/gateway/v1/us/identification/food")
+    fun storeRecordFood(
+        @Header("Authorization") idToken: String,
+        @Body request: RecordedFoodsRequest,
+    ) : Call<StoreRecordResponse>
 
 
 
