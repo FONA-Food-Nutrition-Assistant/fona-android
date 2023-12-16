@@ -43,11 +43,11 @@ import java.util.Locale
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
+    private var isRecordCreated = false
     private lateinit var factory: ViewModelFactory
     private val binding get() = _binding!!
     private var token = ""
     private lateinit var calorieIntake: CalorieIntake
-    private val calendar = Calendar.getInstance()
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var breakfastAdapter: RecordBreakfastAdapter
@@ -72,10 +72,8 @@ class HomeFragment : Fragment() {
         val defaultDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val defaultFormattedDate = defaultDateFormat.format(currentDate.time)
 
-        // Set nilai default di TextView
         binding.tvDatePicker.text = defaultFormattedDate
 
-        // Set onClickListener pada TextView
         binding.tvDatePicker.setOnClickListener {
             showDatePickerDialog()
         }
@@ -95,6 +93,7 @@ class HomeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupUser() {
 
         val formattedDate = convertDateFormatForBackend(binding.tvDatePicker.text.toString())
@@ -104,7 +103,6 @@ class HomeFragment : Fragment() {
             token = user.idToken
             if (!user.isLogin) {
                 Log.d(TAG, "User is not login")
-//                Toast.makeText(requireActivity(), "Login Failed 1", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
                 requireActivity().finish()
             } else {
@@ -135,8 +133,35 @@ class HomeFragment : Fragment() {
                     Log.d(TAG, "List Dinner called")
                     dinnerAdapter.updateData(lunchDinner)
                 }
-
-
+                homeViewModel.storeWaterResponse.observe(viewLifecycleOwner) { response ->
+                    Log.d(TAG,"Can store")
+                }
+                binding.btnAddDrink.setOnClickListener {
+                    homeViewModel.recordWaterConsumption(0, token, formattedDate)
+                    homeViewModel.isRecorded.observe(viewLifecycleOwner) { isRecorded ->
+                        if (!isRecorded) {
+                            Log.d(TAG, "Can record")
+                            homeViewModel.getDataHome(token, formattedDate)
+                            homeViewModel.recordWaterConsumption(1, token, formattedDate)
+                        } else {
+                            Log.d(TAG, "Can update")
+                            val previousNumberOfCups = homeViewModel.getRecordWater.value ?: 0
+                            val updatedNumberOfCups = previousNumberOfCups + 1
+                            homeViewModel.updateWaterRecord(updatedNumberOfCups, token, formattedDate)
+                            homeViewModel.getDataHome(token, formattedDate)
+                        }
+                    }
+                    homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
+                        binding.tvKaloriDrinkRemaining.text = drink.toString()
+                        val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
+                        binding.tvKaloriDrink.text = "$totalMl mL"
+                    }
+                }
+                homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
+                    binding.tvKaloriDrinkRemaining.text = drink.toString()
+                    val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
+                    binding.tvKaloriDrink.text = "$totalMl mL"
+                }
             }
         }
     }

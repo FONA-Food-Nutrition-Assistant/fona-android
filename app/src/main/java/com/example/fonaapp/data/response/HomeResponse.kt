@@ -124,7 +124,7 @@ data class BreakfastItem(
 	val name: String,
 
 	@field:SerializedName("serving_size")
-	val seving_size: String,
+	val serving_size: String,
 
 	@field:SerializedName("quantity")
 	val quantity: Double,
@@ -167,7 +167,7 @@ data class LunchItem(
 	val name: String,
 
 	@field:SerializedName("serving_size")
-	val seving_size: String,
+	val serving_size: String,
 
 	@field:SerializedName("quantity")
 	val quantity: Double,
@@ -210,7 +210,7 @@ data class DinnerItem(
 	val name: String,
 
 	@field:SerializedName("serving_size")
-	val seving_size: String,
+	val serving_size: String,
 
 	@field:SerializedName("quantity")
 	val quantity: Double,

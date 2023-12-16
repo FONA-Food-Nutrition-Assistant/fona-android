@@ -7,20 +7,27 @@ import androidx.lifecycle.asLiveData
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.models.UserPreference
+import com.example.fonaapp.data.models.WaterRecord
 import com.example.fonaapp.data.response.BreakfastItem
 import com.example.fonaapp.data.response.CalorieIntake
 import com.example.fonaapp.data.response.DailyAnalysis
 import com.example.fonaapp.data.response.DailyNeeds
 import com.example.fonaapp.data.response.Data
+import com.example.fonaapp.data.response.DataResponse
 import com.example.fonaapp.data.response.DinnerItem
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.HomeResponse
 import com.example.fonaapp.data.response.ListAllergyResponse
 import com.example.fonaapp.data.response.LunchItem
+import com.example.fonaapp.data.response.RecordWatersResponse
 import com.example.fonaapp.data.response.ResultData
+import com.example.fonaapp.data.response.UpdateRecordWatersResponse
 import com.example.fonaapp.data.response.UpdateUserResponse
+import com.example.fonaapp.data.response.UploadFoodResponse
 import com.example.fonaapp.data.response.UserPreferenceResponse
 import com.example.fonaapp.data.retrofit.ApiService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,9 +72,24 @@ class FonaRepository(private val userPreference: UserPreference, private val api
     private val _listDinner = MutableLiveData<List<DinnerItem>>()
     val listDinner: LiveData<List<DinnerItem>> = _listDinner
 
+    private val _storeWaterResponse = MutableLiveData<RecordWatersResponse>()
+    val storeWaterResponse: LiveData<RecordWatersResponse> = _storeWaterResponse
+
+    private val _updateWaterResponse = MutableLiveData<UpdateRecordWatersResponse>()
+    val updateWaterResponse: LiveData<UpdateRecordWatersResponse> = _updateWaterResponse
+
+    private val _uploadFoodResponse = MutableLiveData<UploadFoodResponse>()
+    val uploadFoodResponse: LiveData<UploadFoodResponse> = _uploadFoodResponse
+
+
+    private val _getRecordWater = MutableLiveData<Int>()
+    val getRecordWater: LiveData<Int> = _getRecordWater
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _isRecorded = MutableLiveData<Boolean>()
+    val isRecorded: LiveData<Boolean> = _isRecorded
 
     private val _isDataDiri = MutableLiveData<Boolean>()
     val isDataDiri: LiveData<Boolean> = _isDataDiri
@@ -93,7 +115,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                     _userPreferenceResponse.value = response.body()
                 } else {
                     _isDataDiri.value = false
-                    Log.e(TAG, "onFailure: ${response.message()}")
+                    Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, response fail")
                 }
             }
 
@@ -170,7 +192,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                     _updateUserDataResponse.value = response.body()
                 } else {
                     _isDataDiri.value = false
-                    Log.e(TAG, "onFailure: ${response.message()}")
+                    Log.e(TAG, "onFailure: ${response.message()}, ${response.body()?.message.toString()}")
                 }
             }
 
@@ -194,7 +216,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 if (response.isSuccessful && response.body() != null) {
                     _listAllergyResponse.value = response.body()
                 } else {
-                    Log.e(TAG, "onFailure: gagal get Allergy")
+                    Log.e(TAG, "onFailure: ${response.body()?.message.toString()},  gagal get Allergy")
                 }
             }
             override fun onFailure(call: Call<ListAllergyResponse>, t: Throwable) {
@@ -220,9 +242,10 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                     _listBreakfast.value = response.body()?.data?.recordFoods?.breakfast
                     _listLunch.value = response.body()?.data?.recordFoods?.lunch
                     _listDinner.value = response.body()?.data?.recordFoods?.dinner
+                    _getRecordWater.value = response.body()?.data?.recordWater
 
                 } else {
-                    Log.e(TAG, "onFailure: gagal dapet data home")
+                    Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, gagal dapet data home")
                 }
             }
             override fun onFailure(call: Call<HomeResponse>, t: Throwable) {
@@ -232,6 +255,76 @@ class FonaRepository(private val userPreference: UserPreference, private val api
         })
     }
 
+    fun storeWater(water: WaterRecord, firebaseToken: String) {
+        _isLoading.value = true
+        val call = apiService.storeWaterRecord("Bearer $firebaseToken", water)
+        call.enqueue(object : Callback<RecordWatersResponse> {
+            override fun onResponse(
+                call: Call<RecordWatersResponse>, response: Response<RecordWatersResponse>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _isRecorded.value = false
+                    _storeWaterResponse.value = response.body()
+                } else {
+                    _isRecorded.value = true
+                    Log.e(TAG, "onFailure: ${response.message()}, ${response.body()?.message.toString()} gagal store water 400/401")
+                }
+            }
+
+            override fun onFailure(call: Call<RecordWatersResponse>, t: Throwable) {
+                _isRecorded.value = false
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message} Internal Server error")
+            }
+        })
+    }
+    fun updateWater(water: WaterRecord, firebaseToken: String) {
+        _isLoading.value = true
+        val call = apiService.updateWaterRecord("Bearer $firebaseToken", water)
+        call.enqueue(object : Callback<UpdateRecordWatersResponse> {
+            override fun onResponse(
+                call: Call<UpdateRecordWatersResponse>, response: Response<UpdateRecordWatersResponse>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _updateWaterResponse.value = response.body()
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}, ${response.body()?.message.toString()} gagal update water 400/401")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateRecordWatersResponse>, t: Throwable) {
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message} Internal Server error")
+            }
+        })
+    }
+
+    fun uploadFood(firebaseToken: String, image: MultipartBody.Part) {
+        _isLoading.value = true
+        val client = apiService.uploadFood("Bearer $firebaseToken", image)
+
+        client.enqueue(object : Callback<UploadFoodResponse> {
+            override fun onResponse(
+                call: Call<UploadFoodResponse>, response: Response<UploadFoodResponse>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _uploadFoodResponse.value = response.body()
+                } else {
+                    Log.e(
+                        TAG,
+                        "onFailure: ${response.message()}, ${response.body()?.message.toString()} 401/400"
+                    )
+                }
+            }
+            override fun onFailure(call: Call<UploadFoodResponse>, t: Throwable) {
+                Log.d("error upload", t.message.toString())
+            }
+
+        })
+    }
 
 
     //TODO LULU 3 - Buat fungsi get list food

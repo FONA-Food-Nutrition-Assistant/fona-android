@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
     android:layout_marginTop="8dp"
-    android:layout_marginRight="16dp"
     android:layout_marginBottom="10dp"
     app:strokeWidth="2dp"
     android:id="@+id/item_content"
@@ -24,7 +22,6 @@
             android:id="@+id/nama_makanan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:text="@string/nama_makanan"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -35,22 +32,9 @@
             tools:layout_editor_absoluteY="0dp"/>
 
         <TextView
-            android:id="@+id/ikon_pensil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="300dp"
-            android:layout_marginEnd="24dp"
-            android:drawableRight="@drawable/selector_icon"
-            app:layout_constraintStart_toStartOf="@id/nama_makanan"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints" />
-
-
-        <TextView
             android:id="@+id/title_kalori"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             style="@style/body"
             android:text="@string/title_kalori"
@@ -72,7 +56,6 @@
             android:id="@+id/title_karbohidrat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:text="@string/title_karbohidrat"
             style="@style/body"
@@ -134,14 +117,49 @@
             app:layout_constraintTop_toBottomOf="@id/edt_lemak"
             app:layout_constraintStart_toEndOf="@+id/title_protein" />
 
+        <Spinner
+            android:id="@+id/spinner_activity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/spinner_bg"
+            android:padding="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_minus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_protein" />
 
+        <ImageView
+            android:id="@+id/iv_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="iv_minus"
+            android:src="@drawable/ic_minus"
+            app:layout_constraintEnd_toStartOf="@+id/tv_quantity"
+            app:layout_constraintTop_toTopOf="@+id/spinner_activity" />
 
+        <TextView
+            android:id="@+id/tv_quantity"
+            style="@style/large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="1"
+            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/spinner_activity" />
 
-
-
-
-
-
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/spinner_activity" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

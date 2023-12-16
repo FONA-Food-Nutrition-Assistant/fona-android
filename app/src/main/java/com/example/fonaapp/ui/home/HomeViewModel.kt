@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fonaapp.data.models.User
+import com.example.fonaapp.data.models.WaterRecord
 import com.example.fonaapp.data.repository.FonaRepository
 import com.example.fonaapp.data.response.BreakfastItem
 import com.example.fonaapp.data.response.CalorieIntake
@@ -29,6 +31,29 @@ class HomeViewModel(private val fonaRepository: FonaRepository) : ViewModel() {
         }
         return fonaRepository.dailyNeeds
     }
+
+    fun storeUserData(water: WaterRecord, firebaseToken: String) {
+        viewModelScope.launch {
+            fonaRepository.storeWater(water, firebaseToken)
+        }
+    }
+
+    fun recordWaterConsumption(numberOfCups: Int, firebaseToken: String, date: String) {
+        val waterRecord = WaterRecord(numberOfCups, date)
+        storeUserData(waterRecord, firebaseToken)
+    }
+
+    fun updateWater(water: WaterRecord, firebaseToken: String){
+        viewModelScope.launch{
+            fonaRepository.updateWater(water, firebaseToken)
+        }
+    }
+    fun updateWaterRecord(numberOfCups: Int, firebaseToken: String, date: String) {
+        val waterRecords = WaterRecord(numberOfCups, date)
+        updateWater(waterRecords, firebaseToken)
+    }
+
+
     val dailyNeeds: LiveData<DailyNeeds> =
         fonaRepository.dailyNeeds
 
@@ -46,6 +71,16 @@ class HomeViewModel(private val fonaRepository: FonaRepository) : ViewModel() {
 
     val listDinner: LiveData<List<DinnerItem>> =
         fonaRepository.listDinner
+
+    val getRecordWater: LiveData<Int> =
+        fonaRepository.getRecordWater
+
+    private val _isRecorded = fonaRepository.isRecorded
+    val isRecorded = _isRecorded
+
+
+    private val _storeWaterResponse = fonaRepository.storeWaterResponse
+    val storeWaterResponse = _storeWaterResponse
 
 
 }

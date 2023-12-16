@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -143,6 +144,21 @@ class ProfileFragment : Fragment() {
             profileViewModel.userData.observe(this){ userData ->
                 Log.d(TAG,"userData observed")
                 getUserData(userData)
+            }
+            profileViewModel.isLogin.observe(viewLifecycleOwner){
+                if(it){
+                    Toast.makeText(requireActivity(), "Sesi anda berakhir! Silakan sign in terlebih dahulu!", Toast.LENGTH_LONG).show()
+                    profileViewModel.logout()
+                    auth.signOut()
+                    // Sign out from Google
+                    mGoogleSignInClient.signOut().addOnCompleteListener {
+                        // Start the WelcomeActivity after signing out
+                        startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
+                        requireActivity().finish()
+                    }
+                } else {
+                    Log.d(TAG, "User is Login")
+                }
             }
         }
     }

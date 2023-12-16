@@ -22,6 +22,9 @@ class ProfileViewModel(private val fonaRepository: FonaRepository) : ViewModel()
         return fonaRepository.userDataResponse
     }
 
+    private val _isLogin = fonaRepository.isLogin
+    val isLogin = _isLogin
+
     fun getSession(): LiveData<UserModel> {
         return fonaRepository.getSession()
     }
@@ -36,7 +39,4 @@ class ProfileViewModel(private val fonaRepository: FonaRepository) : ViewModel()
         fonaRepository.userDataResponse
     val isLoading = fonaRepository.isLoading
 
-    fun getIsDataDiri(): LiveData<Boolean> {
-        return fonaRepository.isDataDiri
-    }
 }

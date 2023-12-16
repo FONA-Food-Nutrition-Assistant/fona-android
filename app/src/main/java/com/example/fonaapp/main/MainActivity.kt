@@ -13,7 +13,7 @@ import com.example.fonaapp.R
 import com.example.fonaapp.databinding.ActivityMainBinding
 import com.example.fonaapp.ui.home.HomeFragment
 import com.example.fonaapp.ui.profile.ProfileFragment
-import com.example.fonaapp.ui.upload.CameraActivity
+import com.example.fonaapp.ui.upload.UploadActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startCameraActivity() {
-        val intent = Intent(this, CameraActivity::class.java)
+        val intent = Intent(this, UploadActivity::class.java)
         startActivity(intent)
     }
 

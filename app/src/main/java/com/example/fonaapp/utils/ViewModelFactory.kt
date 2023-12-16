@@ -9,6 +9,7 @@ import com.example.fonaapp.ui.preferences.UserPreferenceViewModel
 import com.example.fonaapp.ui.profile.ProfileViewModel
 import com.example.fonaapp.ui.result.ResultViewModel
 import com.example.fonaapp.ui.update.UpdatePreferenceViewModel
+import com.example.fonaapp.ui.upload.UploadViewModel
 
 class ViewModelFactory private constructor(private val repository: FonaRepository) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -29,6 +30,10 @@ class ViewModelFactory private constructor(private val repository: FonaRepositor
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
               HomeViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
+                UploadViewModel(repository) as T
+            }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
