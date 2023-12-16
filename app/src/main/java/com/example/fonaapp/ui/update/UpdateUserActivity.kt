@@ -1,4 +1,4 @@
-package com.example.fonaapp.ui.preferences
+package com.example.fonaapp.ui.update
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -12,50 +12,70 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.fonaapp.R
-import com.example.fonaapp.data.models.User
+import com.example.fonaapp.data.response.Data
 import com.example.fonaapp.data.response.DataItem
-import com.example.fonaapp.databinding.ActivityUserPreferenceBinding
+import com.example.fonaapp.data.response.ListAllergyResponse
+import com.example.fonaapp.databinding.ActivityUpdateUserBinding
 import com.example.fonaapp.main.MainActivity
-import com.example.fonaapp.ui.result.ResultUserPreferenceActivity
-import com.example.fonaapp.ui.update.UpdateUserAdapter
 import com.example.fonaapp.utils.ViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-
-class UserPreferenceActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityUserPreferenceBinding
+class UpdateUserActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityUpdateUserBinding
     private lateinit var factory: ViewModelFactory
     private val calendar = Calendar.getInstance()
     private var token = ""
     private lateinit var updateAdapter: UpdateUserAdapter
-    private val userPreferenceViewModel: UserPreferenceViewModel by viewModels { factory }
+    private val updateUserViewModel: UpdatePreferenceViewModel by viewModels { factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
         setupViewModel()
+        setupUser()
+        setupAdapter()
         setupAction()
 
     }
 
-    private fun setupView() {
-        binding = ActivityUserPreferenceBinding.inflate(layoutInflater)
+    private fun setupView(){
+        binding = ActivityUpdateUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.apply {
-            title = getString(R.string.title_user_preference)
             setDisplayHomeAsUpEnabled(true)
         }
-
     }
-    private fun setupViewModel() {
+
+    private fun setupViewModel(){
         factory = ViewModelFactory.getInstance(this)
-        userPreferenceViewModel.isDataDiri.observe(this) {
-            if(it){
+        updateUserViewModel.isDataDiri.observe(this) {
+            if(!it){
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
         }
+//        updateUserViewModel.checkboxAllergyResponse.observe(this) { allergies ->
+//            updateAdapter.setData(allergies)
+//        }
+    }
+
+    private fun setupUser(){
+
+        updateUserViewModel.getSession().observe(this){ user ->
+            token = user.idToken
+//            updateUser()
+            updateUserViewModel.getListAllergy(token)
+            updateUserViewModel.allergyData.observe(this) { allergies ->
+                getAllergy(allergies)
+            }
+        }
+    }
+
+    private fun getAllergy(allergyData: ListAllergyResponse){
+        val listAllergy = ArrayList<DataItem>()
+        updateAdapter.setData(allergyData.data)
+        listAllergy.addAll(allergyData.data)
     }
 
     private fun setupAdapter(){
@@ -64,9 +84,10 @@ class UserPreferenceActivity : AppCompatActivity() {
         val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         binding.rvCbAlergi.layoutManager = layoutManager
         binding.rvCbAlergi.adapter = updateAdapter
+
     }
 
-    private fun setupAction() {
+    private fun setupAction(){
         binding.edtBirthDate.setOnClickListener {
             showDatePickerDialog()
         }
@@ -83,8 +104,6 @@ class UserPreferenceActivity : AppCompatActivity() {
                 // Implementasi jika tidak ada yang dipilih
             }
         }
-
-        // Navigasi ke ResultUserPreferenceActivity saat tombol lanjut diklik
         binding.btnContinueResult.setOnClickListener {
             if (isEditTextEmpty(binding.edtBirthDate) || isEditTextEmpty(binding.edtHeight) || isEditTextEmpty(
                     binding.edtWeight
@@ -94,11 +113,11 @@ class UserPreferenceActivity : AppCompatActivity() {
                     .show()
 
             } else {
-                postText()
-                userPreferenceViewModel.userPreferenceResponse.observe(this@UserPreferenceActivity) { _ ->
+                updateUser()
+                updateUserViewModel.updateUserResponse.observe(this@UpdateUserActivity) { _ ->
                     val intent = Intent(
-                        this@UserPreferenceActivity,
-                        ResultUserPreferenceActivity::class.java
+                        this@UpdateUserActivity,
+                        MainActivity::class.java
                     )
                     startActivity(intent)
                 }
@@ -122,44 +141,8 @@ class UserPreferenceActivity : AppCompatActivity() {
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()
     }
-
     private fun isEditTextEmpty(editText: EditText): Boolean {
         return editText.text.toString().trim().isEmpty()
-    }
-
-    private fun postText() {
-        userPreferenceViewModel.getSession().observe(this) { user ->
-            token = user.idToken
-            binding.apply {
-                val height = edtHeight.text.toString().toInt()
-                val weight = edtWeight.text.toString().toInt()
-                // Mengambil gender dari radio button yang dipilih
-                val gender = when (radioGroup.checkedRadioButtonId) {
-                    R.id.rbMale -> "Laki-laki"
-                    R.id.rbFemale -> "Perempuan"
-                    else -> "" // Handle jika tidak ada yang dipilih
-                }
-                val dateOfBirth = convertDateFormatForBackend(edtBirthDate.text.toString())
-                // Mengambil tingkat aktivitas dari spinner
-                val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
-                // Mengambil data alergi dari checkbox yang dipilih
-                val selectedAllergies = updateAdapter.getSelectedIds().toMutableList()
-                val idToken = token
-
-                if (idToken != null) {
-                    userPreferenceViewModel.storeUserData(
-                        User(
-                            height,
-                            weight,
-                            gender,
-                            dateOfBirth,
-                            activityLevel,
-                            selectedAllergies
-                        ), idToken
-                    )
-                }
-            }
-        }
     }
 
     private fun updateEditText() {
@@ -168,15 +151,36 @@ class UserPreferenceActivity : AppCompatActivity() {
         binding.edtBirthDate.setText(simpleDateFormat.format(calendar.time))
     }
 
+    private fun updateUser(){
+
+        binding.apply{
+            val height = edtHeight.text.toString().toInt()
+            val weight = edtWeight.text.toString().toInt()
+            val gender = when (radioGroup.checkedRadioButtonId){
+                R.id.rbMale -> "Laki-laki"
+                R.id.rbFemale -> "Perempuan"
+                else -> ""
+            }
+            val dateOfBirth = convertDateFormatForBackend(edtBirthDate.text.toString())
+            val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
+            val selectedAllergies = updateAdapter.getSelectedIds().toMutableList()
+            if (token != null) {
+                updateUserViewModel.updateUserData(
+                    Data(
+                        height, weight, gender, dateOfBirth, activityLevel,
+                        selectedAllergies
+                    ), token
+                )
+            }
+
+        }
+    }
+
     private fun convertDateFormatForBackend(originalDate: String): String {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val date = inputFormat.parse(originalDate)
         return outputFormat.format(date!!)
-    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
     }
 }

@@ -1,6 +1,8 @@
 package com.example.fonaapp.data.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class GetUserDataResponse(
 
@@ -59,6 +61,7 @@ data class ResultData(
 	val bmi_status: String
 )
 
+@Parcelize
 data class AllergiesItem(
 
 	@field:SerializedName("name")
@@ -66,4 +69,4 @@ data class AllergiesItem(
 
 	@field:SerializedName("id")
 	val id: Int
-)
+) : Parcelable

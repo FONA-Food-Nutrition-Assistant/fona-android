@@ -189,36 +189,6 @@
         app:layout_constraintTop_toBottomOf="@+id/konfirmasi_sandi_layout" />
 
     <TextView
-        android:id="@+id/tv_pilihan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/klmt_pilihan"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_daftar" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_masukGoogle"
-        app:cornerRadius="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/white"
-        app:strokeColor="@color/button"
-        app:strokeWidth="1dp"
-        android:text="@string/btn_masukGoogle"
-        android:drawableLeft="@drawable/ic_google"
-        android:textColor="@color/button"
-        style="@style/large_bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pilihan" />
-
-    <TextView
         android:id="@+id/tv_pertanyaan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -227,7 +197,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_masukGoogle" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_daftar" />
 
     <ProgressBar
         android:id="@+id/progressBar"

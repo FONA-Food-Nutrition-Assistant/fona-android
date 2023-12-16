@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:allowBackup="true"
@@ -17,11 +19,20 @@
         android:theme="@style/Theme.FONAApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.cart.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.update.UpdateUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.search.SearchFoodActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detail.DetailMakananActivity"
-            android:exported="false"/>
-
-        <activity android:name=".ui.upload.CameraActivity"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity
+            android:name=".ui.upload.UploadActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.result.ResultUserPreferenceActivity"
             android:exported="false" />
@@ -39,9 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.intro.WelcomeActivity"
-            android:exported="false"/>
-
-
+            android:exported="false" />
         <activity
             android:name=".main.MainActivity"
             android:exported="true">

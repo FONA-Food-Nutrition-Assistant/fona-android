@@ -5,22 +5,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="24dp"
     tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="23dp">
+
         <TextView
             android:id="@+id/tv_date_picker"
             style="@style/large_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="25/11/2003"
+            android:text="2023-12-13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintStart_toEndOf="@id/tv_date_picker"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="16dp"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardNutrition"
@@ -109,7 +120,7 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="260 g"
+                    android:text="260"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/tv_carbo_takes"
                     app:layout_constraintTop_toTopOf="@id/iv_carbo" />
@@ -151,7 +162,7 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="260 g"
+                    android:text="260"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -165,6 +176,7 @@
                     android:layout_marginTop="8dp"
                     android:text="Lemak"
                     android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_fat"
                     app:layout_constraintTop_toBottomOf="@id/tv_fat_target" />
 
@@ -194,7 +206,7 @@
                     style="@style/small_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="260 g"
+                    android:text="260"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/iv_protein" />
@@ -208,6 +220,7 @@
                     android:layout_marginTop="8dp"
                     android:text="Protein"
                     android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_protein"
                     app:layout_constraintTop_toBottomOf="@id/tv_protein_target" />
 
@@ -264,17 +277,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_sarapan" />
 
-                <TextView
-                    android:background="@drawable/status_bg"
-                    android:id="@+id/tv_status_sarapan"
-                    style="@style/xsmall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Kurang"
-                    android:padding="4dp"
-                    android:textColor="@color/white"
+
+                <ImageView
+                    android:id="@+id/status_intakes_breakfast"
+                    android:layout_width="70dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_ideal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tv_status_sarapan"
+                    style="@style/xsmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cukup"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/status_intakes_breakfast"
+                    app:layout_constraintEnd_toEndOf="@+id/status_intakes_breakfast"
+                    app:layout_constraintStart_toStartOf="@+id/status_intakes_breakfast"
+                    app:layout_constraintTop_toTopOf="@+id/status_intakes_breakfast"/>
 
                 <TextView
                     android:id="@+id/tv_kalori_sarapan_remaining"
@@ -353,17 +374,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_lunch" />
 
-                <TextView
-                    android:background="@drawable/status_bg"
-                    android:id="@+id/tv_status_lunch"
-                    style="@style/xsmall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Kurang"
-                    android:padding="4dp"
-                    android:textColor="@color/white"
+                <ImageView
+                    android:id="@+id/status_intakes_lunch"
+                    android:layout_width="70dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_ideal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tv_status_lunch"
+                    style="@style/xsmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cukup"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/status_intakes_lunch"
+                    app:layout_constraintEnd_toEndOf="@+id/status_intakes_lunch"
+                    app:layout_constraintStart_toStartOf="@+id/status_intakes_lunch"
+                    app:layout_constraintTop_toTopOf="@+id/status_intakes_lunch"/>
 
                 <TextView
                     android:id="@+id/tv_kalori_lunch_remaining"
@@ -452,17 +480,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_dinner" />
 
-                <TextView
-                    android:background="@drawable/status_bg"
-                    android:id="@+id/tv_status_dinner"
-                    style="@style/xsmall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Kurang"
-                    android:padding="4dp"
-                    android:textColor="@color/white"
+                <ImageView
+                    android:id="@+id/status_intakes_dinner"
+                    android:layout_width="70dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_ideal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tv_status_dinner"
+                    style="@style/xsmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cukup"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/status_intakes_dinner"
+                    app:layout_constraintEnd_toEndOf="@+id/status_intakes_dinner"
+                    app:layout_constraintStart_toStartOf="@+id/status_intakes_dinner"
+                    app:layout_constraintTop_toTopOf="@+id/status_intakes_dinner"/>
 
                 <TextView
                     android:id="@+id/tv_kalori_dinner_remaining"
@@ -495,8 +530,9 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardSnack"
+            android:id="@+id/cardDrink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -516,102 +552,11 @@
                 android:layout_marginBottom="24dp">
 
                 <TextView
-                    android:id="@+id/tv_snack"
-                    style="@style/large_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Camilan"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_kalori_snack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 kalori"
-                    style="@style/small"
-                    android:textColor="@color/secondaryText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_snack" />
-
-                <TextView
-                    android:background="@drawable/status_bg"
-                    android:id="@+id/tv_status_snack"
-                    style="@style/xsmall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Kurang"
-                    android:padding="4dp"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_kalori_snack_remaining"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_status_snack"
-                    style="@style/small"
-                    android:text="379 kalori lagi" />
-
-                <View
-                    android:id="@+id/view5"
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/icon"
-                    app:layout_constraintTop_toBottomOf="@id/tv_kalori_snack_remaining" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcListSnack"
-                    tools:listitem="@layout/items_record_food"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/view5"
-                    tools:layout_editor_absoluteX="20dp" />
-
-                <ImageView
-                    android:id="@+id/btn_addSnack"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_circle"
-                    app:layout_constraintTop_toBottomOf="@id/rcListSnack"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardDrink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardSnack">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="24dp">
-
-                <TextView
                     android:id="@+id/tv_drink"
                     style="@style/large_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Drink water"
+                    android:text="Rekam minum"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -644,6 +589,24 @@
                     android:background="@color/icon"
                     app:layout_constraintTop_toBottomOf="@id/tv_kalori_drink" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDrink"
+                    tools:listitem="@layout/items_drinks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view6"
+                    tools:layout_editor_absoluteX="20dp" />
+
+                <ImageView
+                    android:id="@+id/btn_add_drink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toEndOf="@id/rvDrink"
+                    app:layout_constraintTop_toBottomOf="@+id/view6"
+                    android:src="@drawable/ic_add_cup"/>
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -654,7 +617,7 @@
             android:id="@+id/tv_recommendation_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recommendation"
+            android:text="Rekomendasi"
             android:layout_margin="24dp"
             style="@style/heading6_bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -669,8 +632,25 @@
             style="@style/body"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_recommendation_title"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardRecommendation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommendation_description">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test"/>
+
+        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </ScrollView>
