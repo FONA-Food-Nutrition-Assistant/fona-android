@@ -37,6 +37,10 @@ class UserPreferenceActivity : AppCompatActivity() {
         setupViewModel()
         setupAction()
 
+        userPreferenceViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
     }
 
     private fun setupView() {

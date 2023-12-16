@@ -4,6 +4,7 @@ package com.example.fonaapp.ui.result
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -32,7 +33,9 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
         setupAdapter()
         setupAction()
 
-
+        resultViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
 
     }
 
@@ -80,6 +83,10 @@ class ResultUserPreferenceActivity : AppCompatActivity() {
                 getUserData(userData)
             }
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
     private fun getUserData(userData: ResultData){
         val listAllergy = ArrayList<AllergiesItem>()

@@ -43,6 +43,10 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
+        profileViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
     }
 
     override fun onCreateView(
@@ -196,5 +200,9 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
             requireActivity().finish()
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

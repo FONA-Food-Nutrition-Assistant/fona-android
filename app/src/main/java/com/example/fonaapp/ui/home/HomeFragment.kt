@@ -63,6 +63,10 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
+
+        homeViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -231,6 +235,10 @@ class HomeFragment : Fragment() {
         val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
         intent.putExtra("DINNER_ITEM_KEY", dinnerItem)
         startActivity(intent)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     //Fungsi cek data user
