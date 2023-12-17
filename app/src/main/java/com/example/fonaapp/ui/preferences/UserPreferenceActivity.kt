@@ -39,6 +39,11 @@ class UserPreferenceActivity : AppCompatActivity() {
         setupUser()
         setupAdapter()
         setupAction()
+
+        userPreferenceViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
     }
 
     private fun setupView() {
@@ -122,6 +127,7 @@ class UserPreferenceActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     private fun showDatePickerDialog() {
@@ -143,6 +149,10 @@ class UserPreferenceActivity : AppCompatActivity() {
 
     private fun isEditTextEmpty(editText: EditText): Boolean {
         return editText.text.toString().trim().isEmpty()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun postText() {

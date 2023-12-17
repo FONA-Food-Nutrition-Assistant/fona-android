@@ -31,9 +31,12 @@ class DaftarActivity : AppCompatActivity() {
     private lateinit var userPreference: UserPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_daftar)
+        binding = ActivityDaftarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setupView()
         setupAction()
+
     }
 
     private fun setupView(){
@@ -60,6 +63,9 @@ class DaftarActivity : AppCompatActivity() {
                 }
 
             }
+        }
+        binding.backAction.setOnClickListener {
+            onBackPressed()
         }
     }
 
@@ -115,8 +121,9 @@ class DaftarActivity : AppCompatActivity() {
                 Toast.makeText(this, it.localizedMessage, LENGTH_SHORT).show()
             }
     }
-    private fun showLoading(showLoading: Boolean) {
-        binding.progressBar.visibility = if (showLoading) View.VISIBLE else View.GONE
 
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
+
 }

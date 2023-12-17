@@ -37,6 +37,10 @@ class UpdateUserActivity : AppCompatActivity() {
         setupAdapter()
         setupAction()
 
+        updateUserViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
     }
 
     private fun setupView(){
@@ -70,6 +74,9 @@ class UpdateUserActivity : AppCompatActivity() {
                 getAllergy(allergies)
             }
         }
+    }
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun getAllergy(allergyData: ListAllergyResponse){
