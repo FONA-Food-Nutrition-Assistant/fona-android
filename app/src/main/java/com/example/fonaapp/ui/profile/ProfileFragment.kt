@@ -44,9 +44,7 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
 
-        profileViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
+
     }
 
     override fun onCreateView(
@@ -117,6 +115,8 @@ class ProfileFragment : Fragment() {
             .requestEmail()
             .build()
         mGoogleSignInClient= GoogleSignIn.getClient(requireActivity(),gso)
+
+
     }
 
     private fun setupAction(){
@@ -145,6 +145,9 @@ class ProfileFragment : Fragment() {
         profileViewModel.getSession().observe(this){ user ->
             token = user.idToken
             profileViewModel.getUserData(token)
+            profileViewModel.isLoading.observe(this) {
+                showLoading(it)
+            }
             profileViewModel.userData.observe(this){ userData ->
                 Log.d(TAG,"userData observed")
                 getUserData(userData)
@@ -165,6 +168,7 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
     }
 
     private fun getUserData(userData: ResultData){
