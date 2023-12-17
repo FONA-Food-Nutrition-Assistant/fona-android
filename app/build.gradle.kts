@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "API_URL", "\"https://gateway-service-2ehn6lsnna-as.a.run.app/gateway/v1/\"")
+        buildConfigField("String", "API_URL", "\"https://gateway-service-m22xk2kynq-as.a.run.app/gateway/v1/\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

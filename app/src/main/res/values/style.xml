@@ -100,4 +100,10 @@
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
+    <!--    Card Image-->
+    <style name="roundImageView" parent="">
+        <item name="cornerSize">10%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
 </resources>

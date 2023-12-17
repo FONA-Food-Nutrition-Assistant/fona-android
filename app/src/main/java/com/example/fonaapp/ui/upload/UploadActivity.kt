@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.example.fonaapp.databinding.ActivityUploadBinding
 import com.example.fonaapp.main.MainActivity
 import com.example.fonaapp.ui.cart.CartActivity
+import com.example.fonaapp.ui.search.SearchFoodActivity
 import com.example.fonaapp.utils.ViewModelFactory
 import com.example.fonaapp.utils.createCustomTempFile
 import okhttp3.MediaType.Companion.toMediaType
@@ -77,7 +78,6 @@ class UploadActivity : AppCompatActivity() {
             token = user.idToken
             if (user != null) {
                 Log.d(TAG,"Berhasil dpt token di setup user")
-                uploadFoodViewModel.uploadFood(token, imageMultipart)
                 uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
                     if (it.status == 200) {
                         // Membuat objek UploadFoodResponse dari respons
@@ -126,6 +126,10 @@ class UploadActivity : AppCompatActivity() {
         binding.captureImage.setOnClickListener {
             takePhoto()
         }
+        binding.searchFood.setOnClickListener {
+            val intent = Intent(this@UploadActivity, SearchFoodActivity::class.java)
+            startActivity(intent)
+        }
         //TODO LULU buat logika klo dia mencet logo ic_search, dia intent ke SearchFoodActivity()
     }
 
@@ -168,6 +172,12 @@ class UploadActivity : AppCompatActivity() {
 
                             // Menutup UploadActivity (opsional, tergantung pada kebutuhan Anda)
                             finish()
+                        }
+                        uploadFoodViewModel.isError.observe(this@UploadActivity){
+                            if(it){
+                                Toast.makeText(this@UploadActivity, "Internal server error", Toast.LENGTH_LONG).show()
+                            }
+
                         }
                     }
                 }

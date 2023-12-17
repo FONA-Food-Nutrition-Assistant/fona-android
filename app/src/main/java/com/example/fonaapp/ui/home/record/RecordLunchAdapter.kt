@@ -3,8 +3,6 @@ package com.example.fonaapp.ui.home.record
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fonaapp.data.response.BreakfastItem
-import com.example.fonaapp.data.response.Lunch
 import com.example.fonaapp.data.response.LunchItem
 import com.example.fonaapp.databinding.ItemsRecordFoodBinding
 

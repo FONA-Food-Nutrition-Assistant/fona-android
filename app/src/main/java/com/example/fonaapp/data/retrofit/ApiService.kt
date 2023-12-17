@@ -4,6 +4,7 @@ import com.example.fonaapp.data.models.RecordedFoodsRequest
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.WaterRecord
 import com.example.fonaapp.data.response.Data
+import com.example.fonaapp.data.response.GetFoodDetailResponse
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.HomeResponse
 import com.example.fonaapp.data.response.ListAllergyResponse
@@ -73,15 +74,16 @@ interface ApiService {
         @Part image: MultipartBody.Part,
     ) : Call<UploadFoodResponse>
 
-    @POST("/gateway/v1/us/identification/food")
+    @POST("/gateway/v1/fs/food")
     fun storeRecordFood(
         @Header("Authorization") idToken: String,
         @Body request: RecordedFoodsRequest,
     ) : Call<StoreRecordResponse>
 
-
-
-
     //TODO LULU 1 - GET LIST OF NUTRITION & NANTI BUAT RESPONSE DARI JSON
-
+    @GET("/gateway/v1/fs/food/detail")
+    fun getFoodetail (
+        @Header("Authorization") idToken: String,
+        @Query("q") query: String,
+    ): Call<GetFoodDetailResponse>
 }

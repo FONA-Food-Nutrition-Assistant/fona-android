@@ -16,19 +16,18 @@ data class FoodItem(
     val serving_size: String,
     val createdAt: String?,
     val updatedAt: String?,
-    val servingSizes: List<String>
+    val servingSizes: List<String>,
+    val nutritionId: Int,
+    var quantity: Int,
 ) {
-    // Anda dapat menambahkan fungsi lain sesuai kebutuhan
 }
 
 fun convertToFoodItem(dataFood: DataFood): FoodItem {
-    // Ambil semua nutrisi dari list
+
     val nutritionsItems = dataFood.nutritions
 
-    // Dapatkan list semua serving_size
     val servingSizes = nutritionsItems.map { it.serving_size }
 
-    // Ambil nutrisi pertama dari list (Anda bisa menyesuaikan sesuai kebutuhan)
     val nutritionsItem = nutritionsItems.first()
     return FoodItem(
         name = dataFood.name,
@@ -40,10 +39,12 @@ fun convertToFoodItem(dataFood: DataFood): FoodItem {
         glucoses = nutritionsItem.glucoses,
         sodiums = nutritionsItem.sodiums,
         caliums = nutritionsItem.caliums,
-        serving_size = nutritionsItem.serving_size,  // Keep only the serving size of the first nutrition item
+        serving_size = nutritionsItem.serving_size,
         createdAt = nutritionsItem.createdAt,
         updatedAt = nutritionsItem.updatedAt,
-        servingSizes = servingSizes  // Add a new property to store all serving sizes
+        servingSizes = servingSizes,
+        nutritionId = nutritionsItem.id,
+        quantity = 1
     )
 }
 
@@ -57,6 +58,5 @@ fun List<FoodItem>.getUniqueServingSizes(): List<String> {
             uniqueServingSizes.add(foodItem.serving_size)
         }
     }
-
     return uniqueServingSizes
 }

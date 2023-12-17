@@ -22,6 +22,8 @@ import okhttp3.RequestBody
 class UploadViewModel(private val fonaRepository: FonaRepository) : ViewModel()  {
     val uploadFoodResponse: LiveData<UploadFoodResponse> = fonaRepository.uploadFoodResponse
 
+    val isError:LiveData<Boolean> = fonaRepository.isError
+
     fun uploadFood(firebaseToken: String, image: MultipartBody.Part): LiveData<UploadFoodResponse> {
         viewModelScope.launch {
             Log.d(ContentValues.TAG, "upload Food function called with token: $firebaseToken")

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.fonaapp.R
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.response.DataItem
+import com.example.fonaapp.data.response.ListAllergyResponse
 import com.example.fonaapp.databinding.ActivityUserPreferenceBinding
 import com.example.fonaapp.main.MainActivity
 import com.example.fonaapp.ui.result.ResultUserPreferenceActivity
@@ -35,8 +36,9 @@ class UserPreferenceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupView()
         setupViewModel()
+        setupUser()
+        setupAdapter()
         setupAction()
-
     }
 
     private fun setupView() {
@@ -47,6 +49,17 @@ class UserPreferenceActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
+    }
+    private fun setupUser(){
+
+        userPreferenceViewModel.getSession().observe(this){ user ->
+            token = user.idToken
+//            updateUser()
+            userPreferenceViewModel.getListAllergy(token)
+            userPreferenceViewModel.allergyData.observe(this) { allergies ->
+                getAllergy(allergies)
+            }
+        }
     }
     private fun setupViewModel() {
         factory = ViewModelFactory.getInstance(this)
@@ -64,6 +77,11 @@ class UserPreferenceActivity : AppCompatActivity() {
         val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         binding.rvCbAlergi.layoutManager = layoutManager
         binding.rvCbAlergi.adapter = updateAdapter
+    }
+    private fun getAllergy(allergyData: ListAllergyResponse){
+        val listAllergy = ArrayList<DataItem>()
+        updateAdapter.setData(allergyData.data)
+        listAllergy.addAll(allergyData.data)
     }
 
     private fun setupAction() {

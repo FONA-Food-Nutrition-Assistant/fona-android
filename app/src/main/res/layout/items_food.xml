@@ -12,7 +12,7 @@
     app:layout_constraintTop_toTopOf="parent"
     android:elevation="100dp"
     app:cardCornerRadius="5dp">
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -117,49 +117,15 @@
             app:layout_constraintTop_toBottomOf="@id/edt_lemak"
             app:layout_constraintStart_toEndOf="@+id/title_protein" />
 
-        <Spinner
-            android:id="@+id/spinner_activity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/spinner_bg"
-            android:padding="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_minus"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edt_protein" />
-
         <ImageView
-            android:id="@+id/iv_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="iv_minus"
-            android:src="@drawable/ic_minus"
-            app:layout_constraintEnd_toStartOf="@+id/tv_quantity"
-            app:layout_constraintTop_toTopOf="@+id/spinner_activity" />
-
-        <TextView
-            android:id="@+id/tv_quantity"
-            style="@style/large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="1"
-            app:layout_constraintEnd_toStartOf="@+id/iv_plus"
-            app:layout_constraintTop_toTopOf="@+id/spinner_activity" />
-
-        <ImageView
-            android:id="@+id/iv_plus"
+            android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_plus"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/spinner_activity" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

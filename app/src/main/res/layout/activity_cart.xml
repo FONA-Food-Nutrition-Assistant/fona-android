@@ -110,12 +110,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Total Kalori"
-            app:layout_constraintEnd_toStartOf="@+id/textView7"
+            app:layout_constraintEnd_toStartOf="@+id/totalCalories"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/totalCalories"
             style="@style/large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,27 +124,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView6" />
 
-        <TextView
-            android:id="@+id/textView8"
-            style="@style/large_bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Jumlah Makanan"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView8"-->
+<!--            style="@style/large_bold"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="Jumlah Makanan"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
 
-        <TextView
-            android:id="@+id/textView9"
-            style="@style/large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView9"-->
+<!--            style="@style/large"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:text="0"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddFood"
@@ -160,7 +160,7 @@
             app:strokeColor="@color/colorPrimary"
             app:cornerRadius="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/totalCalories" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
@@ -176,7 +176,7 @@
             app:cornerRadius="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnAddFood"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/totalCalories"
             app:strokeWidth="1dp" />
 
 

@@ -16,6 +16,8 @@ import com.example.fonaapp.data.response.DailyNeeds
 import com.example.fonaapp.data.response.Data
 import com.example.fonaapp.data.response.DataResponse
 import com.example.fonaapp.data.response.DinnerItem
+import com.example.fonaapp.data.response.FoodSuggestion
+import com.example.fonaapp.data.response.GetFoodDetailResponse
 import com.example.fonaapp.data.response.GetUserDataResponse
 import com.example.fonaapp.data.response.HomeResponse
 import com.example.fonaapp.data.response.ListAllergyResponse
@@ -43,6 +45,9 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
     private val _getUserDataResponse = MutableLiveData<GetUserDataResponse>()
     val getUserDataResponse: LiveData<GetUserDataResponse> = _getUserDataResponse
+
+    private val _foodSuggestion = MutableLiveData<FoodSuggestion>()
+    val foodSuggestion: LiveData<FoodSuggestion> = _foodSuggestion
 
     private val _userDataResponse = MutableLiveData<ResultData>()
     val userDataResponse: LiveData<ResultData> = _userDataResponse
@@ -86,6 +91,8 @@ class FonaRepository(private val userPreference: UserPreference, private val api
     private val _storeRecordFood = MutableLiveData<StoreRecordResponse>()
     val storeRecordFood: LiveData<StoreRecordResponse> = _storeRecordFood
 
+    private val _getFoodDetailResponse = MutableLiveData<GetFoodDetailResponse>()
+    val getFoodDetailResponse: LiveData<GetFoodDetailResponse> = _getFoodDetailResponse
 
     private val _getRecordWater = MutableLiveData<Int>()
     val getRecordWater: LiveData<Int> = _getRecordWater
@@ -102,12 +109,16 @@ class FonaRepository(private val userPreference: UserPreference, private val api
     private val _isLogin = MutableLiveData<Boolean>()
     val isLogin : LiveData<Boolean> = _isLogin
 
+    private val _isError = MutableLiveData<Boolean>()
+    val isError: LiveData<Boolean> = _isError
+
 
 
     //TODO LULU 2 - Buat variabel food/nutrition response
 
     fun storeUserData(user: User, firebaseToken: String) {
         _isLoading.value = true
+        _isError.value = false
         val call = apiService.storeUserData("Bearer $firebaseToken", user)
 
         call.enqueue(object : Callback<UserPreferenceResponse> {
@@ -117,9 +128,11 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 _isLoading.value = false
                 if (response.isSuccessful && response.body() != null) {
                     _isDataDiri.value = true
+                    _isError.value = false
                     _userPreferenceResponse.value = response.body()
                 } else {
                     _isDataDiri.value = false
+                    _isError.value = false
                     Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, response fail")
                 }
             }
@@ -127,6 +140,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
             override fun onFailure(call: Call<UserPreferenceResponse>, t: Throwable) {
                 _isLoading.value = false
                 _isDataDiri.value = false
+                _isError.value = true
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
@@ -134,6 +148,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
     fun getUserData(firebaseToken: String){
         _isLoading.value = true
+        _isError.value = false
         val call = apiService.getUserData("Bearer $firebaseToken")
         call.enqueue(object : Callback<GetUserDataResponse> {
             override fun onResponse(
@@ -143,14 +158,17 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 _isLoading.value = false
                 if (response.isSuccessful && response.body() != null) {
                     _userDataResponse.value = response.body()?.data
+                    _isError.value = false
                     Log.d(TAG, "User data response: ${response.body()?.data}")
                 } else {
+                    _isError.value = false
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<GetUserDataResponse>, t: Throwable) {
                 _isLoading.value = false
+                _isError.value = true
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
@@ -248,6 +266,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                     _listLunch.value = response.body()?.data?.recordFoods?.lunch
                     _listDinner.value = response.body()?.data?.recordFoods?.dinner
                     _getRecordWater.value = response.body()?.data?.recordWater
+                    _foodSuggestion.value = response.body()?.data?.foodSuggestion
 
                 } else {
                     Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, gagal dapet data home")
@@ -257,6 +276,32 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: gagal get Data Home {$t}", t)
             }
+        })
+    }
+
+    fun getFoodDetailResponse(firebaseToken: String, query: String) {
+        _isLoading.value = true
+        val call = apiService.getFoodetail("Bearer ${firebaseToken}", query)
+        call.enqueue(object : Callback<GetFoodDetailResponse> {
+            override fun onResponse(
+                call: Call<GetFoodDetailResponse>,
+                response: Response<GetFoodDetailResponse>,
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _getFoodDetailResponse.value = response.body()
+//                    _nutritionList.value = true
+                } else {
+                    Log.e(TAG,"onFailure: gagal 2")
+//                    _nutritionList.value = false
+                }
+            }
+
+            override fun onFailure(call: Call<GetFoodDetailResponse>, t: Throwable) {
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: gagal 1")
+            }
+
         })
     }
 
@@ -333,6 +378,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
     fun storeRecordFood(firebaseToken: String, food: RecordedFoodsRequest) {
         _isLoading.value = true
+        _isError.value = false
         val call = apiService.storeRecordFood("Bearer $firebaseToken", food)
 
         call.enqueue(object : Callback<StoreRecordResponse> {
@@ -340,8 +386,10 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 call: Call<StoreRecordResponse>, response: Response<StoreRecordResponse>
             ) {
                 _isLoading.value = false
+                _isError.value = false
                 if (response.isSuccessful && response.body() != null) {
                     _storeRecordFood.value = response.body()
+                    _isError.value = false
                 } else {
                     Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, response fail")
                 }
@@ -349,10 +397,15 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
             override fun onFailure(call: Call<StoreRecordResponse>, t: Throwable) {
                 _isLoading.value = false
+                _isError.value = true
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
     }
+
+
+
+
 
 
     //TODO LULU 3 - Buat fungsi get list food

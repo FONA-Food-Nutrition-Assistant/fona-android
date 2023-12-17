@@ -70,6 +70,11 @@
         <item>Sangat Aktif: latihan intensif 6-7 hari per minggu.</item>
         <item>Ekstra Aktif: latihan harian atau pekerjaan fisik yang sangat intensif</item>
     </string-array>
+    <string-array name="waktu_makan">
+        <item>Sarapan</item>
+        <item>Makan Siang</item>
+        <item>Makan Malam</item>
+    </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hapus_dari_list">Hapus dari list</string>
     <string name="login">Masuk</string>
@@ -84,4 +89,6 @@
     <string name="edt_protein">6.3 g</string>
     <string name="masuk_ke_beranda">Masuk ke Beranda</string>
     <string name="update_data_diri">Update Data Diri</string>
+    <string name="cari_nama_makanan">Cari nama makanan..</string>
+    <string name="cari_makanan">Cari makanan..</string>
 </resources>

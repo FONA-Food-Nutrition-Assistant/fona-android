@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_food"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:shapeAppearance="@style/roundImageView"
+
+
+        tools:src="@tools:sample/avatars"/>
+    <TextView
+        android:id="@+id/tv_meal_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/iv_food"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Sarapan"
+        style="@style/large_bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_paket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_meal_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Paket"
+        style="@style/body_bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_makanan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_paket"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Nasi Goreng"
+        style="@style/body"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_kalori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_makanan"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="100 kalori"
+        style="@style/body"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
