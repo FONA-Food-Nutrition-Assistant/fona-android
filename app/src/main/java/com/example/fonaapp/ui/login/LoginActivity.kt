@@ -74,6 +74,9 @@ class LoginActivity : AppCompatActivity() {
         binding.btnMasukGoogle.setOnClickListener {
             signIn()
         }
+        binding.backAction.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 
@@ -184,9 +187,9 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-    private fun showLoading(showLoading: Boolean) {
-        binding.progressBar.visibility = if (showLoading) View.VISIBLE else View.GONE
 
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
 

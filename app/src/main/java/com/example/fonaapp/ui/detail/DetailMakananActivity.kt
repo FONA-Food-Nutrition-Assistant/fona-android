@@ -59,6 +59,10 @@ class DetailMakananActivity : AppCompatActivity() {
 
     private fun setupAction(){
 
+        binding.backAction.setOnClickListener{
+            onBackPressed()
+        }
+
     }
 
     private fun displayData() {
@@ -148,5 +152,9 @@ class DetailMakananActivity : AppCompatActivity() {
         binding.tvSodium.text = sodiumsTakes
 
         // Lanjutkan dengan menetapkan nilai ke TextView lainnya sesuai kebutuhan.
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

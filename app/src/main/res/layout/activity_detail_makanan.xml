@@ -10,6 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/colorPrimary"
+            android:theme="@style/Base.Theme.FONAApp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_action"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_back"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/title_page"
+                style="@style/heading5_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Detail Makanan"
+                android:textColor="@color/white" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
         <TextView
             android:id="@+id/nama_makanan"
             android:layout_width="wrap_content"
@@ -21,6 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp"/>
 

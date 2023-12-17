@@ -82,5 +82,8 @@ class HomeViewModel(private val fonaRepository: FonaRepository) : ViewModel() {
     private val _storeWaterResponse = fonaRepository.storeWaterResponse
     val storeWaterResponse = _storeWaterResponse
 
+    private val _isLoading = fonaRepository.isLoading
+    val isLoading = _isLoading
+
 
 }

@@ -43,6 +43,8 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
+
     }
 
     override fun onCreateView(
@@ -113,6 +115,8 @@ class ProfileFragment : Fragment() {
             .requestEmail()
             .build()
         mGoogleSignInClient= GoogleSignIn.getClient(requireActivity(),gso)
+
+
     }
 
     private fun setupAction(){
@@ -141,6 +145,9 @@ class ProfileFragment : Fragment() {
         profileViewModel.getSession().observe(this){ user ->
             token = user.idToken
             profileViewModel.getUserData(token)
+            profileViewModel.isLoading.observe(this) {
+                showLoading(it)
+            }
             profileViewModel.userData.observe(this){ userData ->
                 Log.d(TAG,"userData observed")
                 getUserData(userData)
@@ -161,6 +168,7 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
     }
 
     private fun getUserData(userData: ResultData){
@@ -196,5 +204,9 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
             requireActivity().finish()
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
