@@ -16,6 +16,7 @@ import com.example.fonaapp.data.response.DailyAnalysis
 import com.example.fonaapp.data.response.DailyNeeds
 import com.example.fonaapp.data.response.DataResponse
 import com.example.fonaapp.data.response.DinnerItem
+import com.example.fonaapp.data.response.FoodSuggestion
 import com.example.fonaapp.data.response.HomeResponse
 import com.example.fonaapp.data.response.LunchItem
 import com.example.fonaapp.data.response.ResultData
@@ -74,6 +75,9 @@ class HomeViewModel(private val fonaRepository: FonaRepository) : ViewModel() {
 
     val getRecordWater: LiveData<Int> =
         fonaRepository.getRecordWater
+
+    val foodSuggestion: LiveData<FoodSuggestion> =
+        fonaRepository.foodSuggestion
 
     private val _isRecorded = fonaRepository.isRecorded
     val isRecorded = _isRecorded

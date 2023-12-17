@@ -242,66 +242,41 @@ data class DinnerItem(
 
 data class FoodSuggestion(
 
-	@field:SerializedName("makan_siang")
-	val lunch: Lunch,
+	@SerializedName("breakfast")
+	val breakfast: Meal,
 
-	@field:SerializedName("sarapan")
-	val breakfast: Breakfast,
+	@SerializedName("lunch")
+	val lunch: Meal,
 
-	@field:SerializedName("makan_malam")
-	val dinner: Dinner
+	@SerializedName("dinner")
+	val dinner: Meal
 )
 
-data class Lunch(
-
-	@field:SerializedName("foods")
-	val foods: List<FoodsItem>,
-
-	@field:SerializedName("name")
-	val name: String,
-
-	@field:SerializedName("id")
+data class Meal(
+	@SerializedName("id")
 	val id: Int,
 
-	@field:SerializedName("total_cals")
-	val totalCals: Int
-)
-
-data class Dinner(
-
-	@field:SerializedName("foods")
-	val foods: List<FoodsItem>,
-
-	@field:SerializedName("name")
+	@SerializedName("name")
 	val name: String,
 
-	@field:SerializedName("id")
-	val id: Int,
+	@SerializedName("image_url")
+	val imageUrl: String,
 
-	@field:SerializedName("total_cals")
-	val totalCals: Int
-)
+	@SerializedName("total_cals")
+	val totalCals: Double,
 
-data class Breakfast(
-
-	@field:SerializedName("foods")
-	val foods: List<FoodsItem>,
-
-	@field:SerializedName("name")
-	val name: String,
-
-	@field:SerializedName("id")
-	val id: Int,
-
-	@field:SerializedName("total_cals")
-	val totalCals: Int
+	@SerializedName("foods")
+	val foods: List<FoodsItem>
 )
 
 data class FoodsItem(
 
-	@field:SerializedName("name")
+	@SerializedName("id")
+	val id: Int,
+
+	@SerializedName("name")
 	val name: String,
 
-	@field:SerializedName("id")
-	val id: Int
+	@SerializedName("cals")
+	val cals: Double
 )

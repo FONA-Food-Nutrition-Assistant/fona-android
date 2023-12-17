@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.fonaapp.R
 import com.example.fonaapp.data.response.BreakfastItem
 import com.example.fonaapp.data.response.CalorieIntake
@@ -26,6 +27,7 @@ import com.example.fonaapp.ui.detail.DetailMakananActivity
 import com.example.fonaapp.ui.home.record.RecordBreakfastAdapter
 import com.example.fonaapp.ui.home.record.RecordDinnerAdapter
 import com.example.fonaapp.ui.home.record.RecordLunchAdapter
+import com.example.fonaapp.ui.home.suggestion.FoodSuggestionAdapter
 import com.example.fonaapp.ui.intro.WelcomeActivity
 import com.example.fonaapp.ui.preferences.UserPreferenceActivity
 import com.example.fonaapp.ui.result.ResultViewModel
@@ -53,6 +55,8 @@ class HomeFragment : Fragment() {
     private lateinit var breakfastAdapter: RecordBreakfastAdapter
     private lateinit var lunchAdapter: RecordLunchAdapter
     private lateinit var dinnerAdapter: RecordDinnerAdapter
+    private lateinit var suggestionAdapter: FoodSuggestionAdapter
+    private var formattedDate: String = ""
     private val mainViewModel by activityViewModels<ResultViewModel> { factory }
     private val homeViewModel by activityViewModels<HomeViewModel> { factory }
 
@@ -73,6 +77,8 @@ class HomeFragment : Fragment() {
         val defaultFormattedDate = defaultDateFormat.format(currentDate.time)
 
         binding.tvDatePicker.text = defaultFormattedDate
+
+        val formattedDate = convertDateFormatForBackend(binding.tvDatePicker.text.toString())
 
         binding.tvDatePicker.setOnClickListener {
             showDatePickerDialog()
@@ -136,29 +142,29 @@ class HomeFragment : Fragment() {
                 homeViewModel.storeWaterResponse.observe(viewLifecycleOwner) { response ->
                     Log.d(TAG,"Can store")
                 }
-                binding.btnAddDrink.setOnClickListener {
-                    homeViewModel.recordWaterConsumption(0, token, formattedDate)
-                    homeViewModel.isRecorded.observe(viewLifecycleOwner) { isRecorded ->
-                        if (!isRecorded) {
-                            Log.d(TAG, "Can record")
-                            homeViewModel.getDataHome(token, formattedDate)
-                            homeViewModel.recordWaterConsumption(1, token, formattedDate)
-                        } else {
-                            Log.d(TAG, "Can update")
-                            val previousNumberOfCups = homeViewModel.getRecordWater.value ?: 0
-                            val updatedNumberOfCups = previousNumberOfCups + 1
-                            homeViewModel.updateWaterRecord(updatedNumberOfCups, token, formattedDate)
-                            homeViewModel.getDataHome(token, formattedDate)
-                        }
-                    }
-                    homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
-                        binding.tvKaloriDrinkRemaining.text = drink.toString()
-                        val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
-                        binding.tvKaloriDrink.text = "$totalMl mL"
-                    }
-                }
+//                binding.btnAddDrink.setOnClickListener {
+//                    homeViewModel.recordWaterConsumption(0, token, formattedDate)
+//                    homeViewModel.isRecorded.observe(viewLifecycleOwner) { isRecorded ->
+//                        if (!isRecorded) {
+//                            Log.d(TAG, "Can record")
+//                            homeViewModel.getDataHome(token, formattedDate)
+//                            homeViewModel.recordWaterConsumption(1, token, formattedDate)
+//                        } else {
+//                            Log.d(TAG, "Can update")
+//                            val previousNumberOfCups = homeViewModel.getRecordWater.value ?: 0
+//                            val updatedNumberOfCups = previousNumberOfCups + 1
+//                            homeViewModel.updateWaterRecord(updatedNumberOfCups, token, formattedDate)
+//                            homeViewModel.getDataHome(token, formattedDate)
+//                        }
+//                    }
+//                    homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
+//                        binding.tvKaloriDrinkRemaining.text = drink.toString()
+//                        val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
+//                        binding.tvKaloriDrink.text = "$totalMl mL"
+//                    }
+//                }
                 homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
-                    binding.tvKaloriDrinkRemaining.text = drink.toString()
+                    binding.tvKaloriDrinkRemaining.text = "${drink} gelas"
                     val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
                     binding.tvKaloriDrink.text = "$totalMl mL"
                 }
@@ -209,6 +215,15 @@ class HomeFragment : Fragment() {
                     updateTotalCalories(calorieIntake)
                 }
             })
+
+            homeViewModel.foodSuggestion.observe(viewLifecycleOwner) { foodSuggestion ->
+                val meals = listOf(foodSuggestion.breakfast, foodSuggestion.lunch, foodSuggestion.dinner)
+                suggestionAdapter = FoodSuggestionAdapter(meals)
+                val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+                binding.rcFoodSuggestion.layoutManager = layoutManager
+                binding.rcFoodSuggestion.adapter = suggestionAdapter
+            }
+
         }
     }
 
@@ -281,6 +296,27 @@ class HomeFragment : Fragment() {
                 binding.tvDatePicker.text = formattedDate
                 checkUserData(token)
                 homeViewModel.getDataHome(token, formattedDate)
+                binding.btnAddDrink.setOnClickListener {
+                    homeViewModel.recordWaterConsumption(0, token, formattedDate)
+                    homeViewModel.isRecorded.observe(viewLifecycleOwner) { isRecorded ->
+                        if (!isRecorded) {
+                            Log.d(TAG, "Can record")
+                            homeViewModel.getDataHome(token, formattedDate)
+                            homeViewModel.recordWaterConsumption(1, token, formattedDate)
+                        } else {
+                            Log.d(TAG, "Can update")
+                            val previousNumberOfCups = homeViewModel.getRecordWater.value ?: 0
+                            val updatedNumberOfCups = previousNumberOfCups + 1
+                            homeViewModel.updateWaterRecord(updatedNumberOfCups, token, formattedDate)
+                            homeViewModel.getDataHome(token, formattedDate)
+                        }
+                    }
+                    homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
+                        binding.tvKaloriDrinkRemaining.text = "${drink} gelas"
+                        val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
+                        binding.tvKaloriDrink.text = "$totalMl mL"
+                    }
+                }
             },
             currentYear,
             currentMonth,
@@ -348,6 +384,8 @@ class HomeFragment : Fragment() {
         if (!::calorieIntake.isInitialized) {
             return
         }
+
+        // Sarapan
         val targetCaloriesSarapan = calorieIntake.lowestBreakfastIntake
         val highestBreakfastIntake = calorieIntake.highestBreakfastIntake
         val consumedCaloriesSarapan = breakfastAdapter.getBreakfastList().sumBy { it.total_cals.toInt() }
@@ -370,6 +408,8 @@ class HomeFragment : Fragment() {
                 binding.tvStatusSarapan.text = "Cukup"
             }
         }
+
+        // Makan Siang
         val targetCaloriesLunch = calorieIntake.lowestLunchIntake
         val highestLunchIntake = calorieIntake.highestLunchIntake
         val consumedCaloriesLunch = lunchAdapter.getLunchList().sumBy { it.total_cals.toInt() }
@@ -388,10 +428,12 @@ class HomeFragment : Fragment() {
                 binding.tvStatusLunch.text = "Berlebih"
             }
             else -> {
-                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_ideal)
-                binding.tvStatusSarapan.text = "Cukup"
+                binding.statusIntakesLunch.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusLunch.text = "Cukup"
             }
         }
+
+        // Makan Malam
         val targetCaloriesDinner = calorieIntake.lowestDinnerIntake
         val highestDinnerIntake = calorieIntake.highestDinnerIntake
         val consumedCaloriesDinner = dinnerAdapter.getDinnerList().sumBy { it.total_cals.toInt() }
@@ -410,11 +452,12 @@ class HomeFragment : Fragment() {
                 binding.tvStatusDinner.text = "Berlebih"
             }
             else -> {
-                binding.statusIntakesBreakfast.setImageResource(R.drawable.ic_ideal)
-                binding.tvStatusSarapan.text = "Cukup"
+                binding.statusIntakesDinner.setImageResource(R.drawable.ic_ideal)
+                binding.tvStatusDinner.text = "Cukup"
             }
         }
     }
+
 
 
 
