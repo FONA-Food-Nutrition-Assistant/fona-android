@@ -130,7 +130,9 @@ class ProfileFragment : Fragment() {
 
     private fun setupViewModel() {
         factory = ViewModelFactory.getInstance(requireActivity())
-
+        profileViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
     }
 
     private fun setupAdapter(){
@@ -145,9 +147,6 @@ class ProfileFragment : Fragment() {
         profileViewModel.getSession().observe(this){ user ->
             token = user.idToken
             profileViewModel.getUserData(token)
-            profileViewModel.isLoading.observe(this) {
-                showLoading(it)
-            }
             profileViewModel.userData.observe(this){ userData ->
                 Log.d(TAG,"userData observed")
                 getUserData(userData)

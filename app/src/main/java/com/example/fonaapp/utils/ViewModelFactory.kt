@@ -9,6 +9,7 @@ import com.example.fonaapp.ui.home.HomeViewModel
 import com.example.fonaapp.ui.preferences.UserPreferenceViewModel
 import com.example.fonaapp.ui.profile.ProfileViewModel
 import com.example.fonaapp.ui.result.ResultViewModel
+import com.example.fonaapp.ui.search.SearchFoodViewModel
 import com.example.fonaapp.ui.update.UpdatePreferenceViewModel
 import com.example.fonaapp.ui.upload.UploadViewModel
 
@@ -36,6 +37,9 @@ class ViewModelFactory private constructor(private val repository: FonaRepositor
             }
             modelClass.isAssignableFrom(CartViewModel::class.java) -> {
                CartViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SearchFoodViewModel::class.java) -> {
+               SearchFoodViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

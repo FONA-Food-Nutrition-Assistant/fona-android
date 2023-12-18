@@ -76,6 +76,8 @@ class HomeViewModel(private val fonaRepository: FonaRepository) : ViewModel() {
     val getRecordWater: LiveData<Int> =
         fonaRepository.getRecordWater
 
+    val listWater: MutableLiveData<List<WaterRecord>> = MutableLiveData()
+
     val foodSuggestion: LiveData<FoodSuggestion> =
         fonaRepository.foodSuggestion
 

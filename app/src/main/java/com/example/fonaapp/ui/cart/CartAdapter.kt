@@ -5,17 +5,22 @@ import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.fonaapp.data.models.FoodItem
+import com.example.fonaapp.data.models.Nutrition
+import com.example.fonaapp.data.response.NutritionsItem
 import com.example.fonaapp.databinding.ItemsCartFoodBinding
 import kotlin.math.min
 
 class CartAdapter(
     private val foodList: MutableList<FoodItem>,
     private val servingSizes: List<String>,
-    private val totalCaloriesTextView: TextView
+    private val totalCaloriesTextView: TextView,
+    private val nutritionsItems: List<NutritionsItem>
 ) : RecyclerView.Adapter<CartAdapter.FoodViewHolder>() {
 
     fun getQuantities(): List<Int> {
@@ -59,10 +64,32 @@ class CartAdapter(
     }
 
     inner class FoodViewHolder(private val binding: ItemsCartFoodBinding) : RecyclerView.ViewHolder(binding.root) {
+        private var currentPosition: Int = -1
+        private lateinit var currentNutrition: NutritionsItem // Sesuaikan dengan kelas objek nutrisi Anda
         fun setQuantity(position: Int, quantity: Int) {
             binding.tvQuantity.text = quantity.toString()
             // ...
         }
+        fun updateNutritionByServingSize(position: Int, servingSize: String) {
+            val foodItem = foodList[position]
+            val selectedNutrition = nutritionsItems.find { it.serving_size == servingSize }
+            selectedNutrition?.let {
+                currentNutrition = it // Ganti baris ini
+                // Update tampilan atau informasi nutrisi yang ditampilkan
+                // Misal, Anda bisa memperbarui teks atau item UI lainnya di sini
+                binding.edtKalori.text = (it.cals * foodItem.quantity).toString()
+                binding.edtKarbohidrat.text = (it.carbos * foodItem.quantity).toString()
+                binding.edtLemak.text = (it.fats * foodItem.quantity).toString()
+                binding.edtProtein.text = (it.proteins * foodItem.quantity).toString()
+                // ... perbarui informasi nutrisi lainnya sesuai kebutuhan
+                // Perbarui nutritionId pada objek FoodItem
+
+
+                calculateTotalCalories()
+                updateTotalCaloriesTextView()
+            }
+        }
+
 
 
         fun bind(foodItem: FoodItem) {
@@ -73,18 +100,22 @@ class CartAdapter(
                 edtLemak.text = (foodItem.fats * foodItem.quantity).toString()
                 edtProtein.text = (foodItem.proteins * foodItem.quantity).toString()
 
-                val adapter = ArrayAdapter(
+                // Buat adapter spinner khusus untuk item makanan ini
+                val servingSizesAdapter = ArrayAdapter(
                     itemView.context,
                     android.R.layout.simple_spinner_item,
-                    servingSizes
+                    foodItem.servingSizes
                 )
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerActivity.adapter = adapter
-                
-                val servingSizePosition = findPositionByServingSize(foodItem.serving_size)
+                servingSizesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerActivity.adapter = servingSizesAdapter
+
+                // Set posisi spinner berdasarkan serving_size dari FoodItem
+                val servingSizePosition = findPositionByServingSize(
+                    foodItem.serving_size,
+                    foodItem.servingSizes
+                )
                 spinnerActivity.setSelection(servingSizePosition)
 
-                updateTotalCaloriesTextView()
             }
         }
 
@@ -97,9 +128,11 @@ class CartAdapter(
                     notifyItemChanged(position)
                     calculateTotalCalories()
                     updateTotalCaloriesTextView()
-                    Log.d(TAG,"Item berhasil ditambah")
+                    updateNutritionByServingSize(position, servingSizes[currentPosition])
+                    Log.d(TAG, "Item berhasil ditambah")
                 }
             }
+
             binding.ivMinus.setOnClickListener {
                 val position = adapterPosition
                 if (position < foodList.size && foodList[position].quantity > 0) {
@@ -114,15 +147,27 @@ class CartAdapter(
                         setQuantity(position, foodList[position].quantity)
                         notifyItemChanged(position)
                         updateTotalCaloriesTextView()
-                        Log.d(TAG,"Item berhasil dikurangi")
+                        updateNutritionByServingSize(position, servingSizes[currentPosition])
+                        Log.d(TAG, "Item berhasil dikurangi")
                     }
+                }
+            }
+            binding.spinnerActivity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
+                    if (position != currentPosition) {
+                        currentPosition = position
+                        updateNutritionByServingSize(adapterPosition, servingSizes[position])
+                    }
+                }
+                override fun onNothingSelected(parentView: AdapterView<*>) {
+                    // Tidak melakukan apa-apa saat tidak ada yang dipilih
                 }
             }
         }
 
     }
 
-    private fun findPositionByServingSize(servingSize: String): Int {
+    private fun findPositionByServingSize(servingSize: String, servingSizes: List<String>): Int {
         for ((index, size) in servingSizes.withIndex()) {
             if (size.equals(servingSize, ignoreCase = true)) {
                 return index
@@ -131,7 +176,7 @@ class CartAdapter(
         return 0 // Set default position jika tidak ditemukan
     }
 
-    private fun updateTotalCaloriesTextView() {
+    fun updateTotalCaloriesTextView() {
         totalCaloriesTextView.text = getTotalCalories().toString()
     }
 
@@ -148,4 +193,13 @@ class CartAdapter(
     override fun getItemCount(): Int {
         return foodList.size
     }
+
+    fun clearData() {
+        foodList.clear()
+        notifyDataSetChanged()
+        calculateTotalCalories()
+        updateTotalCaloriesTextView()
+    }
+
+
 }

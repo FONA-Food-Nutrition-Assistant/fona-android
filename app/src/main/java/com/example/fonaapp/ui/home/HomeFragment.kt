@@ -27,6 +27,7 @@ import com.example.fonaapp.ui.detail.DetailMakananActivity
 import com.example.fonaapp.ui.home.record.RecordBreakfastAdapter
 import com.example.fonaapp.ui.home.record.RecordDinnerAdapter
 import com.example.fonaapp.ui.home.record.RecordLunchAdapter
+import com.example.fonaapp.ui.home.record.RecordWaterAdapter
 import com.example.fonaapp.ui.home.suggestion.FoodSuggestionAdapter
 import com.example.fonaapp.ui.intro.WelcomeActivity
 import com.example.fonaapp.ui.preferences.UserPreferenceActivity
@@ -45,7 +46,7 @@ import java.util.Locale
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
-    private var isRecordCreated = false
+    private lateinit var gelasAdapter: RecordWaterAdapter
     private lateinit var factory: ViewModelFactory
     private val binding get() = _binding!!
     private var token = ""
@@ -67,10 +68,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
-
-        homeViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,6 +83,9 @@ class HomeFragment : Fragment() {
 
         binding.tvDatePicker.setOnClickListener {
             showDatePickerDialog()
+        }
+        homeViewModel.isLoading.observe(this) {
+            showLoading(it)
         }
         setupUser()
         setupAdapter()
@@ -118,6 +118,21 @@ class HomeFragment : Fragment() {
             } else {
                 checkUserData(token)
                 homeViewModel.getDataHome(token, formattedDate)
+                mainViewModel.isLogin.observe(viewLifecycleOwner){
+                    if(it){
+                        Toast.makeText(requireActivity(), "Sesi anda berakhir! Silakan sign in terlebih dahulu!", Toast.LENGTH_LONG).show()
+                        mainViewModel.logout()
+                        auth.signOut()
+                        // Sign out from Google
+                        mGoogleSignInClient.signOut().addOnCompleteListener {
+                            // Start the WelcomeActivity after signing out
+                            startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
+                            requireActivity().finish()
+                        }
+                    } else {
+                        Log.d(TAG, "User is Login")
+                    }
+                }
                 homeViewModel.dailyNeeds.observe(this) { dailyNeeds ->
                     Log.d(TAG,"Daily Needs Called")
                     getDailyNeeds(dailyNeeds)
@@ -227,6 +242,9 @@ class HomeFragment : Fragment() {
                 binding.rcFoodSuggestion.layoutManager = layoutManager
                 binding.rcFoodSuggestion.adapter = suggestionAdapter
             }
+            gelasAdapter = RecordWaterAdapter(ArrayList())
+            rvDrink.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            rvDrink.adapter = gelasAdapter
 
         }
     }
@@ -269,21 +287,6 @@ class HomeFragment : Fragment() {
                 Log.d(TAG,"User Data is filled")
             }
         }
-        mainViewModel.isLogin.observe(viewLifecycleOwner){
-            if(it){
-                Toast.makeText(requireActivity(), "Sesi anda berakhir! Silakan sign in terlebih dahulu!", Toast.LENGTH_LONG).show()
-                mainViewModel.logout()
-                auth.signOut()
-                // Sign out from Google
-                mGoogleSignInClient.signOut().addOnCompleteListener {
-                    // Start the WelcomeActivity after signing out
-                    startActivity(Intent(requireActivity(), WelcomeActivity::class.java))
-                    requireActivity().finish()
-                }
-            } else {
-                Log.d(TAG, "User is Login")
-            }
-        }
     }
 
     private fun showDatePickerDialog() {
@@ -303,6 +306,7 @@ class HomeFragment : Fragment() {
 
                 binding.tvDatePicker.text = formattedDate
                 checkUserData(token)
+                gelasAdapter.updateData(homeViewModel.listWater.value ?: emptyList())
                 homeViewModel.getDataHome(token, formattedDate)
                 binding.btnAddDrink.setOnClickListener {
                     homeViewModel.recordWaterConsumption(0, token, formattedDate)

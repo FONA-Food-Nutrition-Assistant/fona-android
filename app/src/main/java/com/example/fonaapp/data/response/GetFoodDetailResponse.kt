@@ -71,5 +71,5 @@ data class DataItemDetail(
     val id: Int,
 
     @field:SerializedName("nutritions")
-    val nutritions: NutritionsItems
+    val nutritions: List<NutritionsItems>
 )

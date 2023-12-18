@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fonaapp.R
 import com.example.fonaapp.data.models.FoodItem
 import com.example.fonaapp.data.models.FoodRecordItem
+import com.example.fonaapp.data.models.Nutrition
 import com.example.fonaapp.data.models.RecordedFoodsRequest
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.convertToFoodItem
 import com.example.fonaapp.data.models.getUniqueServingSizes
 import com.example.fonaapp.data.response.DataFood
 import com.example.fonaapp.data.response.FoodsItem
+import com.example.fonaapp.data.response.NutritionsItem
 import com.example.fonaapp.data.response.UploadFoodResponse
 import com.example.fonaapp.databinding.ActivityCartBinding
 import com.example.fonaapp.main.MainActivity
@@ -36,6 +38,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartAdapter: CartAdapter
     private lateinit var selectedMealTime: String
     private val calendar = Calendar.getInstance()
+    private lateinit var nutritionsItems: List<NutritionsItem>
     private lateinit var quantities: MutableList<Int>
     private lateinit var foodItemList: MutableList<FoodItem>
     private lateinit var factory: ViewModelFactory
@@ -69,10 +72,11 @@ class CartActivity : AppCompatActivity() {
             foodItemList = dataFoodList.map { dataFood ->
                 convertToFoodItem(dataFood)
             }.toMutableList()
-
+            val uploadFoodResponse: UploadFoodResponse? = intent.getParcelableExtra("UPLOAD_RESPONSE")
+            nutritionsItems = dataFoodList.flatMap { it.nutritions } // Menggunakan flatMap
             val servingSizes = foodItemList.getUniqueServingSizes()
 
-            cartAdapter = CartAdapter(foodItemList, servingSizes, binding.totalCalories)
+            cartAdapter = CartAdapter(foodItemList, servingSizes, binding.totalCalories, nutritionsItems)
             binding.rvPredict.layoutManager = LinearLayoutManager(this)
             cartAdapter.notifyDataSetChanged()
 
@@ -106,6 +110,7 @@ class CartActivity : AppCompatActivity() {
             })
 
             binding.totalCalories.text = cartAdapter.getTotalCalories().toString()
+            cartAdapter.updateTotalCaloriesTextView() // Tambahkan ini
         }
     }
 
@@ -128,6 +133,9 @@ class CartActivity : AppCompatActivity() {
         }
         binding.edtDate.setOnClickListener {
             showDatePickerDialog()
+        }
+        binding.backAction.setOnClickListener {
+            onBackPressed()
         }
         binding.btnSave.setOnClickListener {
             cartViewModel.getSession().observe(this) { user ->
@@ -200,6 +208,26 @@ class CartActivity : AppCompatActivity() {
         )
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()
+    }
+
+    override fun onBackPressed() {
+        clearData()
+        super.onBackPressed()
+        finish()
+    }
+
+    override fun onDestroy() {
+        clearData()
+        super.onDestroy()
+    }
+
+    private fun clearData() {
+        // Bersihkan data yang perlu dihapus
+        // Misalnya, reset data pada adapter atau hapus data di ViewModel
+        if (::cartAdapter.isInitialized) {
+            cartAdapter.clearData()
+        }
+        // Hapus data lainnya sesuai kebutuhan
     }
 
     private fun updateEditText() {

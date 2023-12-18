@@ -3,12 +3,14 @@ package com.example.fonaapp.ui.upload
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.OrientationEventListener
 import android.view.Surface
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -65,52 +67,12 @@ class UploadActivity : AppCompatActivity() {
         setupViewModel()
         setupUser()
         setupAction()
+        uploadFoodViewModel.isLoading.observe(this@UploadActivity) {
+            showLoading(it)
+        }
     }
     private fun setupUser(){
-        uploadFoodViewModel.getSession().observe(this@UploadActivity) { user ->
-        val photoFile = createCustomTempFile(application)
-        val requestFile = photoFile.asRequestBody("image/*".toMediaType())
-        imageMultipart = MultipartBody.Part.createFormData(
-            "photo",
-            photoFile.name,
-            requestFile
-        )
-            token = user.idToken
-            if (user != null) {
-                Log.d(TAG,"Berhasil dpt token di setup user")
-                uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
-                    if (it.status == 200) {
-                        // Membuat objek UploadFoodResponse dari respons
-                        val uploadFoodResponse = it
 
-                        // Membuat Intent untuk berpindah ke CartActivity
-                        val intent = Intent(this@UploadActivity, CartActivity::class.java)
-
-                        // Mengirim objek UploadFoodResponse melalui Intent
-                        intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
-
-                        // Memulai aktivitas CartActivity
-                        startActivity(intent)
-
-                        // Menutup UploadActivity (opsional, tergantung pada kebutuhan Anda)
-                        finish()
-                    } else {
-                        Toast.makeText(
-                            this@UploadActivity,
-                            "Failed to upload food. Please try again.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            } else {
-                // Handle the case when user is null
-                Toast.makeText(
-                    this@UploadActivity,
-                    "Failed to get user information. Please try again.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
     }
     private fun setupViewModel(){
         factory = ViewModelFactory.getInstance(this)
@@ -130,7 +92,65 @@ class UploadActivity : AppCompatActivity() {
             val intent = Intent(this@UploadActivity, SearchFoodActivity::class.java)
             startActivity(intent)
         }
+        binding.galleryImage.setOnClickListener { startGallery() }
         //TODO LULU buat logika klo dia mencet logo ic_search, dia intent ke SearchFoodActivity()
+    }
+
+    private fun startGallery() {
+        launcherGallery.launch("image/jpeg")
+    }
+
+    private val launcherGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        handleSelectedImage(it)
+    }
+
+    private fun handleSelectedImage(uri: Uri?) {
+        uri?.let {
+
+            // Convert the URI to a file path or directly use the URI in your upload logic
+            val filePath: String? = uri.path
+            if (!filePath.isNullOrEmpty()) {
+                // Handle the file path (e.g., create a MultipartBody.Part for uploading)
+                // Call your upload function with the selected image file
+                val photoFile = createCustomTempFile(application)
+                val requestFile = photoFile.asRequestBody("image/jpeg".toMediaType())
+                imageMultipart = MultipartBody.Part.createFormData(
+                    "image",
+                    photoFile.name,
+                    requestFile
+                )
+                uploadFoodViewModel.getSession().observe(this@UploadActivity) { user ->
+                    Log.d(TAG,"this function gallery called")
+                    token = user.idToken
+                    Log.d(TAG,"Your token: ${token}")
+                    uploadFoodViewModel.uploadFood(user.idToken, imageMultipart)
+                    uploadFoodViewModel.isError.observe(this@UploadActivity){
+                        if(it){
+                            Toast.makeText(this@UploadActivity, "Internal server error", Toast.LENGTH_LONG).show()
+                        }
+
+                    }
+                    uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
+                        // Membuat objek UploadFoodResponse dari respons
+                        Log.d(TAG,"Gambar gallery terkirim")
+                        Toast.makeText(this@UploadActivity, "Gambar berhasil terkirim", Toast.LENGTH_LONG).show()
+                        val uploadFoodResponse = it
+
+                        // Membuat Intent untuk berpindah ke CartActivity
+                        val intent = Intent(this@UploadActivity, CartActivity::class.java)
+
+                        // Mengirim objek UploadFoodResponse melalui Intent
+                        intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
+
+                        // Memulai aktivitas CartActivity
+                        startActivity(intent)
+
+                        // Menutup UploadActivity (opsional, tergantung pada kebutuhan Anda)
+                        finish()
+                    }
+                }
+            }
+        }
     }
 
     private fun takePhoto() {
@@ -282,5 +302,9 @@ class UploadActivity : AppCompatActivity() {
         const val EXTRA_CAMERAX_IMAGE = "CameraX Image"
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
         const val CAMERAX_RESULT = 200
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

@@ -36,6 +36,9 @@ class UploadViewModel(private val fonaRepository: FonaRepository) : ViewModel() 
         return fonaRepository.getSession()
     }
 
+    private val _isLoading = fonaRepository.isLoading
+    val isLoading = _isLoading
+
 
 
 }

@@ -84,6 +84,6 @@ interface ApiService {
     @GET("/gateway/v1/fs/food/detail")
     fun getFoodetail (
         @Header("Authorization") idToken: String,
-        @Query("q") query: String,
+        @Query("search") search: String,
     ): Call<GetFoodDetailResponse>
 }

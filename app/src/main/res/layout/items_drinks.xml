@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:layout_marginTop="10dp"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp">
 
-    <ImageView
+    <!-- Container untuk menampung ImageView dinamis -->
+    <LinearLayout
+        android:id="@+id/llGelasContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_cup_drink"
-        android:layout_marginRight="16dp"/>
+        android:orientation="horizontal"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

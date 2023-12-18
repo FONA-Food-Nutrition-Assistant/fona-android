@@ -14,6 +14,7 @@ import com.example.fonaapp.data.response.CalorieIntake
 import com.example.fonaapp.data.response.DailyAnalysis
 import com.example.fonaapp.data.response.DailyNeeds
 import com.example.fonaapp.data.response.Data
+import com.example.fonaapp.data.response.DataItemDetail
 import com.example.fonaapp.data.response.DataResponse
 import com.example.fonaapp.data.response.DinnerItem
 import com.example.fonaapp.data.response.FoodSuggestion
@@ -93,6 +94,9 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
     private val _getFoodDetailResponse = MutableLiveData<GetFoodDetailResponse>()
     val getFoodDetailResponse: LiveData<GetFoodDetailResponse> = _getFoodDetailResponse
+
+    private val _listFoodDetailResponse = MutableLiveData<List<DataItemDetail>>()
+    val listFoodDetailResponse: LiveData<List<DataItemDetail>> = _listFoodDetailResponse
 
     private val _getRecordWater = MutableLiveData<Int>()
     val getRecordWater: LiveData<Int> = _getRecordWater
@@ -279,9 +283,9 @@ class FonaRepository(private val userPreference: UserPreference, private val api
         })
     }
 
-    fun getFoodDetailResponse(firebaseToken: String, query: String) {
+    fun getFoodDetailResponse(firebaseToken: String, search: String) {
         _isLoading.value = true
-        val call = apiService.getFoodetail("Bearer ${firebaseToken}", query)
+        val call = apiService.getFoodetail("Bearer ${firebaseToken}", search)
         call.enqueue(object : Callback<GetFoodDetailResponse> {
             override fun onResponse(
                 call: Call<GetFoodDetailResponse>,
@@ -290,6 +294,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 _isLoading.value = false
                 if (response.isSuccessful && response.body() != null) {
                     _getFoodDetailResponse.value = response.body()
+                    _listFoodDetailResponse.value = response.body()?.data
 //                    _nutritionList.value = true
                 } else {
                     Log.e(TAG,"onFailure: gagal 2")
@@ -299,8 +304,9 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
             override fun onFailure(call: Call<GetFoodDetailResponse>, t: Throwable) {
                 _isLoading.value = false
-                Log.e(TAG, "onFailure: gagal 1")
+                Log.e(TAG, "onFailure: ${t.message}", t)
             }
+
 
         })
     }

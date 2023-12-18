@@ -10,9 +10,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.fonaapp" />
-                  <option name="mobileSdkAppId" value="1:542299058230:android:e2983fc6a8e82462e5e897" />
-                  <option name="projectId" value="bangkit-fona-development" />
-                  <option name="projectNumber" value="542299058230" />
+                  <option name="mobileSdkAppId" value="1:248759240257:android:3ad9463351ee7864e4a8c0" />
+                  <option name="projectId" value="bangkit-fona-production" />
+                  <option name="projectNumber" value="248759240257" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
