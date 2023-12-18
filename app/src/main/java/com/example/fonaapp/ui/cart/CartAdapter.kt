@@ -11,10 +11,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.fonaapp.data.models.FoodItem
-import com.example.fonaapp.data.models.Nutrition
 import com.example.fonaapp.data.response.NutritionsItem
 import com.example.fonaapp.databinding.ItemsCartFoodBinding
-import kotlin.math.min
 
 class CartAdapter(
     private val foodList: MutableList<FoodItem>,
@@ -39,7 +37,6 @@ class CartAdapter(
     private fun calculateTotalCalories() {
         totalCalories = 0.0
         for (foodItem in foodList) {
-            // Menggunakan quantity dari setiap item di foodList
             totalCalories += foodItem.calories * foodItem.quantity
         }
     }
@@ -68,22 +65,16 @@ class CartAdapter(
         private lateinit var currentNutrition: NutritionsItem // Sesuaikan dengan kelas objek nutrisi Anda
         fun setQuantity(position: Int, quantity: Int) {
             binding.tvQuantity.text = quantity.toString()
-            // ...
         }
         fun updateNutritionByServingSize(position: Int, servingSize: String) {
             val foodItem = foodList[position]
             val selectedNutrition = nutritionsItems.find { it.serving_size == servingSize }
             selectedNutrition?.let {
-                currentNutrition = it // Ganti baris ini
-                // Update tampilan atau informasi nutrisi yang ditampilkan
-                // Misal, Anda bisa memperbarui teks atau item UI lainnya di sini
+                currentNutrition = it
                 binding.edtKalori.text = (it.cals * foodItem.quantity).toString()
                 binding.edtKarbohidrat.text = (it.carbos * foodItem.quantity).toString()
                 binding.edtLemak.text = (it.fats * foodItem.quantity).toString()
                 binding.edtProtein.text = (it.proteins * foodItem.quantity).toString()
-                // ... perbarui informasi nutrisi lainnya sesuai kebutuhan
-                // Perbarui nutritionId pada objek FoodItem
-
 
                 calculateTotalCalories()
                 updateTotalCaloriesTextView()
@@ -100,7 +91,6 @@ class CartAdapter(
                 edtLemak.text = (foodItem.fats * foodItem.quantity).toString()
                 edtProtein.text = (foodItem.proteins * foodItem.quantity).toString()
 
-                // Buat adapter spinner khusus untuk item makanan ini
                 val servingSizesAdapter = ArrayAdapter(
                     itemView.context,
                     android.R.layout.simple_spinner_item,
@@ -109,7 +99,6 @@ class CartAdapter(
                 servingSizesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinnerActivity.adapter = servingSizesAdapter
 
-                // Set posisi spinner berdasarkan serving_size dari FoodItem
                 val servingSizePosition = findPositionByServingSize(
                     foodItem.serving_size,
                     foodItem.servingSizes
@@ -173,7 +162,7 @@ class CartAdapter(
                 return index
             }
         }
-        return 0 // Set default position jika tidak ditemukan
+        return 0
     }
 
     fun updateTotalCaloriesTextView() {

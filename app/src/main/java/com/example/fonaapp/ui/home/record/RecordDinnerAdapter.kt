@@ -22,8 +22,6 @@ class RecordDinnerAdapter(private var dinnerList: List<DinnerItem>, private val 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordDinnerAdapter.ViewHolder {
         val binding = ItemsRecordFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//        binding.root.layoutParams = params
         return ViewHolder(binding)
     }
 

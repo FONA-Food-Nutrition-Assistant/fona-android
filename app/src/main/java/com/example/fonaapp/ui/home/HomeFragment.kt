@@ -161,27 +161,6 @@ class HomeFragment : Fragment() {
                 homeViewModel.storeWaterResponse.observe(viewLifecycleOwner) { response ->
                     Log.d(TAG,"Can store")
                 }
-//                binding.btnAddDrink.setOnClickListener {
-//                    homeViewModel.recordWaterConsumption(0, token, formattedDate)
-//                    homeViewModel.isRecorded.observe(viewLifecycleOwner) { isRecorded ->
-//                        if (!isRecorded) {
-//                            Log.d(TAG, "Can record")
-//                            homeViewModel.getDataHome(token, formattedDate)
-//                            homeViewModel.recordWaterConsumption(1, token, formattedDate)
-//                        } else {
-//                            Log.d(TAG, "Can update")
-//                            val previousNumberOfCups = homeViewModel.getRecordWater.value ?: 0
-//                            val updatedNumberOfCups = previousNumberOfCups + 1
-//                            homeViewModel.updateWaterRecord(updatedNumberOfCups, token, formattedDate)
-//                            homeViewModel.getDataHome(token, formattedDate)
-//                        }
-//                    }
-//                    homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
-//                        binding.tvKaloriDrinkRemaining.text = drink.toString()
-//                        val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
-//                        binding.tvKaloriDrink.text = "$totalMl mL"
-//                    }
-//                }
                 homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
                     binding.tvKaloriDrinkRemaining.text = "${drink} gelas"
                     val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
@@ -250,21 +229,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun openDetailActivityBreakfast(breakfastItem: BreakfastItem) {
-        // Implementasi untuk menangani item sarapan
         val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
         intent.putExtra("BREAKFAST_ITEM_KEY", breakfastItem)
         startActivity(intent)
     }
 
     private fun openDetailActivityLunch(lunchItem: LunchItem) {
-        // Implementasi untuk menangani item makan siang
         val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
         intent.putExtra("LUNCH_ITEM_KEY", lunchItem)
         startActivity(intent)
     }
 
     private fun openDetailActivityDinner(dinnerItem: DinnerItem) {
-        // Implementasi untuk menangani item makan malam
         val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
         intent.putExtra("DINNER_ITEM_KEY", dinnerItem)
         startActivity(intent)
