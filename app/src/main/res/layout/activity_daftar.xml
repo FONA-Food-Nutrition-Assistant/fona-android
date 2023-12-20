@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_perintah" />
 
-    <com.example.fonaapp.widget.MyEditText
+    <com.bangkit23b2.fonaapp.widget.MyEditText
         android:id="@+id/edt_nama"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:alpha="100">
 
-        <com.example.fonaapp.widget.MyEditText
+        <com.bangkit23b2.fonaapp.widget.MyEditText
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:alpha="100">
 
-        <com.example.fonaapp.widget.MyEditText
+        <com.bangkit23b2.fonaapp.widget.MyEditText
             android:id="@+id/edt_kata_sandi"
             android:layout_width="match_parent"
             android:hint="@string/kataSandi"
@@ -186,7 +186,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         tools:alpha="100">
 
-        <com.example.fonaapp.widget.MyEditText
+        <com.bangkit23b2.fonaapp.widget.MyEditText
             android:id="@+id/edt_konfirmasi_sandi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -9,8 +9,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.fonaapp" />
-                  <option name="mobileSdkAppId" value="1:248759240257:android:3ad9463351ee7864e4a8c0" />
+                  <option name="appId" value="com.bangkit23b2.fonaapp" />
+                  <option name="mobileSdkAppId" value="1:248759240257:android:5dae16aa169403c7e4a8c0" />
                   <option name="projectId" value="bangkit-fona-production" />
                   <option name="projectNumber" value="248759240257" />
                 </ConnectionSetting>

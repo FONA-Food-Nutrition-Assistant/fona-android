@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.fonaapp"
+    namespace = "com.bangkit23b2.fonaapp"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.fonaapp"
+        applicationId = "com.bangkit23b2.fonaapp"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     testImplementation("junit:junit:4.13.2")
