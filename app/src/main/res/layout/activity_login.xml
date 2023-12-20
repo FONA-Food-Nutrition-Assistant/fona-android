@@ -59,21 +59,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_perintah1" />
 
-    <EditText
-        android:id="@+id/edt_email"
-        style="@style/body"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:drawableEnd="@drawable/ic_mail"
-        android:hint="@string/email"
-        android:inputType="textImeMultiLine"
-        android:minHeight="48dp"
+        app:hintEnabled="false"
+        app:boxBackgroundMode="filled"
+        app:errorIconTint="@color/error"
+        app:boxStrokeErrorColor="@color/error"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:alpha="100">
+
+        <com.example.fonaapp.widget.MyEditText
+            android:id="@+id/edt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_mail"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            tools:ignore="MissingClass" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView3"
@@ -86,23 +98,37 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+        app:layout_constraintTop_toBottomOf="@+id/email_layout" />
 
-    <EditText
-        android:id="@+id/edt_kata_sandi"
-        style="@style/body"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_password"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:drawableEnd="@drawable/ic_eyes"
-        android:hint="@string/kataSandi"
-        android:inputType="textImeMultiLine"
-        android:minHeight="48dp"
+        app:endIconMode="password_toggle"
+        app:hintEnabled="false"
+        app:boxStrokeColor="@color/colorSecondary"
+        app:errorIconTint="@color/error"
+        app:boxStrokeErrorColor="@color/error"
+        app:boxBackgroundMode="filled"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:alpha="100">
+
+        <com.example.fonaapp.widget.MyEditText
+            android:id="@+id/edt_kata_sandi"
+            android:layout_width="match_parent"
+            android:hint="@string/kataSandi"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            tools:ignore="MissingClass" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_atur_ulang"
@@ -113,7 +139,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/atur_ulang"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_kata_sandi" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_password" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_masuk"
@@ -145,12 +171,13 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_masuk" />
 
     <TextView
-        android:id="@+id/daftar"
+        android:id="@+id/btn_daftar"
+        style="@style/body_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
         android:text="@string/daftar"
-        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/tv_pilihan_daftar"
         app:layout_constraintTop_toBottomOf="@+id/btn_masuk" />
 

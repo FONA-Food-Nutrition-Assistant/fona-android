@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- ItemsDrinksBinding.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginTop="10dp">
+    android:layout_height="wrap_content">
 
-    <!-- Container untuk menampung ImageView dinamis -->
     <LinearLayout
-        android:id="@+id/llGelasContainer"
+        android:id="@+id/imageViewCup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"/>
 
+    <!-- Other views or elements -->
 </LinearLayout>

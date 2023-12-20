@@ -35,4 +35,3 @@ data class DataFood(
 	val id: Int,
 	val nutritions: List<NutritionsItem>
 ) : Parcelable
-

@@ -23,6 +23,7 @@ import com.example.fonaapp.data.response.DailyNeeds
 import com.example.fonaapp.data.response.DinnerItem
 import com.example.fonaapp.data.response.LunchItem
 import com.example.fonaapp.databinding.FragmentHomeBinding
+import com.example.fonaapp.main.MainActivity
 import com.example.fonaapp.ui.detail.DetailMakananActivity
 import com.example.fonaapp.ui.home.record.RecordBreakfastAdapter
 import com.example.fonaapp.ui.home.record.RecordDinnerAdapter
@@ -32,6 +33,7 @@ import com.example.fonaapp.ui.home.suggestion.FoodSuggestionAdapter
 import com.example.fonaapp.ui.intro.WelcomeActivity
 import com.example.fonaapp.ui.preferences.UserPreferenceActivity
 import com.example.fonaapp.ui.result.ResultViewModel
+import com.example.fonaapp.ui.upload.UploadActivity
 import com.example.fonaapp.utils.ViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -86,6 +88,27 @@ class HomeFragment : Fragment() {
         }
         homeViewModel.isLoading.observe(this) {
             showLoading(it)
+        }
+        binding.btnAddLunch.setOnClickListener {
+            val intent = Intent(
+                requireActivity(),
+                UploadActivity::class.java
+            )
+            startActivity(intent)
+        }
+        binding.btnAddSarapan.setOnClickListener {
+            val intent = Intent(
+                requireActivity(),
+                UploadActivity::class.java
+            )
+            startActivity(intent)
+        }
+        binding.btnAddDinner.setOnClickListener {
+            val intent = Intent(
+                requireActivity(),
+                UploadActivity::class.java
+            )
+            startActivity(intent)
         }
         setupUser()
         setupAdapter()
@@ -166,6 +189,12 @@ class HomeFragment : Fragment() {
                     val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
                     binding.tvKaloriDrink.text = "$totalMl mL"
                 }
+                homeViewModel.listWater.observe(viewLifecycleOwner){
+                    Log.d(TAG, "Dirnk called")
+                    gelasAdapter.updateData(it)
+
+                }
+
             }
         }
     }
@@ -182,11 +211,10 @@ class HomeFragment : Fragment() {
             breakfastAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onChanged() {
                     super.onChanged()
-                    updateTotalCalories(calorieIntake) // Tambahkan pemanggilan di sini
+                    updateTotalCalories(calorieIntake)
                 }
             })
 
-            // Adapter Lunch
             lunchAdapter = RecordLunchAdapter(ArrayList()) { clickedItem ->
                 openDetailActivityLunch(clickedItem)
             }
@@ -282,7 +310,6 @@ class HomeFragment : Fragment() {
 
                 binding.tvDatePicker.text = formattedDate
                 checkUserData(token)
-                gelasAdapter.updateData(homeViewModel.listWater.value ?: emptyList())
                 homeViewModel.getDataHome(token, formattedDate)
                 binding.btnAddDrink.setOnClickListener {
                     homeViewModel.recordWaterConsumption(0, token, formattedDate)

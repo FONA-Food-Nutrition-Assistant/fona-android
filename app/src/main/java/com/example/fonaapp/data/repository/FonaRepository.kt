@@ -117,9 +117,6 @@ class FonaRepository(private val userPreference: UserPreference, private val api
     val isError: LiveData<Boolean> = _isError
 
 
-
-    //TODO LULU 2 - Buat variabel food/nutrition response
-
     fun storeUserData(user: User, firebaseToken: String) {
         _isLoading.value = true
         _isError.value = false
@@ -408,14 +405,6 @@ class FonaRepository(private val userPreference: UserPreference, private val api
             }
         })
     }
-
-
-
-
-
-
-    //TODO LULU 3 - Buat fungsi get list food
-
 
     fun getSession(): LiveData<UserModel> {
         return userPreference.getSession().asLiveData()

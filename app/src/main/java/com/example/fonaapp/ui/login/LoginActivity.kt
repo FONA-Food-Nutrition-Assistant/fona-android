@@ -14,6 +14,7 @@ import com.example.fonaapp.data.models.UserModel
 import com.example.fonaapp.data.models.UserPreference
 import com.example.fonaapp.databinding.ActivityLoginBinding
 import com.example.fonaapp.main.MainActivity
+import com.example.fonaapp.ui.daftar.DaftarActivity
 import com.example.fonaapp.ui.preferences.UserPreferenceActivity
 import com.example.fonaapp.utils.Injection
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -64,8 +65,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction(){
         binding.btnMasuk.setOnClickListener {
-            if(binding.edtEmail.text.isNotEmpty() && binding.edtKataSandi.text.isNotEmpty()){
-                    //LAUNCH REGISTER
+            if(binding.edtEmail.text!!.isNotEmpty() && binding.edtKataSandi.text!!.isNotEmpty()){
                     loginWithEmailPassword()
             } else{
                 Toast.makeText(this, "Silakan isi semua data terlebih dahulu!!", LENGTH_SHORT).show()
@@ -77,6 +77,13 @@ class LoginActivity : AppCompatActivity() {
         binding.backAction.setOnClickListener {
             onBackPressed()
         }
+        binding.btnDaftar.setOnClickListener {
+            val intent = Intent(
+                this@LoginActivity,
+                DaftarActivity::class.java
+            )
+            startActivity(intent)
+        }
     }
 
 
@@ -87,19 +94,16 @@ class LoginActivity : AppCompatActivity() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             val exception=task.exception
 
             try {
-//                 Google Sign In was successful, authenticate with Firebase
                 val idToken = task.getResult(ApiException::class.java)!!
                 firebaseAuthWithGoogle(idToken)
 
             }
             catch (e: ApiException) {
-//                 Google Sign In failed, update UI appropriately
                 Toast.makeText(this, "Login Failed 1", Toast.LENGTH_SHORT)
                     .show()
             }

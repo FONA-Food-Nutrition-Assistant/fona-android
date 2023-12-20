@@ -37,7 +37,6 @@
     <TextView
         android:id="@+id/textView"
         style="@style/body"
-        android:textColor="@color/primaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -65,7 +64,6 @@
             <TextView
                 android:id="@+id/tv_jenis_kelamin"
                 style="@style/body_bold"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/jenis_kelamin"
@@ -76,7 +74,6 @@
                 android:id="@+id/tv_gender"
                 style="@style/body"
                 android:layout_width="wrap_content"
-                android:textColor="@color/primaryText"
                 android:text="@string/pria"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +81,6 @@
             <TextView
                 android:id="@+id/tv_age"
                 style="@style/body"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -95,7 +91,6 @@
             <TextView
                 android:id="@+id/tv_age_number"
                 style="@style/body_bold"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -106,7 +101,6 @@
             <TextView
                 android:id="@+id/tv_berat_badan"
                 style="@style/body_bold"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -117,7 +111,6 @@
             <TextView
                 android:id="@+id/tv_weight"
                 style="@style/body"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -128,7 +121,6 @@
             <TextView
                 android:id="@+id/tv_tinggi_badan"
                 style="@style/body_bold"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -139,7 +131,6 @@
             <TextView
                 android:id="@+id/tv_height"
                 style="@style/body"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -150,7 +141,6 @@
             <TextView
                 android:id="@+id/tv_indeks_bmi"
                 style="@style/body_bold"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -166,7 +156,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="20.20"
-                android:textColor="@color/primaryText"
                 app:layout_constraintEnd_toStartOf="@+id/item_bmi_level"
                 app:layout_constraintTop_toBottomOf="@id/tv_height" />
 
@@ -193,7 +182,6 @@
             <TextView
                 android:id="@+id/tv_aktifitas"
                 style="@style/body_bold"
-                android:textColor="@color/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -205,7 +193,6 @@
                 android:id="@+id/tv_activity"
                 style="@style/body"
                 android:layout_width="wrap_content"
-                android:textColor="@color/primaryText"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Light Active"
@@ -228,7 +215,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Alergi"
-                android:textColor="@color/primaryText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_aktifitas" />
 

@@ -62,7 +62,7 @@ class CartAdapter(
 
     inner class FoodViewHolder(private val binding: ItemsCartFoodBinding) : RecyclerView.ViewHolder(binding.root) {
         private var currentPosition: Int = -1
-        private lateinit var currentNutrition: NutritionsItem // Sesuaikan dengan kelas objek nutrisi Anda
+        private lateinit var currentNutrition: NutritionsItem
         fun setQuantity(position: Int, quantity: Int) {
             binding.tvQuantity.text = quantity.toString()
         }
@@ -70,23 +70,22 @@ class CartAdapter(
             val foodItem = foodList[position]
             val selectedNutrition = nutritionsItems.find { it.serving_size == servingSize }
             selectedNutrition?.let {
-                currentNutrition = it
+                currentNutrition = it // Ganti baris ini
                 binding.edtKalori.text = (it.cals * foodItem.quantity).toString()
                 binding.edtKarbohidrat.text = (it.carbos * foodItem.quantity).toString()
                 binding.edtLemak.text = (it.fats * foodItem.quantity).toString()
                 binding.edtProtein.text = (it.proteins * foodItem.quantity).toString()
+
 
                 calculateTotalCalories()
                 updateTotalCaloriesTextView()
             }
         }
 
-
-
         fun bind(foodItem: FoodItem) {
             binding.apply {
                 namaMakanan.text = foodItem.name
-                edtKalori.text = (foodItem.calories * foodItem.quantity).toString() // Hitung total kalori
+                edtKalori.text = (foodItem.calories * foodItem.quantity).toString()
                 edtKarbohidrat.text = (foodItem.carbs * foodItem.quantity).toString()
                 edtLemak.text = (foodItem.fats * foodItem.quantity).toString()
                 edtProtein.text = (foodItem.proteins * foodItem.quantity).toString()
@@ -145,11 +144,11 @@ class CartAdapter(
                 override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                     if (position != currentPosition) {
                         currentPosition = position
-                        updateNutritionByServingSize(adapterPosition, servingSizes[position])
+                        updateNutritionByServingSize(position, servingSizes[position])
                     }
                 }
                 override fun onNothingSelected(parentView: AdapterView<*>) {
-                    // Tidak melakukan apa-apa saat tidak ada yang dipilih
+
                 }
             }
         }
@@ -162,7 +161,7 @@ class CartAdapter(
                 return index
             }
         }
-        return 0
+        return 0 // Set default position jika tidak ditemukan
     }
 
     fun updateTotalCaloriesTextView() {

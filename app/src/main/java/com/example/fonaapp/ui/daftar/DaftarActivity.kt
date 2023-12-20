@@ -67,6 +67,13 @@ class DaftarActivity : AppCompatActivity() {
         binding.backAction.setOnClickListener {
             onBackPressed()
         }
+        binding.btnLogin.setOnClickListener {
+            val intent = Intent(
+                this,
+                LoginActivity::class.java
+            )
+            startActivity(intent)
+        }
     }
 
     private fun isEditTextEmpty(editText: EditText): Boolean {

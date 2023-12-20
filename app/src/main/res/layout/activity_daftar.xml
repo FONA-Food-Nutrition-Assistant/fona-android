@@ -219,10 +219,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        style="@style/large"
         android:text="@string/klmt_pertanyaan"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_daftar" />
+
+    <TextView
+        android:id="@+id/btn_login"
+        style="@style/large_bold"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="4dp"
+        android:text="Login"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_pertanyaan"
         app:layout_constraintTop_toBottomOf="@+id/btn_daftar" />
 
 

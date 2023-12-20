@@ -31,8 +31,6 @@ class SearchFoodActivity : AppCompatActivity() {
         setupUser()
         setupAction()
     }
-
-    //TODO LULU - 7 ikutin di activity lain contohnya
     private fun setupView(){
         binding = ActivitySearchFoodBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -42,7 +40,7 @@ class SearchFoodActivity : AppCompatActivity() {
     private fun setupUser() {
         searchFoodViewModel.getSession().observe(this) { user ->
             token = user.idToken
-            searchFoodViewModel.getNutritionListResponse(token, "a")
+            searchFoodViewModel.getNutritionListResponse(token, " ")
 
             with(binding) {
                 searchView.setupWithSearchBar(searchBar)

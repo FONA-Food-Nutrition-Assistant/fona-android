@@ -100,14 +100,13 @@ class UserPreferenceActivity : AppCompatActivity() {
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-            }
 
+            }
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // Implementasi jika tidak ada yang dipilih
+
             }
         }
 
-        // Navigasi ke ResultUserPreferenceActivity saat tombol lanjut diklik
         binding.btnContinueResult.setOnClickListener {
             if (isEditTextEmpty(binding.edtBirthDate) || isEditTextEmpty(binding.edtHeight) || isEditTextEmpty(
                     binding.edtWeight
@@ -161,16 +160,13 @@ class UserPreferenceActivity : AppCompatActivity() {
             binding.apply {
                 val height = edtHeight.text.toString().toInt()
                 val weight = edtWeight.text.toString().toInt()
-                // Mengambil gender dari radio button yang dipilih
                 val gender = when (radioGroup.checkedRadioButtonId) {
                     R.id.rbMale -> "Laki-laki"
                     R.id.rbFemale -> "Perempuan"
-                    else -> "" // Handle jika tidak ada yang dipilih
+                    else -> ""
                 }
                 val dateOfBirth = convertDateFormatForBackend(edtBirthDate.text.toString())
-                // Mengambil tingkat aktivitas dari spinner
                 val activityLevel = spinnerActivity.selectedItem.toString().split(":")[0].trim()
-                // Mengambil data alergi dari checkbox yang dipilih
                 val selectedAllergies = updateAdapter.getSelectedIds().toMutableList()
                 val idToken = token
 

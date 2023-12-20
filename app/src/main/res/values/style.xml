@@ -34,6 +34,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/nunito_regular</item>
     </style>
+    <style name="spinner" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
+    </style>
     <style name="small" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

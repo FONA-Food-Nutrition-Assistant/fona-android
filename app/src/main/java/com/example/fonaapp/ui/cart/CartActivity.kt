@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fonaapp.R
 import com.example.fonaapp.data.models.FoodItem
 import com.example.fonaapp.data.models.FoodRecordItem
-import com.example.fonaapp.data.models.Nutrition
 import com.example.fonaapp.data.models.RecordedFoodsRequest
 import com.example.fonaapp.data.models.User
 import com.example.fonaapp.data.models.convertToFoodItem
@@ -72,8 +71,7 @@ class CartActivity : AppCompatActivity() {
             foodItemList = dataFoodList.map { dataFood ->
                 convertToFoodItem(dataFood)
             }.toMutableList()
-            val uploadFoodResponse: UploadFoodResponse? = intent.getParcelableExtra("UPLOAD_RESPONSE")
-            nutritionsItems = dataFoodList.flatMap { it.nutritions } // Menggunakan flatMap
+            nutritionsItems = dataFoodList.flatMap { it.nutritions }
             val servingSizes = foodItemList.getUniqueServingSizes()
 
             cartAdapter = CartAdapter(foodItemList, servingSizes, binding.totalCalories, nutritionsItems)
@@ -92,7 +90,6 @@ class CartActivity : AppCompatActivity() {
             waktuMakanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinner.adapter = waktuMakanAdapter
 
-            // Tambahkan listener untuk mendeteksi perubahan pilihan
             binding.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parentView: AdapterView<*>,
@@ -100,7 +97,6 @@ class CartActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    // Simpan pilihan waktu makan yang dipilih
                     selectedMealTime = parentView.getItemAtPosition(position).toString()
                 }
 
@@ -110,7 +106,7 @@ class CartActivity : AppCompatActivity() {
             })
 
             binding.totalCalories.text = cartAdapter.getTotalCalories().toString()
-            cartAdapter.updateTotalCaloriesTextView() // Tambahkan ini
+            cartAdapter.updateTotalCaloriesTextView()
         }
     }
 
@@ -222,12 +218,12 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun clearData() {
-        // Bersihkan data yang perlu dihapus
-        // Misalnya, reset data pada adapter atau hapus data di ViewModel
+        // Clear data in the adapter
         if (::cartAdapter.isInitialized) {
             cartAdapter.clearData()
         }
-        // Hapus data lainnya sesuai kebutuhan
+
+        // Clear any other data or resources if needed
     }
 
     private fun updateEditText() {

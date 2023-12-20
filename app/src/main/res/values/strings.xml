@@ -35,7 +35,7 @@
     <string name="konfirmasi">Masukkan Ulang Kata Sandi</string>
     <string name="klmt_pilihan">atau</string>
     <string name="btn_masukGoogle">Masuk dengan Google</string>
-    <string name="klmt_pertanyaan">Sudah punya akun? Login</string>
+    <string name="klmt_pertanyaan">Sudah punya akun?</string>
     <string name="klmt_perintah1">Masukkan email dan password dari akun yang pernah kamu buat sebelumnya!</string>
     <string name="atur_ulang">Lupa kata sandi? atur ulang.</string>
     <string name="klmt_pilihan_daftar">Belum punya akun?</string>

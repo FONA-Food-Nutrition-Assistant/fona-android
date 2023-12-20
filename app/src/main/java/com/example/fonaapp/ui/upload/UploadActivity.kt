@@ -39,6 +39,7 @@ class UploadActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var factory: ViewModelFactory
     private var token = ""
+    private var isProcessing = false
     private lateinit var imageMultipart: MultipartBody.Part
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private val uploadFoodViewModel: UploadViewModel by viewModels { factory }
@@ -106,12 +107,8 @@ class UploadActivity : AppCompatActivity() {
 
     private fun handleSelectedImage(uri: Uri?) {
         uri?.let {
-
-            // Convert the URI to a file path or directly use the URI in your upload logic
             val filePath: String? = uri.path
             if (!filePath.isNullOrEmpty()) {
-                // Handle the file path (e.g., create a MultipartBody.Part for uploading)
-                // Call your upload function with the selected image file
                 val photoFile = createCustomTempFile(application)
                 val requestFile = photoFile.asRequestBody("image/jpeg".toMediaType())
                 imageMultipart = MultipartBody.Part.createFormData(
@@ -131,21 +128,16 @@ class UploadActivity : AppCompatActivity() {
 
                     }
                     uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
-                        // Membuat objek UploadFoodResponse dari respons
                         Log.d(TAG,"Gambar gallery terkirim")
                         Toast.makeText(this@UploadActivity, "Gambar berhasil terkirim", Toast.LENGTH_LONG).show()
                         val uploadFoodResponse = it
 
-                        // Membuat Intent untuk berpindah ke CartActivity
                         val intent = Intent(this@UploadActivity, CartActivity::class.java)
 
-                        // Mengirim objek UploadFoodResponse melalui Intent
                         intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
 
-                        // Memulai aktivitas CartActivity
                         startActivity(intent)
 
-                        // Menutup UploadActivity (opsional, tergantung pada kebutuhan Anda)
                         finish()
                     }
                 }
@@ -156,62 +148,65 @@ class UploadActivity : AppCompatActivity() {
     private fun takePhoto() {
 
         val imageCapture = imageCapture ?: return
-        val photoFile = createCustomTempFile(application)
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-        val requestFile = photoFile.asRequestBody("image/jpeg".toMediaType())
-        imageMultipart = MultipartBody.Part.createFormData(
-            "image",
-            photoFile.name,
-            requestFile
-        )
 
-        imageCapture.takePicture(
+        if (!isProcessing) {
+            isProcessing = true
+            val photoFile = createCustomTempFile(application)
+            val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+            val requestFile = photoFile.asRequestBody("image/jpeg".toMediaType())
+            imageMultipart = MultipartBody.Part.createFormData(
+                "image",
+                photoFile.name,
+                requestFile
+            )
 
-            outputOptions,
-            ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    uploadFoodViewModel.getSession().observe(this@UploadActivity) { user ->
-                        Log.d(TAG,"this function called")
-                        token = user.idToken
-                        Log.d(TAG,"Your token: ${token}")
-                        uploadFoodViewModel.uploadFood(user.idToken, imageMultipart)
-                        uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
-                            // Membuat objek UploadFoodResponse dari respons
-                            Log.d(TAG,"Gambar terkirim")
-                            val uploadFoodResponse = it
+            imageCapture.takePicture(
 
-                            // Membuat Intent untuk berpindah ke CartActivity
-                            val intent = Intent(this@UploadActivity, CartActivity::class.java)
+                outputOptions,
+                ContextCompat.getMainExecutor(this),
+                object : ImageCapture.OnImageSavedCallback {
+                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                        uploadFoodViewModel.getSession().observe(this@UploadActivity) { user ->
+                            Log.d(TAG, "this function called")
+                            token = user.idToken
+                            Log.d(TAG, "Your token: ${token}")
+                            uploadFoodViewModel.uploadFood(user.idToken, imageMultipart)
+                            uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
+                                Log.d(TAG, "Gambar terkirim")
+                                val uploadFoodResponse = it
 
-                            // Mengirim objek UploadFoodResponse melalui Intent
-                            intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
+                                val intent = Intent(this@UploadActivity, CartActivity::class.java)
 
-                            // Memulai aktivitas CartActivity
-                            startActivity(intent)
+                                intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
 
-                            // Menutup UploadActivity (opsional, tergantung pada kebutuhan Anda)
-                            finish()
-                        }
-                        uploadFoodViewModel.isError.observe(this@UploadActivity){
-                            if(it){
-                                Toast.makeText(this@UploadActivity, "Internal server error", Toast.LENGTH_LONG).show()
+                                startActivity(intent)
+
+                                finish()
                             }
+                            uploadFoodViewModel.isError.observe(this@UploadActivity) {
+                                if (it) {
+                                    Toast.makeText(
+                                        this@UploadActivity,
+                                        "Internal server error",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
 
+                            }
                         }
                     }
-                }
-                override fun onError(exc: ImageCaptureException) {
-                    Toast.makeText(
-                        this@UploadActivity,
-                        "Gagal mengambil gambar.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e(TAG, "onError: ${exc.message}")
-                }
-            }
 
-        )
+                    override fun onError(exc: ImageCaptureException) {
+                        Toast.makeText(
+                            this@UploadActivity,
+                            "Gagal mengambil gambar.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e(TAG, "onError: ${exc.message}")
+                    }
+                }
+            )
+        }
 
     }
 
