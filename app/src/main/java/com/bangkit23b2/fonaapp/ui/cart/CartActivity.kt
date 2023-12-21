@@ -3,7 +3,6 @@ package com.bangkit23b2.fonaapp.ui.cart
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,13 +10,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit23b2.fonaapp.R
 import com.bangkit23b2.fonaapp.data.models.FoodItem
 import com.bangkit23b2.fonaapp.data.models.FoodRecordItem
 import com.bangkit23b2.fonaapp.data.models.RecordedFoodsRequest
 import com.bangkit23b2.fonaapp.data.models.convertToFoodItem
-import com.bangkit23b2.fonaapp.data.models.getUniqueServingSizes
+import com.bangkit23b2.fonaapp.data.models.convertToNutritionItem
 import com.bangkit23b2.fonaapp.data.response.DataFood
 import com.bangkit23b2.fonaapp.data.response.NutritionsItem
 import com.bangkit23b2.fonaapp.data.response.UploadFoodResponse
@@ -67,14 +67,12 @@ class CartActivity : AppCompatActivity() {
             foodItemList = dataFoodList.map { dataFood ->
                 convertToFoodItem(dataFood)
             }.toMutableList()
-            nutritionsItems = dataFoodList.flatMap { it.nutritions }
-            val servingSizes = foodItemList.getUniqueServingSizes()
+            nutritionsItems = dataFoodList.convertToNutritionItem().sortedBy { it.foodId }
 
-            cartAdapter = CartAdapter(foodItemList, servingSizes, binding.totalCalories, nutritionsItems)
+            cartAdapter = CartAdapter(foodItemList, binding.totalCalories, nutritionsItems)
             binding.rvPredict.layoutManager = LinearLayoutManager(this)
-            cartAdapter.notifyDataSetChanged()
-
             binding.rvPredict.adapter = cartAdapter
+            cartAdapter.notifyDataSetChanged()
 
             val waktuMakanAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -214,12 +212,12 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun clearData() {
-        // Clear data in the adapter
+        // Bersihkan data yang perlu dihapus
+        // Misalnya, reset data pada adapter atau hapus data di ViewModel
         if (::cartAdapter.isInitialized) {
             cartAdapter.clearData()
         }
-
-        // Clear any other data or resources if needed
+        // Hapus data lainnya sesuai kebutuhan
     }
 
     private fun updateEditText() {

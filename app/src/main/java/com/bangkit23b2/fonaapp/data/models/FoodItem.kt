@@ -1,11 +1,13 @@
 package com.bangkit23b2.fonaapp.data.models
 
 import com.bangkit23b2.fonaapp.data.response.DataFood
+import com.bangkit23b2.fonaapp.data.response.NutritionsItem
 
 
 data class FoodItem(
+    val id: Int,
     val name: String,
-    val calories: Double,
+    var calories: Double,
     val carbs: Double,
     val proteins: Double,
     val fibers: Double,
@@ -30,6 +32,7 @@ fun convertToFoodItem(dataFood: DataFood): FoodItem {
 
     val nutritionsItem = nutritionsItems.first()
     return FoodItem(
+        id = dataFood.id,
         name = dataFood.name,
         calories = nutritionsItem.cals,
         carbs = nutritionsItem.carbos,
@@ -46,6 +49,28 @@ fun convertToFoodItem(dataFood: DataFood): FoodItem {
         nutritionId = nutritionsItem.id,
         quantity = 1
     )
+}
+
+fun List<DataFood>.convertToNutritionItem(): List<NutritionsItem> {
+    return this.flatMap { food ->
+        food.nutritions.map { nutrition ->
+            NutritionsItem(
+                nutrition.fibers,
+                nutrition.carbos,
+                nutrition.createdAt,
+                nutrition.cals,
+                food.id,
+                nutrition.glucoses,
+                nutrition.caliums,
+                nutrition.sodiums,
+                nutrition.updatedAt,
+                nutrition.fats,
+                nutrition.proteins,
+                nutrition.serving_size,
+                nutrition.id
+            )
+        }
+    }
 }
 
 fun List<FoodItem>.getUniqueServingSizes(): List<String> {

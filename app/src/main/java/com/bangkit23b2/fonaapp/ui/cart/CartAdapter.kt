@@ -2,21 +2,20 @@ package com.bangkit23b2.fonaapp.ui.cart
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.bangkit23b2.fonaapp.data.models.FoodItem
 import com.bangkit23b2.fonaapp.data.response.NutritionsItem
 import com.bangkit23b2.fonaapp.databinding.ItemsCartFoodBinding
 
 class CartAdapter(
     private val foodList: MutableList<FoodItem>,
-    private val servingSizes: List<String>,
     private val totalCaloriesTextView: TextView,
     private val nutritionsItems: List<NutritionsItem>
 ) : RecyclerView.Adapter<CartAdapter.FoodViewHolder>() {
@@ -68,9 +67,14 @@ class CartAdapter(
         }
         fun updateNutritionByServingSize(position: Int, servingSize: String) {
             val foodItem = foodList[position]
-            val selectedNutrition = nutritionsItems.find { it.serving_size == servingSize }
+            val selectedNutrition = nutritionsItems
+                .filter { foodItem.id == it.foodId }
+                .find { it.serving_size == servingSize }
             selectedNutrition?.let {
                 currentNutrition = it // Ganti baris ini
+                foodList[position].nutritionId = selectedNutrition.id
+                foodList[position].calories = selectedNutrition.cals
+
                 binding.edtKalori.text = (it.cals * foodItem.quantity).toString()
                 binding.edtKarbohidrat.text = (it.carbos * foodItem.quantity).toString()
                 binding.edtLemak.text = (it.fats * foodItem.quantity).toString()
@@ -90,6 +94,7 @@ class CartAdapter(
                 edtLemak.text = (foodItem.fats * foodItem.quantity).toString()
                 edtProtein.text = (foodItem.proteins * foodItem.quantity).toString()
 
+                // Buat adapter spinner khusus untuk item makanan ini
                 val servingSizesAdapter = ArrayAdapter(
                     itemView.context,
                     android.R.layout.simple_spinner_item,
@@ -116,7 +121,7 @@ class CartAdapter(
                     notifyItemChanged(position)
                     calculateTotalCalories()
                     updateTotalCaloriesTextView()
-                    updateNutritionByServingSize(position, servingSizes[currentPosition])
+                    updateNutritionByServingSize(position, binding.spinnerActivity.selectedItem.toString())
                     Log.d(TAG, "Item berhasil ditambah")
                 }
             }
@@ -135,7 +140,7 @@ class CartAdapter(
                         setQuantity(position, foodList[position].quantity)
                         notifyItemChanged(position)
                         updateTotalCaloriesTextView()
-                        updateNutritionByServingSize(position, servingSizes[currentPosition])
+                        updateNutritionByServingSize(position, binding.spinnerActivity.selectedItem.toString())
                         Log.d(TAG, "Item berhasil dikurangi")
                     }
                 }
@@ -144,7 +149,7 @@ class CartAdapter(
                 override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                     if (position != currentPosition) {
                         currentPosition = position
-                        updateNutritionByServingSize(position, servingSizes[position])
+                        updateNutritionByServingSize(adapterPosition, parentView.getItemAtPosition(position).toString())
                     }
                 }
                 override fun onNothingSelected(parentView: AdapterView<*>) {
@@ -161,7 +166,7 @@ class CartAdapter(
                 return index
             }
         }
-        return 0 // Set default position jika tidak ditemukan
+        return 0
     }
 
     fun updateTotalCaloriesTextView() {
@@ -188,6 +193,4 @@ class CartAdapter(
         calculateTotalCalories()
         updateTotalCaloriesTextView()
     }
-
-
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.OrientationEventListener
@@ -14,8 +13,10 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -27,7 +28,10 @@ import com.bangkit23b2.fonaapp.ui.cart.CartActivity
 import com.bangkit23b2.fonaapp.ui.search.SearchFoodActivity
 import com.bangkit23b2.fonaapp.utils.ViewModelFactory
 import com.bangkit23b2.fonaapp.utils.createCustomTempFile
+import com.bangkit23b2.fonaapp.utils.reduceFileImage
+import com.bangkit23b2.fonaapp.utils.uriToFile
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 
@@ -37,6 +41,7 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private var token = ""
     private var isProcessing = false
+    private var currentImageUri: Uri? = null
     private lateinit var imageMultipart: MultipartBody.Part
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private val uploadFoodViewModel: UploadViewModel by viewModels { factory }
@@ -45,6 +50,7 @@ class UploadActivity : AppCompatActivity() {
             this,
             UploadActivity.REQUIRED_PERMISSION
         ) == PackageManager.PERMISSION_GRANTED
+
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -55,6 +61,7 @@ class UploadActivity : AppCompatActivity() {
                 Toast.makeText(this, "Permission request denied", Toast.LENGTH_LONG).show()
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -69,14 +76,17 @@ class UploadActivity : AppCompatActivity() {
             showLoading(it)
         }
     }
-    private fun setupUser(){
+
+    private fun setupUser() {
+
 
     }
-    private fun setupViewModel(){
+
+    private fun setupViewModel() {
         factory = ViewModelFactory.getInstance(this)
     }
 
-    private fun setupAction(){
+    private fun setupAction() {
         binding.switchCamera.setOnClickListener {
             cameraSelector =
                 if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
@@ -95,52 +105,64 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun startGallery() {
-        launcherGallery.launch("image/jpeg")
+        uploadFoodViewModel.getSession().observe(this@UploadActivity) {
+            token = it.idToken
+            launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
     }
 
-    private val launcherGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        handleSelectedImage(it)
-    }
+    private val launcherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        uploadFoodViewModel.getSession().observe(this@UploadActivity) { user ->
+            if (uri != null) {
+                currentImageUri = uri
+                currentImageUri.let {
+                    val file = uriToFile(currentImageUri!!, this)
+                    val reducedFile = reduceFileImage(file)
+                    val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                    val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                        "image",
+                        reducedFile.name,
+                        requestImageFile
+                    )
+                    if (!isProcessing) {
+                        isProcessing = true
+                        Log.d(TAG, "this function called")
+                        token = user.idToken
+                        Log.d(TAG, "Your token: $token")
+                        uploadFoodViewModel.uploadFood(user.idToken, imageMultipart)
+                        uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) { upload ->
+                            Log.d(TAG, "Gambar terkirim")
+                            val uploadFoodResponse = upload
+                            uploadFoodViewModel.isError.observe(this@UploadActivity) {
+                                if (!it) {
+                                    val intent =
+                                        Intent(this@UploadActivity, CartActivity::class.java)
 
-    private fun handleSelectedImage(uri: Uri?) {
-        uri?.let {
-            val filePath: String? = uri.path
-            if (!filePath.isNullOrEmpty()) {
-                val photoFile = createCustomTempFile(application)
-                val requestFile = photoFile.asRequestBody("image/jpeg".toMediaType())
-                imageMultipart = MultipartBody.Part.createFormData(
-                    "image",
-                    photoFile.name,
-                    requestFile
-                )
-                uploadFoodViewModel.getSession().observe(this@UploadActivity) { user ->
-                    Log.d(TAG,"this function gallery called")
-                    token = user.idToken
-                    Log.d(TAG,"Your token: ${token}")
-                    uploadFoodViewModel.uploadFood(user.idToken, imageMultipart)
-                    uploadFoodViewModel.isError.observe(this@UploadActivity){
-                        if(it){
-                            Toast.makeText(this@UploadActivity, "Internal server error", Toast.LENGTH_LONG).show()
+                                    intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
+
+                                    startActivity(intent)
+
+                                    finish()
+                                } else {
+                                    Toast.makeText(
+                                        this@UploadActivity,
+                                        "Error upload image, internal server error",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
                         }
-
-                    }
-                    uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
-                        Log.d(TAG,"Gambar gallery terkirim")
-                        Toast.makeText(this@UploadActivity, "Gambar berhasil terkirim", Toast.LENGTH_LONG).show()
-                        val uploadFoodResponse = it
-
-                        val intent = Intent(this@UploadActivity, CartActivity::class.java)
-
-                        intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
-
-                        startActivity(intent)
-
-                        finish()
+                        isProcessing = false
                     }
                 }
+            } else {
+                Log.d("Photo Picker", "No media selected")
             }
         }
     }
+
 
     private fun takePhoto() {
 
@@ -168,29 +190,30 @@ class UploadActivity : AppCompatActivity() {
                             token = user.idToken
                             Log.d(TAG, "Your token: ${token}")
                             uploadFoodViewModel.uploadFood(user.idToken, imageMultipart)
-                            uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) {
+                            uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) { upload ->
                                 Log.d(TAG, "Gambar terkirim")
-                                val uploadFoodResponse = it
+                                val uploadFoodResponse = upload
+                                uploadFoodViewModel.isError.observe(this@UploadActivity) {
+                                    if (!it) {
+                                        val intent =
+                                            Intent(this@UploadActivity, CartActivity::class.java)
 
-                                val intent = Intent(this@UploadActivity, CartActivity::class.java)
+                                        intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
 
-                                intent.putExtra("UPLOAD_RESPONSE", uploadFoodResponse)
+                                        startActivity(intent)
 
-                                startActivity(intent)
-
-                                finish()
-                            }
-                            uploadFoodViewModel.isError.observe(this@UploadActivity) {
-                                if (it) {
-                                    Toast.makeText(
-                                        this@UploadActivity,
-                                        "Internal server error",
-                                        Toast.LENGTH_LONG
-                                    ).show()
+                                        finish()
+                                    } else {
+                                        Toast.makeText(
+                                            this@UploadActivity,
+                                            "Error upload image, internal server error",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
                                 }
-
                             }
                         }
+                        isProcessing = false
                     }
 
                     override fun onError(exc: ImageCaptureException) {
@@ -200,6 +223,7 @@ class UploadActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         Log.e(TAG, "onError: ${exc.message}")
+                        isProcessing = false
                     }
                 }
             )
@@ -212,6 +236,7 @@ class UploadActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
     private val orientationEventListener by lazy {
         object : OrientationEventListener(this) {
             override fun onOrientationChanged(orientation: Int) {
