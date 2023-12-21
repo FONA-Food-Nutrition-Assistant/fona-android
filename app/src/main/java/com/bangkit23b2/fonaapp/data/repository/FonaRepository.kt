@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import com.bangkit23b2.fonaapp.data.models.DeleteFoodRequest
 import com.bangkit23b2.fonaapp.data.models.RecordedFoodsRequest
 import com.bangkit23b2.fonaapp.data.models.User
 import com.bangkit23b2.fonaapp.data.models.UserModel
@@ -15,6 +16,7 @@ import com.bangkit23b2.fonaapp.data.response.DailyAnalysis
 import com.bangkit23b2.fonaapp.data.response.DailyNeeds
 import com.bangkit23b2.fonaapp.data.response.Data
 import com.bangkit23b2.fonaapp.data.response.DataItemDetail
+import com.bangkit23b2.fonaapp.data.response.DeleteFoodResponse
 import com.bangkit23b2.fonaapp.data.response.DinnerItem
 import com.bangkit23b2.fonaapp.data.response.FoodSuggestion
 import com.bangkit23b2.fonaapp.data.response.GetFoodDetailResponse
@@ -95,6 +97,9 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
     private val _listFoodDetailResponse = MutableLiveData<List<DataItemDetail>>()
     val listFoodDetailResponse: LiveData<List<DataItemDetail>> = _listFoodDetailResponse
+
+    private val _deleteFoodResponse = MutableLiveData<DeleteFoodResponse>()
+    val deleteFoodResponse: LiveData<DeleteFoodResponse> = _deleteFoodResponse
 
     private val _getRecordWater = MutableLiveData<Int>()
     val getRecordWater: LiveData<Int> = _getRecordWater
@@ -354,6 +359,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
 
     fun uploadFood(firebaseToken: String, image: MultipartBody.Part) {
         _isLoading.value = true
+        _isError.value = false
         val client = apiService.uploadFood("Bearer $firebaseToken", image)
 
         client.enqueue(object : Callback<UploadFoodResponse> {
@@ -368,10 +374,12 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                         TAG,
                         "onFailure: ${response.message()}, ${response.body()?.message.toString()} 401/400"
                     )
+                    _isError.value = true
                 }
             }
             override fun onFailure(call: Call<UploadFoodResponse>, t: Throwable) {
                 Log.d("error upload", t.message.toString())
+                _isError.value = true
             }
 
         })
@@ -390,7 +398,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 _isError.value = false
                 if (response.isSuccessful && response.body() != null) {
                     _storeRecordFood.value = response.body()
-                    _isError.value = false
+                    _isError.value = true
                 } else {
                     Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, response fail")
                 }
@@ -403,6 +411,37 @@ class FonaRepository(private val userPreference: UserPreference, private val api
             }
         })
     }
+
+    fun deleteRecordFood(
+        idToken: String,
+        nutritionIds: List<Int>,
+        mealTime: String,
+        date: String,
+        callback: (Boolean) -> Unit
+    ) {
+        apiService.deleteRecordFood("Bearer $idToken", DeleteFoodRequest(nutritionIds, mealTime, date))
+            .enqueue(object : Callback<DeleteFoodResponse> {
+                override fun onResponse(
+                    call: Call<DeleteFoodResponse>,
+                    response: Response<DeleteFoodResponse>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        // Handle success
+                        callback(true)
+                        _deleteFoodResponse.value = response.body()
+                    } else {
+                        // Handle failure
+                        callback(false)
+                    }
+                }
+
+                override fun onFailure(call: Call<DeleteFoodResponse>, t: Throwable) {
+                    // Handle failure
+                    callback(false)
+                }
+            })
+    }
+
 
     fun getSession(): LiveData<UserModel> {
         return userPreference.getSession().asLiveData()

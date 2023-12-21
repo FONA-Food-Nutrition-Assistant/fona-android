@@ -259,18 +259,21 @@ class HomeFragment : Fragment() {
     private fun openDetailActivityBreakfast(breakfastItem: BreakfastItem) {
         val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
         intent.putExtra("BREAKFAST_ITEM_KEY", breakfastItem)
+        intent.putExtra("DATE",formattedDate)
         startActivity(intent)
     }
 
     private fun openDetailActivityLunch(lunchItem: LunchItem) {
         val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
         intent.putExtra("LUNCH_ITEM_KEY", lunchItem)
+        intent.putExtra("DATE",formattedDate)
         startActivity(intent)
     }
 
     private fun openDetailActivityDinner(dinnerItem: DinnerItem) {
         val intent = Intent(requireActivity(), DetailMakananActivity::class.java)
         intent.putExtra("DINNER_ITEM_KEY", dinnerItem)
+        intent.putExtra("DATE",formattedDate)
         startActivity(intent)
     }
 
@@ -306,7 +309,7 @@ class HomeFragment : Fragment() {
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, month, day)
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val formattedDate = dateFormat.format(selectedDate.time)
+                formattedDate = dateFormat.format(selectedDate.time)
 
                 binding.tvDatePicker.text = formattedDate
                 checkUserData(token)

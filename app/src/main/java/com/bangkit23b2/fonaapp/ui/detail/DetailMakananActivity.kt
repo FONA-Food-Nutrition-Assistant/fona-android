@@ -1,14 +1,23 @@
 package com.bangkit23b2.fonaapp.ui.detail
 
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.bangkit23b2.fonaapp.data.response.BreakfastItem
 import com.bangkit23b2.fonaapp.data.response.DinnerItem
 import com.bangkit23b2.fonaapp.data.response.LunchItem
 import com.bangkit23b2.fonaapp.databinding.ActivityDetailMakananBinding
+import com.bangkit23b2.fonaapp.main.MainActivity
+import com.bangkit23b2.fonaapp.ui.home.HomeViewModel
+import com.bangkit23b2.fonaapp.ui.intro.WelcomeActivity
+import com.bangkit23b2.fonaapp.utils.ViewModelFactory
 
 class DetailMakananActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailMakananBinding
@@ -16,9 +25,13 @@ class DetailMakananActivity : AppCompatActivity() {
     private var breakfastItem: BreakfastItem? = null
     private var lunchItem: LunchItem? = null
     private var dinnerItem: DinnerItem? = null
+    private lateinit var factory: ViewModelFactory
+    private var formattedDate: String = ""
+    private val homeViewModel: HomeViewModel by viewModels { factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
+        setupViewModel()
         setupUser()
 
         breakfastItem = intent.getParcelableExtra("BREAKFAST_ITEM_KEY")
@@ -44,6 +57,12 @@ class DetailMakananActivity : AppCompatActivity() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
+        formattedDate = intent.getStringExtra("DATE") ?: "DefaultDate"
+        Log.d(TAG, "Get date: $formattedDate")
+    }
+
+    private fun setupViewModel(){
+        factory = ViewModelFactory.getInstance(this)
     }
 
     private fun setupUser(){
@@ -60,9 +79,61 @@ class DetailMakananActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-    }
+        binding.btnRemove.setOnClickListener {
+            val mealItems = listOfNotNull(breakfastItem, lunchItem, dinnerItem)
 
+            val nutritionIds = getNutritionIds(mealItems)
+            val mealType = when {
+                breakfastItem != null -> "Sarapan"
+                lunchItem != null -> "Makan Siang"
+                dinnerItem != null -> "Makan Malam"
+                else -> ""
+            }
+
+            homeViewModel.getSession().observe(this) { user ->
+                Log.d(TAG, "this function called")
+                token = user.idToken
+                Log.d(TAG, "Your token: ${token}")
+                homeViewModel.getDataHome(token, formattedDate)
+                if (!user.isLogin) {
+                    Log.d(TAG, "User is not login")
+                    startActivity(Intent(this, WelcomeActivity::class.java))
+                    finish()
+                } else {
+                    val singleNutritionId = nutritionIds.firstOrNull() ?: 0
+                    token = user.idToken
+                    Log.d(TAG, "Your delete token: ${token}")
+                    homeViewModel.deleteRecordFood(token, listOf(singleNutritionId), mealType, formattedDate) { success ->
+                        if (success) {
+                            Toast.makeText(this, "Record deleted successfully", Toast.LENGTH_SHORT)
+                                .show()
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Failed to delete record", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    private fun getNutritionIds(mealItems: List<Any?>): List<Int> {
+        return mealItems.mapNotNull { getNutritionId(it) }
+    }
+    private fun getNutritionId(mealItem: Any?): Int {
+        return when (mealItem) {
+            is BreakfastItem -> mealItem.nutrition_id
+            is LunchItem -> mealItem.nutrition_id
+            is DinnerItem -> mealItem.nutrition_id
+            else -> 0 // Return a default value or handle the case where the mealItem is not recognized
+        }
+    }
     private fun displayData() {
+
+
+
         val namaMakanan = when {
             breakfastItem != null -> breakfastItem?.name
             lunchItem != null -> lunchItem?.name

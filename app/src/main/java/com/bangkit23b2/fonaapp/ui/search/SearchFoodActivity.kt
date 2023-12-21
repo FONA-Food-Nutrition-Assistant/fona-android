@@ -13,7 +13,6 @@ import com.bangkit23b2.fonaapp.data.response.DataItemDetail
 import com.bangkit23b2.fonaapp.databinding.ActivitySearchFoodBinding
 import com.bangkit23b2.fonaapp.utils.ViewModelFactory
 
-//TODO LULU - 6 setup binding, buat layout nya = Constraint - SearchBar (mirip di github) - recyclerview - progressbar
 class SearchFoodActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchFoodBinding
@@ -55,11 +54,8 @@ class SearchFoodActivity : AppCompatActivity() {
                             }
                             searchFoodViewModel.getNutritionListResponse(token, "a")
                             searchFoodViewModel.listFoodDetailResponse.observe(this@SearchFoodActivity) {
-                                // Call setupAdapter function to handle adapter setup
                                 setupAdapter(it)
                                 if (it != null) {
-                                    // Lakukan sesuatu dengan foodDetailResponse
-                                    // Contoh: Cetak log untuk melihat hasilnya
                                     Log.d(TAG, "List Food Detail Response: $it")
                                 } else {
                                     Log.e(TAG, "List Food Detail Response is null")
@@ -71,11 +67,8 @@ class SearchFoodActivity : AppCompatActivity() {
                             }
                             searchFoodViewModel.getNutritionListResponse(token, query)
                             searchFoodViewModel.listFoodDetailResponse.observe(this@SearchFoodActivity) {
-                                // Call setupAdapter function to handle adapter setup
                                 setupAdapter(it)
                                 if (it != null) {
-                                    // Lakukan sesuatu dengan foodDetailResponse
-                                    // Contoh: Cetak log untuk melihat hasilnya
                                     Log.d(TAG, "List Food Detail Response: $it")
                                 } else {
                                     Log.e(TAG, "List Food Detail Response is null")
@@ -94,11 +87,8 @@ class SearchFoodActivity : AppCompatActivity() {
             binding.rvRecordFood.adapter = searchAdapter
 
             searchFoodViewModel.listFoodDetailResponse.observe(this@SearchFoodActivity) {
-                // Call setupAdapter function to handle adapter setup
                 setupAdapter(it)
                 if (it != null) {
-                    // Lakukan sesuatu dengan foodDetailResponse
-                    // Contoh: Cetak log untuk melihat hasilnya
                     Log.d(TAG, "List Food Detail Response: $it")
                 } else {
                     Log.e(TAG, "List Food Detail Response is null")
@@ -128,7 +118,6 @@ class SearchFoodActivity : AppCompatActivity() {
     }
 
     private fun setupAdapter(searchAdapter: List<DataItemDetail>) {
-        // Assuming searchAdapter is a ListAdapter, if not, you need to create one
         val adapter = SearchAdapter()
         binding.rvRecordFood.adapter = adapter
         adapter.submitList(searchAdapter)

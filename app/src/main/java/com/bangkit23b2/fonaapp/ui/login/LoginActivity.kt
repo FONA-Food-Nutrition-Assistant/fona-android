@@ -46,14 +46,14 @@ class LoginActivity : AppCompatActivity() {
         progressDialog.setTitle("Login")
         progressDialog.setMessage("Silakan tunggu...")
         auth = FirebaseAuth.getInstance()
-        // Configure Google Sign In
+
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-        // Initialize Firebase Auth
+
         auth = Firebase.auth
         binding = ActivityLoginBinding.inflate(layoutInflater)
 
@@ -136,7 +136,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 } else {
 
-                    Toast.makeText(this@LoginActivity, "Login Failed: ", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Login Failed: User not found", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }
@@ -177,8 +177,7 @@ class LoginActivity : AppCompatActivity() {
                     val intent= Intent(this,MainActivity::class.java)
                     startActivity(intent)
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(this@LoginActivity, "Login Failed: ", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Login Failed: User not found", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }

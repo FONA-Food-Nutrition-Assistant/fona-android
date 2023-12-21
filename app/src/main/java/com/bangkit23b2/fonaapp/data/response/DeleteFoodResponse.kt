@@ -1,0 +1,18 @@
+package com.bangkit23b2.fonaapp.data.response
+
+import com.google.gson.annotations.SerializedName
+
+data class DeleteFoodResponse(
+
+	@field:SerializedName("method")
+	val method: String,
+
+	@field:SerializedName("data")
+	val data: List<Any>,
+
+	@field:SerializedName("message")
+	val message: String,
+
+	@field:SerializedName("status")
+	val status: Int
+)

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bangkit23b2.fonaapp.data.models.UserModel
 import com.bangkit23b2.fonaapp.data.models.WaterRecord
 import com.bangkit23b2.fonaapp.data.repository.FonaRepository
 import com.bangkit23b2.fonaapp.data.response.BreakfastItem
@@ -86,5 +87,19 @@ class HomeViewModel(private val fonaRepository: FonaRepository) : ViewModel() {
     private val _isLoading = fonaRepository.isLoading
     val isLoading = _isLoading
 
+    fun deleteRecordFood(
+        idToken: String,
+        nutritionIds: List<Int>,
+        mealTime: String,
+        date: String,
+        callback: (Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            fonaRepository.deleteRecordFood(idToken, nutritionIds, mealTime, date, callback)
+        }
+    }
+    fun getSession(): LiveData<UserModel> {
+        return fonaRepository.getSession()
+    }
 
 }

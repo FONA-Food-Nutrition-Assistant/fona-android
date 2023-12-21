@@ -1,9 +1,11 @@
 package com.bangkit23b2.fonaapp.data.retrofit
 
+import com.bangkit23b2.fonaapp.data.models.DeleteFoodRequest
 import com.bangkit23b2.fonaapp.data.models.RecordedFoodsRequest
 import com.bangkit23b2.fonaapp.data.models.User
 import com.bangkit23b2.fonaapp.data.models.WaterRecord
 import com.bangkit23b2.fonaapp.data.response.Data
+import com.bangkit23b2.fonaapp.data.response.DeleteFoodResponse
 import com.bangkit23b2.fonaapp.data.response.GetFoodDetailResponse
 import com.bangkit23b2.fonaapp.data.response.GetUserDataResponse
 import com.bangkit23b2.fonaapp.data.response.HomeResponse
@@ -18,6 +20,7 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -86,4 +89,10 @@ interface ApiService {
         @Header("Authorization") idToken: String,
         @Query("search") search: String,
     ): Call<GetFoodDetailResponse>
+
+    @HTTP(method = "DELETE", path = "/gateway/v1/fs/food", hasBody = true)
+    fun deleteRecordFood(
+        @Header("Authorization") idToken: String,
+        @Body request: DeleteFoodRequest
+    ): Call<DeleteFoodResponse>
 }

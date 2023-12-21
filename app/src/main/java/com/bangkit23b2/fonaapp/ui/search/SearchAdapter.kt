@@ -17,21 +17,17 @@ class SearchAdapter :
             with(binding) {
                 binding.namaMakanan.text = foodDetail.name
 
-                // Example: Assuming nutritions is a list
                 val nutritionsList = foodDetail.nutritions
 
-                // Handle the case where nutritionsList is not empty
                 if (nutritionsList.isNotEmpty()) {
-                    val firstNutritionItem = nutritionsList[0] // Access the first item for demonstration
+                    val firstNutritionItem = nutritionsList[0]
 
-                    // Use the properties of NutritionsItems
                     binding.edtKalori.text = firstNutritionItem.cals.toString()
                     binding.edtKarbohidrat.text = firstNutritionItem.carbos.toString()
                     binding.edtLemak.text = firstNutritionItem.fats.toString()
                     binding.edtProtein.text = firstNutritionItem.proteins.toString()
                 } else {
-                    // Handle the case where nutritionsList is empty
-                    // You may want to set default values or handle this case based on your logic
+
                 }
             }
         }
