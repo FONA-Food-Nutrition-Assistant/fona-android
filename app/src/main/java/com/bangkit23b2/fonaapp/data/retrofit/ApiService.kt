@@ -95,4 +95,10 @@ interface ApiService {
         @Header("Authorization") idToken: String,
         @Body request: DeleteFoodRequest
     ): Call<DeleteFoodResponse>
+
+    @PUT("/gateway/v1/fs/food")
+    fun updateRecordFood(
+        @Header("Authorization") idToken: String,
+        @Body request: RecordedFoodsRequest,
+    ) : Call<StoreRecordResponse>
 }

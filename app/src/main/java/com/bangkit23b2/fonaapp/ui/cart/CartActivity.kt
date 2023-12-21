@@ -39,6 +39,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private var token = ""
     private val cartViewModel: CartViewModel by viewModels { factory }
+    private var uploadFoodResponse: UploadFoodResponse? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
@@ -58,11 +59,11 @@ class CartActivity : AppCompatActivity() {
 
 
     private fun setupAdapter() {
-        val uploadFoodResponse: UploadFoodResponse? = intent.getParcelableExtra("UPLOAD_RESPONSE")
+        uploadFoodResponse = intent.getParcelableExtra("UPLOAD_RESPONSE")
 
         if (uploadFoodResponse != null) {
 
-            val dataFoodList: List<DataFood> = uploadFoodResponse.data
+            val dataFoodList: List<DataFood> = uploadFoodResponse!!.data
 
             foodItemList = dataFoodList.map { dataFood ->
                 convertToFoodItem(dataFood)
@@ -115,7 +116,7 @@ class CartActivity : AppCompatActivity() {
             if (removedItem != null && removedItem.quantity == 0) {
                 val removedNutritionId = removedItem.nutritionId
                 foodItemList.removeAll { it.nutritionId == removedNutritionId }
-                Log.d(TAG,"Nutrition id terhapus")
+                Log.d(TAG, "Nutrition id terhapus")
             }
 
             Toast.makeText(this, "Item berhasil dihapus", Toast.LENGTH_SHORT).show()
@@ -126,51 +127,46 @@ class CartActivity : AppCompatActivity() {
         }
         binding.backAction.setOnClickListener {
             onBackPressed()
+            clearDataAndFinish()
         }
         binding.btnSave.setOnClickListener {
             cartViewModel.getSession().observe(this) { user ->
                 token = user.idToken
                 val idToken = token
-                if (::foodItemList.isInitialized) {
+                idToken?.let {
+                    if (::foodItemList.isInitialized) {
+                        val totalCalories = cartAdapter.getTotalCalories()
+                        val mealTime = selectedMealTime
+                        val date = convertDateFormatForBackend(binding.edtDate.text.toString())
+                        val quantities = cartAdapter.getQuantities()
+                        val foodsArray = mutableListOf<FoodRecordItem>()
 
-                    val totalCalories = cartAdapter.getTotalCalories()
-
-                    val mealTime = selectedMealTime
-                    val date = convertDateFormatForBackend(binding.edtDate.text.toString())
-
-                    val quantities = cartAdapter.getQuantities()
-
-                    val foodsArray = mutableListOf<FoodRecordItem>()
-
-                    for ((index, foodItem) in foodItemList.withIndex()) {
-                        val nutritionId = foodItem.nutritionId
-                        val quantity = quantities[index]
-
-                        val foodObject = FoodRecordItem(nutritionId, quantity)
-                        foodsArray.add(foodObject)
-                    }
-                    if (idToken != null) {
-                        cartViewModel.storeRecordFood(
-                            idToken,
-                            RecordedFoodsRequest(
-                                foodsArray,
-                                mealTime,
-                                date
-                            ),
-                        )
-                        cartViewModel.storeRecordFood.observe(this@CartActivity) { _ ->
-                            val intent = Intent(
-                                this@CartActivity,
-                                MainActivity::class.java
-                            )
-                            startActivity(intent)
+                        for ((index, foodItem) in foodItemList.withIndex()) {
+                            val nutritionId = foodItem.nutritionId
+                            val quantity = quantities[index]
+                            val foodObject = FoodRecordItem(nutritionId, quantity)
+                            foodsArray.add(foodObject)
                         }
+
+                        cartViewModel.storeRecordFood(idToken, RecordedFoodsRequest(foodsArray, mealTime, date)) { success ->
+                            if (success) {
+                                Toast.makeText(this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show()
+                                foodItemList.clear()
+                                cartAdapter.notifyDataSetChanged()
+                                clearDataAndFinish()
+                                startActivity(Intent(this, MainActivity::class.java))
+                                finish()
+                            } else {
+                                cartViewModel.updateRecordFood(idToken, RecordedFoodsRequest(foodsArray, mealTime, date))
+                                foodItemList.clear()
+                                cartAdapter.notifyDataSetChanged()
+                                clearDataAndFinish()
+                                startActivity(Intent(this, MainActivity::class.java))
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "FoodItemList belum diinisialisasi", Toast.LENGTH_SHORT).show()
                     }
-
-                    Toast.makeText(this, "Data berhasil disimpan", Toast.LENGTH_SHORT).show()
-                } else {
-
-                    Toast.makeText(this, "FoodItemList belum diinisialisasi", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -201,23 +197,20 @@ class CartActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        clearData()
-        super.onBackPressed()
+        clearDataAndFinish()
+        val intent = Intent(
+            this@CartActivity,
+            MainActivity::class.java
+        )
+        startActivity(intent)
         finish()
     }
 
-    override fun onDestroy() {
-        clearData()
-        super.onDestroy()
-    }
-
-    private fun clearData() {
-        // Bersihkan data yang perlu dihapus
-        // Misalnya, reset data pada adapter atau hapus data di ViewModel
-        if (::cartAdapter.isInitialized) {
-            cartAdapter.clearData()
-        }
-        // Hapus data lainnya sesuai kebutuhan
+    private fun clearDataAndFinish() {
+        uploadFoodResponse = null
+        foodItemList.clear()
+        cartAdapter.notifyDataSetChanged()
+        finish()
     }
 
     private fun updateEditText() {

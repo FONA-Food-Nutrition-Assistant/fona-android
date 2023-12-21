@@ -92,6 +92,9 @@ class FonaRepository(private val userPreference: UserPreference, private val api
     private val _storeRecordFood = MutableLiveData<StoreRecordResponse>()
     val storeRecordFood: LiveData<StoreRecordResponse> = _storeRecordFood
 
+    private val _updateRecordFood = MutableLiveData<StoreRecordResponse>()
+    val updateRecordFood: LiveData<StoreRecordResponse> = _updateRecordFood
+
     private val _getFoodDetailResponse = MutableLiveData<GetFoodDetailResponse>()
     val getFoodDetailResponse: LiveData<GetFoodDetailResponse> = _getFoodDetailResponse
 
@@ -385,7 +388,7 @@ class FonaRepository(private val userPreference: UserPreference, private val api
         })
     }
 
-    fun storeRecordFood(firebaseToken: String, food: RecordedFoodsRequest) {
+    fun storeRecordFood(firebaseToken: String, food: RecordedFoodsRequest,  callback: (Boolean) -> Unit) {
         _isLoading.value = true
         _isError.value = false
         val call = apiService.storeRecordFood("Bearer $firebaseToken", food)
@@ -398,6 +401,36 @@ class FonaRepository(private val userPreference: UserPreference, private val api
                 _isError.value = false
                 if (response.isSuccessful && response.body() != null) {
                     _storeRecordFood.value = response.body()
+                    _isError.value = true
+                    callback(true)
+                } else {
+                    Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, response fail")
+                    callback(false)
+                }
+            }
+
+            override fun onFailure(call: Call<StoreRecordResponse>, t: Throwable) {
+                _isLoading.value = false
+                _isError.value = true
+                callback(false)
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun updateRecordFood(firebaseToken: String, food: RecordedFoodsRequest) {
+        _isLoading.value = true
+        _isError.value = false
+        val call = apiService.updateRecordFood("Bearer $firebaseToken", food)
+
+        call.enqueue(object : Callback<StoreRecordResponse> {
+            override fun onResponse(
+                call: Call<StoreRecordResponse>, response: Response<StoreRecordResponse>
+            ) {
+                _isLoading.value = false
+                _isError.value = false
+                if (response.isSuccessful && response.body() != null) {
+                    _updateRecordFood.value = response.body()
                     _isError.value = true
                 } else {
                     Log.e(TAG, "onFailure: ${response.body()?.message.toString()}, response fail")

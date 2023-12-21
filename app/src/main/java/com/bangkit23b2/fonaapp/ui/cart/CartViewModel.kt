@@ -13,15 +13,25 @@ class CartViewModel(private val fonaRepository: FonaRepository) : ViewModel() {
     private val _storeRecordFood = fonaRepository.storeRecordFood
     val storeRecordFood = _storeRecordFood
 
+    private val _updateRecordFood = fonaRepository.updateRecordFood
+    val updateRecordFood = _updateRecordFood
+
     private val _isLoading = fonaRepository.isLoading
     val isLoading = _isLoading
 
     // Fungsi untuk menyimpan data pengguna
-    fun storeRecordFood(firebaseToken: String, food: RecordedFoodsRequest) {
+    fun storeRecordFood(firebaseToken: String, food: RecordedFoodsRequest, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            fonaRepository.storeRecordFood(firebaseToken, food)
+            fonaRepository.storeRecordFood(firebaseToken, food, callback)
         }
     }
+
+    fun updateRecordFood(firebaseToken: String, food: RecordedFoodsRequest){
+        viewModelScope.launch{
+            fonaRepository.updateRecordFood(firebaseToken,food)
+        }
+    }
+
     fun getSession(): LiveData<UserModel> {
         return fonaRepository.getSession()
     }
