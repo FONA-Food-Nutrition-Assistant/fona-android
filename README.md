@@ -13,7 +13,7 @@ To build and run the FONA Android application, ensure you have the following sof
 - Android Device or Android Emulators
 - Target SDK: 33
 
-## FONA Features!
+## FONA Features
 
 - Secure user authentication via Firebase Auth, enabling account creation and safe login.
 - Monitoring daily nutrition intake
