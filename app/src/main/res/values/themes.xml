@@ -3,6 +3,8 @@
     <style name="Base.Theme.FONAApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorSecondary</item>
@@ -10,4 +12,15 @@
     </style>
 
     <style name="Theme.FONAApp" parent="Base.Theme.FONAApp" />
+    
+    <style name="RadioButtonStyle" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/button</item>
+        <item name="android:textColorPrimary">@color/icon</item>
+        <item name="android:padding">16dp</item>
+    </style>
+    <style name="colored_checkBox" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/button</item>
+        <item name="android:textColorSecondary">@color/icon</item>
+        <item name="android:padding">16dp</item>
+    </style>
 </resources>

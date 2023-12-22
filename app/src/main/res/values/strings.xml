@@ -1,9 +1,94 @@
 <resources>
-    <string name="app_name">FONAApp</string>
+    <string name="app_name">FONA</string>
     <string name="btn_daftar">DAFTAR</string>
     <string name="btn_masuk">MASUK</string>
     <string name="tv_welcome">Sudah pernah menggunakan FONA?</string>
     <string name="onboarding_1">OnBoarding 1</string>
     <string name="title_welcome">Title Welcome</string>
     <string name="description_welcome">Text Description</string>
+    <string name="data_diri_title">Data Diri</string>
+    <string name="data_preference_description">Data ini dibutuhkan untuk rencana personalisasi Anda.</string>
+    <string name="input_field">Masukkan tanggal lahir</string>
+    <string name="et_weight">Berat Badan (kg)</string>
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+    <string name="laki_laki">Laki-laki</string>
+    <string name="perempuan">Perempuan</string>
+    <string name="berat_badan">Berat Badan</string>
+    <string name="tinggi_badan">Tinggi Badan</string>
+    <string name="birth_date_title">Tanggal Lahir (YYYY/MM/dd)</string>
+    <string name="et_height">Tinggi Badan (cm)</string>
+    <string name="tv_activity">Aktifitas</string>
+    <string name="selected_item">Selected Item:</string>
+    <string name="tv_allergies">Alergi</string>
+    <string name="alergi_1">Telur</string>
+    <string name="alergi_2">Udang</string>
+    <string name="alergi_3">Ikan</string>
+    <string name="btn_lanjut_preference">Lanjut</string>
+    <string name="umur">Umur</string>
+    <string name="pria">Pria</string>
+    <string name="umur_result">16</string>
+    <string name="simpan">SIMPAN</string>
+    <string name="title_user_preference">Konfirmasi Data Diri</string>
+    <string name="klmt_perintah">Masukkan identitas yang diperlukan untuk dapat menikmati keseruannya!</string>
+    <string name="email">Masukkan Email</string>
+    <string name="kataSandi">Masukkan Kata Sandi</string>
+    <string name="konfirmasi">Masukkan Ulang Kata Sandi</string>
+    <string name="klmt_pilihan">atau</string>
+    <string name="btn_masukGoogle">Masuk dengan Google</string>
+    <string name="klmt_pertanyaan">Sudah punya akun?</string>
+    <string name="klmt_perintah1">Masukkan email dan password dari akun yang pernah kamu buat sebelumnya!</string>
+    <string name="atur_ulang">Lupa kata sandi?</string>
+    <string name="klmt_pilihan_daftar">Belum punya akun?</string>
+    <string name="lupa_sandi">LUPA KATA SANDI</string>
+    <string name="masuk_email">Masukkan email dibawah untuk membuat kata sandi baru</string>
+    <string name="nama_makanan">Nasi Goreng</string>
+    <string name="jumlah_kalori">87 kkal</string>
+    <string name="satuan">Kalori</string>
+    <string name="satuan_karbo">20 gram</string>
+    <string name="karbohidrat">Karbohidrat</string>
+    <string name="satuan_lemak">0.9 gram</string>
+    <string name="lemak">Lemak</string>
+    <string name="satuan_protein">0.82 gram</string>
+    <string name="protein">Protein</string>
+    <string name="judul_info">Informasi Nutrisi</string>
+    <string name="ukuran">Ukuran</string>
+    <string name="jml_ukuran">100 gram</string>
+    <string name="serat">Serat</string>
+    <string name="kalium">Kalium</string>
+    <string name="sodium">Sodium</string>
+    <string name="alergi">Peringatan Alergi</string>
+    <string name="hasil_alergi">Tidak ada</string>
+    <string name="email_error_validation" translatable="false">Invalid email format</string>
+    <string name="password_error_validation">Password must be at least 8 characters</string>
+    <string name="field_error_null" translatable="false">Field must be filled</string>
+
+    <string-array name="activity_levels">Tidak Aktif, Sedikit Aktif, Cukup Aktif, Sangat Aktif,
+        Ekstra Aktif
+        <item>Tidak Aktif: sedikit atau tidak ada latihan fisik terjadwal.</item>
+        <item>Sedikit Aktif: latihan 1-3 hari per minggu</item>
+        <item>Cukup Aktif: latihan 3-5 hari per minggu.</item>
+        <item>Sangat Aktif: latihan intensif 6-7 hari per minggu.</item>
+        <item>Ekstra Aktif: latihan harian atau pekerjaan fisik yang sangat intensif</item>
+    </string-array>
+    <string-array name="waktu_makan">
+        <item>Sarapan</item>
+        <item>Makan Siang</item>
+        <item>Makan Malam</item>
+    </string-array>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hapus_dari_list">Hapus dari list</string>
+    <string name="login">Masuk</string>
+    <string name="daftar">Daftar</string>
+    <string name="title_kalori">Kalori :</string>
+    <string name="edt_kalori">168 kkal</string>
+    <string name="title_karbohidrat">Karbohidrat :</string>
+    <string name="edt_karbohidrat">21.06 g</string>
+    <string name="title_lemak">Lemak :</string>
+    <string name="edt_lemak">0.9 g</string>
+    <string name="title_protein">Protein :</string>
+    <string name="edt_protein">6.3 g</string>
+    <string name="masuk_ke_beranda">Masuk ke Beranda</string>
+    <string name="update_data_diri">Update Data Diri</string>
+    <string name="cari_nama_makanan">Cari nama makanan..</string>
+    <string name="cari_makanan">Cari makanan..</string>
 </resources>
