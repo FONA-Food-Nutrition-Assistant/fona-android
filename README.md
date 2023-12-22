@@ -25,8 +25,7 @@ To build and run the FONA Android application, ensure you have the following sof
 
 
 ## Installation
-You can install the app by clicking on this link and downloading it. Once the download is complete, proceed to install it on your Android device. To utilize the app, you need to either create an account or log in with Google. Download link: https://github.com/FONA-Food-Nutrition-Assistant/fona-android/re
-leases
+You can install the app by clicking on this link and downloading it. Once the download is complete, proceed to install it on your Android device. To utilize the app, you need to either create an account or log in with Google. Download link: https://github.com/FONA-Food-Nutrition-Assistant/fona-android/releases
 
 
 ## Preview
