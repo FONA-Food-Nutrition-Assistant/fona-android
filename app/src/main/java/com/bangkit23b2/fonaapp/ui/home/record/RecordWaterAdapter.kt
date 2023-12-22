@@ -2,13 +2,13 @@ package com.bangkit23b2.fonaapp.ui.home.record
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bangkit23b2.fonaapp.data.models.WaterRecord
 import com.bangkit23b2.fonaapp.databinding.ItemsDrinksBinding
 
-class RecordWaterAdapter(private val dataList: MutableList<WaterRecord>) :
+class RecordWaterAdapter :
     RecyclerView.Adapter<RecordWaterAdapter.ViewHolder>() {
+
+    private var drink: Int = 0
 
     class ViewHolder(private val binding: ItemsDrinksBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -25,27 +25,15 @@ class RecordWaterAdapter(private val dataList: MutableList<WaterRecord>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val waterRecord = dataList[position]
 
-        // Clear existing views (if any)
-        holder.imageViewCup.removeAllViews()
-
-        // Tambahkan gambar sesuai dengan jumlah cangkir
-        for (i in 0 until waterRecord.number_of_cups) {
-            val imageView = ImageView(holder.itemView.context)
-            imageView.setImageResource(waterRecord.getCupImageResource())
-            holder.imageViewCup.addView(imageView)
-        }
     }
 
 
     override fun getItemCount(): Int {
-        return dataList.size
+        return drink
     }
 
-    fun updateData(newDataList: List<WaterRecord>) {
-        dataList.clear()
-        dataList.addAll(newDataList)
-        notifyDataSetChanged()
+    fun updateData(drink: Int) {
+        this.drink = drink
     }
 }

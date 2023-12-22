@@ -39,7 +39,6 @@ class CartActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private var token = ""
     private val cartViewModel: CartViewModel by viewModels { factory }
-    private var uploadFoodResponse: UploadFoodResponse? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
@@ -59,11 +58,11 @@ class CartActivity : AppCompatActivity() {
 
 
     private fun setupAdapter() {
-        uploadFoodResponse = intent.getParcelableExtra("UPLOAD_RESPONSE")
+        val uploadFoodResponse: UploadFoodResponse? = intent.getParcelableExtra("UPLOAD_RESPONSE")
 
         if (uploadFoodResponse != null) {
 
-            val dataFoodList: List<DataFood> = uploadFoodResponse!!.data
+            val dataFoodList: List<DataFood> = uploadFoodResponse.data
 
             foodItemList = dataFoodList.map { dataFood ->
                 convertToFoodItem(dataFood)
@@ -197,7 +196,6 @@ class CartActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        clearDataAndFinish()
         val intent = Intent(
             this@CartActivity,
             MainActivity::class.java
@@ -207,7 +205,6 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun clearDataAndFinish() {
-        uploadFoodResponse = null
         foodItemList.clear()
         cartAdapter.notifyDataSetChanged()
         finish()

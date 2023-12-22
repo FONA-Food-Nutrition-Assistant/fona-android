@@ -79,8 +79,7 @@ class HomeFragment : Fragment() {
         val defaultFormattedDate = defaultDateFormat.format(currentDate.time)
 
         binding.tvDatePicker.text = defaultFormattedDate
-
-        val formattedDate = convertDateFormatForBackend(binding.tvDatePicker.text.toString())
+        formattedDate = convertDateFormatForBackend(binding.tvDatePicker.text.toString())
 
         binding.tvDatePicker.setOnClickListener {
             showDatePickerDialog()
@@ -130,6 +129,9 @@ class HomeFragment : Fragment() {
 
         val formattedDate = convertDateFormatForBackend(binding.tvDatePicker.text.toString())
 
+        gelasAdapter = RecordWaterAdapter()
+        binding.rvDrink.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvDrink.adapter = gelasAdapter
 
         mainViewModel.getSession().observe(this) { user ->
             token = user.idToken
@@ -189,10 +191,14 @@ class HomeFragment : Fragment() {
                     val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
                     binding.tvKaloriDrink.text = "$totalMl mL"
                 }
-                homeViewModel.listWater.observe(viewLifecycleOwner){
-                    Log.d(TAG, "Dirnk called")
-                    gelasAdapter.updateData(it)
+                homeViewModel.getRecordWater.observe(viewLifecycleOwner) { drink ->
+                    binding.tvKaloriDrinkRemaining.text = "${drink} gelas"
+                    val totalMl = drink * 25 // Sesuaikan dengan aturan konversi
+                    binding.tvKaloriDrink.text = "$totalMl mL"
 
+
+                    gelasAdapter.updateData(drink)
+                    gelasAdapter.notifyDataSetChanged()
                 }
 
             }
@@ -249,9 +255,6 @@ class HomeFragment : Fragment() {
                 binding.rcFoodSuggestion.layoutManager = layoutManager
                 binding.rcFoodSuggestion.adapter = suggestionAdapter
             }
-            gelasAdapter = RecordWaterAdapter(ArrayList())
-            rvDrink.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            rvDrink.adapter = gelasAdapter
 
         }
     }
@@ -287,7 +290,7 @@ class HomeFragment : Fragment() {
         mainViewModel.getUserDataResponse(token)
         mainViewModel.isDataDiri.observe(viewLifecycleOwner) {
             if(!it){
-                Toast.makeText(requireActivity(), "Mohon isi data diri terlebih dahulu!", Toast.LENGTH_LONG).show()
+//                Toast.makeText(requireActivity(), "Mohon isi data diri terlebih dahulu!", Toast.LENGTH_LONG).show()
                 startActivity(Intent(requireActivity(), UserPreferenceActivity::class.java))
                 requireActivity().finish()
             } else {

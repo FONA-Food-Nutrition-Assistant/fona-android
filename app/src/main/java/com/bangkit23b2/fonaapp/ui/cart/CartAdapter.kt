@@ -71,7 +71,7 @@ class CartAdapter(
                 .filter { foodItem.id == it.foodId }
                 .find { it.serving_size == servingSize }
             selectedNutrition?.let {
-                currentNutrition = it // Ganti baris ini
+                currentNutrition = it
                 foodList[position].nutritionId = selectedNutrition.id
                 foodList[position].calories = selectedNutrition.cals
 

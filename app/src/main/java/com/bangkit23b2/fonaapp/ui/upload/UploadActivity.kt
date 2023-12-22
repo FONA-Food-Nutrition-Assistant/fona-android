@@ -23,6 +23,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.bangkit23b2.fonaapp.data.response.UploadFoodResponse
 import com.bangkit23b2.fonaapp.databinding.ActivityUploadBinding
 import com.bangkit23b2.fonaapp.ui.cart.CartActivity
 import com.bangkit23b2.fonaapp.ui.search.SearchFoodActivity
@@ -45,6 +46,7 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var imageMultipart: MultipartBody.Part
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private val uploadFoodViewModel: UploadViewModel by viewModels { factory }
+    private var uploadFoodResponse: UploadFoodResponse? = null
     private fun allPermissionsGranted() =
         ContextCompat.checkSelfPermission(
             this,
@@ -116,11 +118,12 @@ class UploadActivity : AppCompatActivity() {
     ) { uri: Uri? ->
         uploadFoodViewModel.getSession().observe(this@UploadActivity) { user ->
             if (uri != null) {
+                uploadFoodResponse = null
                 currentImageUri = uri
                 currentImageUri.let {
                     val file = uriToFile(currentImageUri!!, this)
                     val reducedFile = reduceFileImage(file)
-                    val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                    val requestImageFile = file.asRequestBody("image/*".toMediaTypeOrNull())
                     val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                         "image",
                         reducedFile.name,
@@ -134,7 +137,7 @@ class UploadActivity : AppCompatActivity() {
                         uploadFoodViewModel.uploadFood(user.idToken, imageMultipart)
                         uploadFoodViewModel.uploadFoodResponse.observe(this@UploadActivity) { upload ->
                             Log.d(TAG, "Gambar terkirim")
-                            val uploadFoodResponse = upload
+                            uploadFoodResponse = upload
                             uploadFoodViewModel.isError.observe(this@UploadActivity) {
                                 if (!it) {
                                     val intent =
@@ -167,7 +170,7 @@ class UploadActivity : AppCompatActivity() {
     private fun takePhoto() {
 
         val imageCapture = imageCapture ?: return
-
+        uploadFoodResponse = null
         if (!isProcessing) {
             isProcessing = true
             val photoFile = createCustomTempFile(application)
