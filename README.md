@@ -37,6 +37,6 @@ You can install the app by clicking on this link and downloading it. Once the do
 <img src="https://github.com/FONA-Food-Nutrition-Assistant/fona-android/assets/66239132/a8e3f25f-c4c6-4db8-b971-3f8556427225" width="180px" height="320px">
 <img src="https://github.com/FONA-Food-Nutrition-Assistant/fona-android/assets/66239132/ce182468-08c4-4a4d-a5e8-abf75b2c3327" width="180px" height="320px">
 <img src="https://github.com/FONA-Food-Nutrition-Assistant/fona-android/assets/66239132/5ede8ee7-1303-4a35-8ca7-9e2ddb0b3a81" width="180px" height="320px">
-<img src="https://github.com/FONA-Food-Nutrition-Assistant/fona-android/assets/66239132/89ee489d-f9cb-4d
-
+<img src="https://github.com/FONA-Food-Nutrition-Assistant/fona-android/assets/66239132/9385700a-d873-4659-876f-9eb28a184ff5" width="180px" height="320px">
+<img src="https://github.com/FONA-Food-Nutrition-Assistant/fona-android/assets/66239132/5e0ca635-c13e-4e4b-aa3d-3581c5897814" width="180px" height="320px">
 
