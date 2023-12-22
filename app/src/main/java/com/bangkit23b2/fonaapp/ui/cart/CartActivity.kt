@@ -99,6 +99,11 @@ class CartActivity : AppCompatActivity() {
                 }
             })
 
+            binding.btnAddFood.setOnClickListener {
+                Toast.makeText(this, "Mohon maaf, fitur ini belum tersedia", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
             binding.totalCalories.text = cartAdapter.getTotalCalories().toString()
             cartAdapter.updateTotalCaloriesTextView()
         }

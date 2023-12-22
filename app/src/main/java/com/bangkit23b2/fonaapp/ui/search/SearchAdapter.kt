@@ -2,6 +2,7 @@ package com.bangkit23b2.fonaapp.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,16 @@ class SearchAdapter :
                 }
             }
         }
+        init {
+            binding.btnAdd.setOnClickListener {
+                showAddToast(adapterPosition)
+            }
+        }
+        private fun showAddToast(position: Int) {
+            val foodDetail = getItem(position)
+            val toastMessage = "Mohon maaf, fitur ini belum tersedia."
+            Toast.makeText(itemView.context, toastMessage, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,4 +64,5 @@ class SearchAdapter :
             return oldItem == newItem
         }
     }
+
 }

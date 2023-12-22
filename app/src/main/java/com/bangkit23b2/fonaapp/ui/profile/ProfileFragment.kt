@@ -121,6 +121,14 @@ class ProfileFragment : Fragment() {
         binding.btnKeluar.setOnClickListener {
             signOut()
         }
+        binding.btnKalkulatorBmi.setOnClickListener {
+            Toast.makeText(requireActivity(), "Mohon maaf, fitur ini belum tersedia", Toast.LENGTH_SHORT)
+                .show()
+        }
+        binding.btnPengaturan.setOnClickListener {
+            Toast.makeText(requireActivity(), "Mohon maaf, fitur ini belum tersedia", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     private fun setupViewModel() {

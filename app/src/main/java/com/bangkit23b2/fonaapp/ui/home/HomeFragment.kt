@@ -143,6 +143,15 @@ class HomeFragment : Fragment() {
             } else {
                 checkUserData(token)
                 homeViewModel.getDataHome(token, formattedDate)
+                mainViewModel.isDataDiri.observe(viewLifecycleOwner) {
+                    if(!it){
+                        Toast.makeText(requireActivity(), "Mohon isi data diri terlebih dahulu!", Toast.LENGTH_LONG).show()
+                        startActivity(Intent(requireActivity(), UserPreferenceActivity::class.java))
+                        requireActivity().finish()
+                    } else {
+                        Log.d(TAG,"User Data is filled")
+                    }
+                }
                 mainViewModel.isLogin.observe(viewLifecycleOwner){
                     if(it){
                         Toast.makeText(requireActivity(), "Sesi anda berakhir! Silakan sign in terlebih dahulu!", Toast.LENGTH_LONG).show()
@@ -288,15 +297,6 @@ class HomeFragment : Fragment() {
     private fun checkUserData(token: String) {
         Log.d(TAG, "fun called")
         mainViewModel.getUserDataResponse(token)
-        mainViewModel.isDataDiri.observe(viewLifecycleOwner) {
-            if(!it){
-//                Toast.makeText(requireActivity(), "Mohon isi data diri terlebih dahulu!", Toast.LENGTH_LONG).show()
-                startActivity(Intent(requireActivity(), UserPreferenceActivity::class.java))
-                requireActivity().finish()
-            } else {
-                Log.d(TAG,"User Data is filled")
-            }
-        }
     }
 
     private fun showDatePickerDialog() {

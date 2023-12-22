@@ -118,7 +118,7 @@
             app:layout_constraintStart_toEndOf="@+id/title_protein" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
